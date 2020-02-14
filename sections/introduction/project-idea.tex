@@ -2,6 +2,23 @@
 The idea for this project is to create a game using augmented reality (AR). 
 Two teams will compete againts each other to score the most goals using a ball. 
 Each player will be equipped with a Google Cardboard, and these will display the playing field from a top-down 2D view. 
-Two achieve this each player's position needs to be tracked as well as where the ball located on the field.
-In the top down view each player needs to see the positions of the other players and the ball. 
+To achieve this, each player's position needs to be tracked as well as where the ball located on the field.
+In the top down view each player needs to see the positions of the other players and the ball.
 They also need to see their position on the playing field and where the goalposts are.
+The players should be able to set an amount of goals they need to score to win before begining the game. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Spil.PNG}
+    \caption{A game.}
+    \label{fig:game_illustration}
+\end{figure}
+In the figure \autoref{fig:game_illustration} an illustration of the playing field for the game is shown. There are goalposts in each end of the field and the teams score goals by getting the ball between the goalposts. There could also be another version of the game where instead of goalposts, there are goal zones where the teams need to bring the ball to.
+\subsection{Problems to consider}
+We will need to consider which technology we will be using to develop the augmented reality. 
+As it is something we do not have experience with, it would be preferable if we do not have to build it from scratch.
+We will also need hardware that is able to track the positions of players and the ball.
+This must be accurate so that the players do not run into each other, otherwise the game will not work.
+Another problem to consider is how the ball should be displayed in a 2D view.
+For the players to be able to find the ball on the field, it either has to be quite large to make it easier, or it will need some metric to display how far the ball is from the ground.
+The game will also need to be able to track when the ball has crossed the goalline and then give feedback to the players.
+Another problem to solve is how to keep the positional data synchronized across all the players' devices, as it will be difficult to play the game without accurate data.
