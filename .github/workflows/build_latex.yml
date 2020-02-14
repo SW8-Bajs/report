@@ -11,4 +11,4 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tex_path: 'dir/file.tex'
+        tex_path: 'master.tex'
