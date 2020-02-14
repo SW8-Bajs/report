@@ -20,6 +20,8 @@ This means that to find a two dimensional location, we will need at least three 
 The issue with this approach is that the measurements are not perfect, which will cause the circles to not intersect at exactly one point.
 
 \subsection{Using UWB}
-TWR
-TDOA
-Problems with UWB
+To find the position of the anchors Pozyx makes use of radio waves. 
+Radio waves travel at the speed of light, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
+Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
+To achieve this the anchors makes use of ultra-wide bandwidth (UWB).
+The high frequencies from UWB makes the wavelength very short, and by detecting the peak of a narrow "pulse", an accurate time can be found.
