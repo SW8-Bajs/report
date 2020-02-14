@@ -20,8 +20,23 @@ This means that to find a two dimensional location, we will need at least three 
 The issue with this approach is that the measurements are not perfect, which will cause the circles to not intersect at exactly one point.
 
 \subsection{Using UWB}
-To find the position of the anchors Pozyx makes use of radio waves. 
+To find the position of the tags Pozyx makes use of radio waves. 
 Radio waves travel at the speed of light, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
 Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
-To achieve this the anchors makes use of ultra-wide bandwidth (UWB).
-The high frequencies from UWB makes the wavelength very short, and by detecting the peak of a narrow "pulse", an accurate time can be found.
+To achieve this the anchors makes use of ultra-wide bandwidth (UWB) \cite{pozyx-UWB}.
+The ultra-wideband signals that the Pozyx devices utilises have a bandwith of 500 MHz.
+This makes the wavelength very short and by detecting the peak of a narrow "pulse", an accurate time can be found.
+High bandwidth means faster downloads which means everyone wants to use it but if everyone were to use the same frequency the signals would interfere with eachother, therefore the use of high frequency signals is tightly regulated.
+Pozyx is able to use 500 MHz beacuse it transmits at a very low power.
+
+
+\subsection{Two-way-ranging}
+We are using the Pozyx Creator kit lite which uses the Two-way-ranging (TWR) protocol for positioning \cite{pozyx-Positioning}.
+A tag calculates its position by communicating with the anchors one by one, getting the distance from the anchor to itself.
+Once it has the distance from 3 anchors it can compute its own position by means of trilateration.
+\\
+If there is multiple tags being used at once one tag will be made the master tag and the other tags become the slave tags.
+The master tag instructs th slave tags to report their position to the master tag one by one.
+The master tag is then usually connected to a computer which can then use the position data.
+This technic does not scale well as all the slave tags have to be within radio range of the master tag so use of huge areas will is not possible.
+Instead of a tag being the master it is possible to use a anchor this makes it easier to have a computer attached as the anchors are stationary unlike the tags.
