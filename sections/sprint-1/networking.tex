@@ -17,7 +17,7 @@ SOCKETS??
 UNDERSØG WINDOWS COMMUNICATION FOUNDATION - WCF??
 \subsection{Choosing a solution}
 There are certain pros and cons associated with both approaches of using either a pre-existing solution or a custom solution.
-\autoref{tab:networksolprosandcons} 
+\autoref{tab:networkprosandcons} 
 \begin{table}[]
     \begin{tabular}{|l|l|l|}
     \hline
@@ -27,18 +27,25 @@ There are certain pros and cons associated with both approaches of using either 
     Optimization    & Lower-level details are obscured, optimized for general use & Lower-level details are freely available, can be optimized for a specific purpose \\ \hline
     \end{tabular}
     \caption{A comparison of the pros and cons of the possible solutions}
-    \label{tab:networksolprosandcons}
+    \label{tab:networkprosandcons}
     \end{table}
 
 \subsection{Introduction to sockets}
 LAV OG INDSÆT BILLEDE AF OSI LAYER OG HVOR SOCKETS ER :D
 Programs that communicate across a computer network need an agreement on how those programs will communicate.
 This is known as a protocol.
+Generally, before defining the deisng details of the protocol, a decision should be made as to which program is expected to initiate communication.
+One way of defining this is through the client server architecture illustrated in \autoref{fig:client-server}.
+This split is used by most network-aware application\cite{socketnetworking}.
+The most common method of initiating communication when using the client-server architecture is to have the client initiate requests.
+This tends to simplify the protocol and the programs themselves\cite{socketnetworking}.
+
+
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{client_server.png}
-    \caption{An illustration of the client-server architecture}
+    \caption{An illustration of the client-server architecture with multiple clients}
     \label{fig:client-server}
 \end{figure}
 
