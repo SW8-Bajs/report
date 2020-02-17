@@ -12,7 +12,15 @@ A trilateration method is used for finding the position of a given tag using the
 This method uses basic geometry to estimate the position by measuring the distance to the anchors of which we know the position.
 With this data, it is possible to draw a circle with a given radius.
 If we use two anchors, we will have two intersection points which are the possible positions of the tag.
-This means that to find a two-dimensional location, we will need at least three anchors, which will lead to only a single point where all three circles intersect.
+This means that to find a two-dimensional location, we will need at least three anchors, which will lead to only a single point where all three circles intersect, as seen on \autoref{fig:trilateration}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{trilateration.png}
+    \caption{An example of trilateration using three anchors}
+    \label{fig:trilateration}
+\end{figure}
+
 The issue with this approach is that the measurements are not perfect, which might cause the circles to not intersect at exactly one point which will make the positional data seem to jitter.
 
 \subsection{Using UWB}
