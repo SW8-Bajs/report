@@ -64,25 +64,3 @@ To achieve this, it would be preferable to build a solution capable of performin
 Pre-existing solutions cannot be guaranteed to do the minimum amount of work as lower-level details are obscured from the developers.
 With a custom solution, the data sent across the network can be guaranteed to be exactly what is needed.
 ZeroMQ was also a possible choice based on the performance needs, but its generalized approach concerning itself with reusability and issues unlikely to be a big factor in this project meant it was dismissed, in favor of a custom solution in which the problems defined in the previous section are handled.
-
-STOP FORHELVEDE
-
-\subsection{Introduction to sockets}
-LAV OG INDSÆT BILLEDE AF OSI LAYER OG HVOR SOCKETS ER :D
-Programs that communicate across a computer network need an agreement on how those programs will communicate.
-This is known as a protocol.
-Generally, before defining the design details of the protocol, a decision should be made as to which program is expected to initiate communication.
-One way of defining this is through the client server architecture illustrated in \autoref{fig:client-server}.
-This split is used by most network-aware application\cite{socketnetworking}.
-The most common method of initiating communication when using the client-server architecture is to have the client initiate requests.
-This tends to simplify the protocol and the programs themselves\cite{socketnetworking}.
-
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{networking/client_server.png}
-    \caption{An illustration of the client-server architecture with multiple clients}
-    \label{fig:client-server}
-\end{figure}
-
