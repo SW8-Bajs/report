@@ -17,24 +17,29 @@ SOCKETS??
 UNDERSØG WINDOWS COMMUNICATION FOUNDATION - WCF??
 \subsection{Choosing a solution}
 There are certain pros and cons associated with both approaches of using either a pre-existing solution or a custom solution.
-\autoref{tab:networkprosandcons} 
-\begin{table}[]
-    \begin{tabular}{|l|l|l|}
+\autoref{tab:networkprosandcons} shows some of the considerations made when deciding an approach for this project.
+\begin{table}[tbp]
+    \begin{tabularx}{\textwidth}{|X|X|X|}
     \hline
                     & Pre-existing                                                & Custom                                                                            \\ \hline
     Customizability & Consists of a set of pre-defined functionalities            & Can have any functionality implemented                                            \\ \hline
     Requirements    & Familiarity with the solution                               & Familiarity with the knowledge required to implement a usable solution            \\ \hline
     Optimization    & Lower-level details are obscured, optimized for general use & Lower-level details are freely available, can be optimized for a specific purpose \\ \hline
-    \end{tabular}
+    \end{tabularx}
     \caption{A comparison of the pros and cons of the possible solutions}
     \label{tab:networkprosandcons}
-    \end{table}
+\end{table}
+Based on these considerations, it was decided that a custom solution should be created for the purpose of networking in this project.
+This choice was made because of the lack of transparency in a pre-existing solution as well as the need for fast communication.
+In order for the game to be playable and enjoyable, the location data collected by the Pozyx system needs to be transmitted to all the clients as quickly as possible such that they always have an up to date view of the positions of the players.
+To achieve this, it would be preferable to build a solution capable of performing the minimum amount of work as quickly as possible.
+Pre-existing solutions cannot be guaranteed to do the minimum amount of work as lower level details are obscured from the developers.
 
 \subsection{Introduction to sockets}
 LAV OG INDSÆT BILLEDE AF OSI LAYER OG HVOR SOCKETS ER :D
 Programs that communicate across a computer network need an agreement on how those programs will communicate.
 This is known as a protocol.
-Generally, before defining the deisng details of the protocol, a decision should be made as to which program is expected to initiate communication.
+Generally, before defining the design details of the protocol, a decision should be made as to which program is expected to initiate communication.
 One way of defining this is through the client server architecture illustrated in \autoref{fig:client-server}.
 This split is used by most network-aware application\cite{socketnetworking}.
 The most common method of initiating communication when using the client-server architecture is to have the client initiate requests.
@@ -44,7 +49,7 @@ This tends to simplify the protocol and the programs themselves\cite{socketnetwo
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{client_server.png}
+    \includegraphics[width=0.6\linewidth]{networking/client_server.png}
     \caption{An illustration of the client-server architecture with multiple clients}
     \label{fig:client-server}
 \end{figure}
