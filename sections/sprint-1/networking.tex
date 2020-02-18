@@ -1,8 +1,8 @@
-\section{Networking between a host and the players}
-The following section will examine the different possibilities regarding transmitting player position data to the Unity application.
+\section{Networking}
+The following section will examine the different possibilities regarding transmitting player position data to the Unity applications used to play the game.
 
-\subsection{Possible solutions}
-Unity will be used for the creation of the game aspect of this project as described in \todo{ref til Unity section}.
+\subsection{Possible networking solutions}
+Unity will be used for the creation of the game aspect of this project as described in \autoref{sec:unity-intro}.
 Unity includes a proprietary networking solution known as UNet\cite{unityunet}.
 This solution allows developers to use a high-level API, giving access to commands that cover many common requirements for multiplayer games, without worrying about the low-level details.
 Since the solution is developed alongside the actual game engine, it has a higher level of integration with the Unity Editor and Engine, which allows for certain components and visual aids to aid the building of the game.
@@ -12,19 +12,47 @@ Other third-party solutions for Unity based games also exist, such as Photon Eng
 Photon provides functionality for the developers to make use of in order to create multiplayer games in the same way as UNet, exposing higher-level functionality.
 Photon supports multiple platforms outside of just Unity, with both Android and iOS support \cite{photonnet}.
 \\\\
+ZeroMQ is also a possible solution.
+ZeroMQ is an asynchronous messaging library.
+It can carry messages across various transport formats, and is available in many different programming languages\cite{zeromqdoc}.
+It aims to be a high-performance library to be used in distributed or concurrent applications that is reliable.
+According to the getting started guide provided by ZeroMQ, there are certain issues that tend to arise when developers attempt to network through their own socket solution\cite{zeromqguide}.
+These are:
+\begin{itemize}
+    \item How to handle I/O?
+    \item How are dynamic components handled? What happens if a component disappears temporarily?
+    \item How are messages represented? Different sizes and different content can change representations
+    \item How are messages that cannot be delivered immediately handled?
+    \item Where should message queues be stored?
+    \item How are lost messages handled?
+    \item What if the network transport changes, for example, TCP to UDP?
+    \item How do messages get routed? Can the same message be sent to multiple peers?
+    \item How to write an API for another language?
+    \item How to represent data such that it can be read between different architectures? How much of this should be the messaging systems job?
+    \item How do network errors get handled?
+\end{itemize}
+These issues are mostly applicable to general solutions that need to accommodate changing requirements or be reusable.
+However, for the purposes of this project, not all issues are relevant.
+In terms of problems to overcome, this project should only be concerned with handling dynamic components, handling lost messages, routing messages and handling network errors.
+If a player closes the game application it can lead to dynamic component issues.
+A message can be lost since during the playing of the game. 
+Messages should be delivered to all players as to ensure they all have the same information.
+Finally, a player might suddenly disconnect from the network. 
+\\\\
 The alternative to making use of a pre-existing solution is creating a custom solution.
-SOCKETS??
-UNDERSØG WINDOWS COMMUNICATION FOUNDATION - WCF??
+A custom solution entails a need to establish a familiarity with the required knowledge to construct such a solution.
+A custom solution would involve sockets, which are a network API  that allows programs to communicate with each other\cite{socketnetworking}.
+
 \subsection{Choosing a solution}
 There are certain pros and cons associated with both approaches of using either a pre-existing solution or a custom solution.
 \autoref{tab:networkprosandcons} shows some of the considerations made when deciding an approach for this project.
 \begin{table}[tbp]
-    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \begin{tabularx}{\textwidth}{|X|X|X|X|}
     \hline
-                    & Pre-existing                                                & Custom                                                                            \\ \hline
-    Customizability & Consists of a set of pre-defined functionalities            & Can have any functionality implemented                                            \\ \hline
-    Requirements    & Familiarity with the solution                               & Familiarity with the knowledge required to implement a usable solution            \\ \hline
-    Optimization    & Lower-level details are obscured, optimized for general use & Lower-level details are freely available, can be optimized for a specific purpose \\ \hline
+                    & Pre-existing                                                & Custom                                                                            & ZeroMQ                                                                                  \\ \hline
+    Customizability & Consists of a set of pre-defined functionalities            & Can have any functionality implemented                                            & Has pre-defined functionalities, but these are lower level than a pre-existing solution \\ \hline
+    Requirements    & Familiarity with the solution                               & Familiarity with the knowledge required to implement a usable solution            & Needs a familiarity with a mix of pre-existing and custom solutions                     \\ \hline
+    Optimization    & Lower-level details are obscured, optimized for general use & Lower-level details are freely available, can be optimized for a specific purpose & Focuses on performance, but the solution is general                                     \\ \hline
     \end{tabularx}
     \caption{A comparison of the pros and cons of the possible solutions}
     \label{tab:networkprosandcons}
@@ -35,6 +63,9 @@ In order for the game to be playable and enjoyable, the location data collected 
 To achieve this, it would be preferable to build a solution capable of performing the minimum amount of work as quickly as possible.
 Pre-existing solutions cannot be guaranteed to do the minimum amount of work as lower level details are obscured from the developers.
 With a custom solution the data sent across the network can be guaranteed to be exactly what is needed.
+ZeroMQ was also a possible choice based on the performance needs, but its generalized approach concerning itself with reusability and issues unlikely to be a big factor in this project meant it was dismissed, in favor of a custom solution in which the problems defined in the previous section are handled.
+
+STOP FORHELVEDE
 
 \subsection{Introduction to sockets}
 LAV OG INDSÆT BILLEDE AF OSI LAYER OG HVOR SOCKETS ER :D
