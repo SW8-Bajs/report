@@ -120,3 +120,11 @@ UDP is considered connectionless, as there does not need to be a long-term relat
 A UDP client can create a socket and send a datagram to a server, and then immediately send another datagram on the same socket to a different server.
 A UDP server can receive several datagrams on a single UDP socket, each from different clients.
 
+
+\subsubsection{Choosing between UDP or TCP}
+Windowed flow control might not be necessary for transactions where both ends agree on the maximum size of a request or a reply.
+For this project only one type of message will be sent - the player location data.
+This message will always be formatted in the same way, and as such, a maximum size can be agreed meaning the flow control aspecot of TCP is not needed.
+
+section 22.4
+section 21
