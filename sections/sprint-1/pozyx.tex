@@ -10,7 +10,7 @@ An anchor is a stationary sensor used by the moveable tags to get their exact po
 \subsection{Finding the location of anchors}
 A trilateration method is used for finding the position of a given tag using the anchors.
 This method uses basic geometry to estimate the position by measuring the distance to the anchors of which we know the position.
-With this data, it is possible to draw a circle with a given radius.
+With this distance estimate, it is possible to draw a circle with a given radius.
 If we use two anchors, we will have two intersection points which are the possible positions of the tag.
 This means that to find a two-dimensional location, we will need at least three anchors, which will lead to only a single point where all three circles intersect, as seen on \autoref{fig:trilateration}
 
@@ -25,7 +25,7 @@ The issue with this approach is that the measurements are not perfect, which mig
 
 \subsection{Using UWB}
 To find the position of the tags Pozyx makes use of radio waves. 
-Radio waves travel at the speed of light, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
+Radio waves travel at the speed of light in vacuum, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
 Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
 To achieve this the anchors make use of ultra-wide bandwidth (UWB) \cite{pozyx-UWB}.
 The ultra-wideband signals that the Pozyx devices utilize has a bandwidth of 500 MHz.
