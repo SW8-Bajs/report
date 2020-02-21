@@ -66,7 +66,21 @@ With a custom solution, the data sent across the network can be guaranteed to be
 ZeroMQ was also a possible choice based on the performance needs, but its generalized approach concerning itself with reusability and issues unlikely to be a big factor in this project meant it was dismissed, in favor of a custom solution in which the problems defined in the previous section are handled.
 
 \subsection{Introduction to sockets}
-LAV OG INDSÆT BILLEDE AF OSI LAYER OG HVOR SOCKETS ER :D
+In order to construct a network solution, a familiarity with the layers of a network is needed in order to gain an intuition of what sockets are.
+A common way to describe these layers is through the \textit{open systems interconnection} (OSI) model for communication.
+This model is illustrated in \autoref{fig:osi-layer}, along with approximate mappings of the technologies used for each layer.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{networking/OSI-layer.png}
+    \caption{An illustration of the OSI-layer, and the corresponding technology for each layer.}
+    \label{fig:osi-layer}
+\end{figure}
+As shown, the relevant layers for the purpose of creating a networking solution though sockets is the third and fourth layers, transport and network.
+The network layer is handled by the IPv4 and IPv6 protocols, and the transport layer is handled by either TCP or UDP.
+The reason for the gap between TCP and UDP is to illustrate that it is possible to bypass this layer and use IPv4 or IPv6 directly\cite{socketnetworking}.
+Sockets provide the interface from the upper application layers to the transport layer.
+The upper layer handles details about the application, and the lower layers handle details relating to communication.
+\\\\
 Programs that communicate across a computer network need an agreement on how those programs will communicate.
 This is known as a protocol.
 Generally, before defining the design details of the protocol, a decision should be made as to which program is expected to initiate communication.
@@ -84,7 +98,7 @@ This tends to simplify the protocol and the programs themselves\cite{socketnetwo
 
 
 \subsection{TCP and UDP}
-The following section introduces two different protocols for communication - Transmission Control Protocol(TCP) and User Datagram Protocol(UDP).
+The following section introduces two different protocols for the transport layer - Transmission Control Protocol(TCP) and User Datagram Protocol(UDP).
 Both of these protocols use a network-layer protocol known as IP, which can be either the protocol IPv4 or IPv6.
 
 \subsubsection{TCP}
@@ -146,7 +160,7 @@ An issue with the choice of UDP could present itself in that messages are not gu
 It could pose a problem if a player in the game received a message with recent location data, and then another message afterwards with outdated data.
 This could cause the player objects in the game to be at positions in which they were in the past, but not currently in the present.
 
-\subsubsection{Introduction to UDP sockets}
+\subsection{Introduction to UDP sockets}
 UDP is a connectionless, unreliable datagram protocol.
 \autoref{fig:udp-client-server} shows an illustration of the client-server architecture using UDP.
 The client side creates a socket, and sends a request to the server as illustrated.
@@ -174,4 +188,8 @@ An illustration of this concept using UDP can be seen in \autoref{fig:udp-pub-su
 \end{figure}
 Possible issues with using this architecture is that there would need to be a way to ensure all clients receive a sufficient amount of messages, and that the receivers are not overloaded with messages.
 
-\subsubsection{IPv4 and IPv6}
+\subsection{IPv4 and IPv6}
+Both IPv4 and IPv6 provide packet delivery service for TCP and UDP.
+The major difference in IPv4 and IPv6 is the addresses they use.
+IPv4 uses 32-bit addresses, whereas IPv6, being a newer version, uses larger addresses of 128 bits\cite{socketnetworking}.
+
