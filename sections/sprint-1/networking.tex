@@ -49,7 +49,7 @@ There are certain pros and cons associated with both approaches of using either 
 \begin{table}[tbp]
     \begin{tabularx}{\textwidth}{|X|X|X|X|}
     \hline
-                    & Pre-existing                                                & Custom                                                                            & ZeroMQ                                                                                  \\ \hline
+                    & Pre-existing Unity                                                & Custom                                                                            & ZeroMQ                                                                                  \\ \hline
     Customizability & Consists of a set of pre-defined functionalities            & Can have any functionality implemented                                            & Has pre-defined functionalities, but these are lower level than a pre-existing solution \\ \hline
     Requirements    & Familiarity with the solution                               & Familiarity with the knowledge required to implement a usable solution            & Needs familiarity with a mix of pre-existing and custom solutions                     \\ \hline
     Optimization    & Lower-level details are obscured, optimized for general use & Lower-level details are freely available, can be optimized for a specific purpose & Focuses on performance, but the solution is general                                     \\ \hline
@@ -75,8 +75,9 @@ This model is illustrated in \autoref{fig:osi-layer}, along with approximate map
     \caption{An illustration of the OSI-layer, and the corresponding technology for each layer.}
     \label{fig:osi-layer}
 \end{figure}
+\noindent
 As shown, the relevant layers for the purpose of creating a networking solution though sockets is the third and fourth layers, transport and network.
-The network layer is handled by the IPv4 and IPv6 protocols, and the transport layer is handled by either TCP or UDP.
+The network layer is handled by the IPv4 and IPv6 protocols, which will be discussed in \autoref{ipv4-ipv6}, and the transport layer is handled by either TCP or UDP.
 The reason for the gap between TCP and UDP is to illustrate that it is possible to bypass this layer and use IPv4 or IPv6 directly\cite{socketnetworking}.
 Sockets provide the interface from the upper application layers to the transport layer.
 The upper layer handles details about the application, and the lower layers handle details relating to communication.
@@ -176,6 +177,7 @@ When a request is received, the server processes it, and then sends it to the cl
     \caption{An illustration of the client-server architecture with UDP}
     \label{fig:udp-client-server}
 \end{figure}
+\noindent
 For the purpose of this project, it might not be optimal to have client request the server.
 The server does not need information from the client or acknowledgement, meaning the clients do not have to send messages.
 As such, it might be better to use a publisher-subscriber approach.
@@ -187,9 +189,10 @@ An illustration of this concept using UDP can be seen in \autoref{fig:udp-pub-su
     \caption{An illustration of a publisher-subscriber architecture with UDP}
     \label{fig:udp-pub-sub}
 \end{figure}
+\noindent
 Possible issues with using this architecture is that there would need to be a way to ensure all clients receive a sufficient amount of messages, and that the receivers are not overloaded with messages.
 
-\subsection{IPv4 and IPv6}
+\subsection{IPv4 and IPv6}\label{ipv4-ipv6}
 Both IPv4 and IPv6 provide packet delivery service for TCP and UDP.
 The major difference in IPv4 and IPv6 is the addresses they use.
 IPv4 uses 32-bit addresses, whereas IPv6, being a newer version, uses larger addresses of 128 bits\cite{socketnetworking}.
