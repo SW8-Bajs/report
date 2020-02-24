@@ -85,7 +85,7 @@ Programs that communicate across a computer network need an agreement on how tho
 This is known as a protocol.
 Generally, before defining the design details of the protocol, a decision should be made as to which program is expected to initiate communication.
 One way of defining this is through the client server architecture illustrated in \autoref{fig:client-server}.
-This split is used by most network-aware application\cite{socketnetworking}.
+This split is used by most network-aware applications\cite{socketnetworking}.
 The most common method of initiating communication when using the client-server architecture is to have the client initiate requests.
 This tends to simplify the protocol and the programs themselves\cite{socketnetworking}.
 
@@ -113,7 +113,7 @@ This does not guarantee that the the receiver will receive the data, but the gua
 In order to know how long to wait for acknowledgements, TCP contains algorithms to estimate the \textit{round-trip time} between the client and server dynamically.
 It also performs these estimations continuously, as the result can be affected by variations in the network traffic.
 TCP sequences data by associating bytes and sequence numbers.
-For example, if an application writes 2048 bytes to a TCP socket, it would be sent in two segments, with the first containing data with the sequence number 1-1024, and the second containing daa with the sequence number 1025-2048.
+For example, if an application writes 2048 bytes to a TCP socket, it would be sent in two segments, with the first containing data with the sequence number 1-1024, and the second containing data with the sequence number 1025-2048.
 If they arrive in the wrong order, the receiving TCP reorders the segments based on the sequence numbers before passing the data to the receiving application.
 If the receiver receives duplicate data this can also be detected through the sequence numbers, and the duplicate data can be deleted.
 TCP provides flow control by telling clients how many bytes of data can be accepted at any time, known as the window.
@@ -122,6 +122,7 @@ The size of the window decreases as data is received, and decreases as the recei
 \subsubsection{UDP}
 UDP is a simple transport-layer protocol\cite{socketnetworking}.
 An application writes a message to a UDP socket, which gets encapsulated in a UDP datagram, which further gets encapsulated in an IP datagram and then sent to the destination.
+A datagram is a self-contained entity of data carrying information to be routed from the source to the destination nodes without reliance on earlier exchanges between the nodes and the transporting network\cite{hpbrowsernetwork}.
 A UDP datagram is not guaranteed to reach its final destination, nor is it guaranteed that order will be preserved across the network, or that datagrams arrive only once.
 This means that the UDP protocol is unreliable.
 If a datagram is lost on the network and not delivered to the UDP socket, it will not be automatically retransmitted.
