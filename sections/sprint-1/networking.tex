@@ -78,7 +78,7 @@ This model is illustrated in \autoref{fig:osi-layer}, along with approximate map
 \noindent
 As shown, the relevant layers for the purpose of creating a networking solution though sockets is the third and fourth layers, transport and network.
 The network layer is handled by the IPv4 and IPv6 protocols, which will be discussed in \autoref{ipv4-ipv6}, and the transport layer is handled by either TCP or UDP.
-The reason for the gap between TCP and UDP is to illustrate that it is possible to bypass this layer and use IPv4 or IPv6 directly\cite{socketnetworking}.
+The reason for the gap between TCP and UDP is to illustrate that it is possible to bypass this layer and use IPv4 or IPv6 directly \cite{socketnetworking}.
 Sockets provide the interface from the upper application layers to the transport layer.
 The upper layer handles details about the application, and the lower layers handle details relating to communication.
 \\\\
@@ -86,9 +86,9 @@ Programs that communicate across a computer network need an agreement on how tho
 This is known as a protocol.
 Generally, before defining the design details of the protocol, a decision should be made as to which program is expected to initiate communication.
 One way of defining this is through the client server architecture illustrated in \autoref{fig:client-server}.
-This split is used by most network-aware applications\cite{socketnetworking}.
+This split is used by most network-aware applications \cite{socketnetworking}.
 The most common method of initiating communication when using the client-server architecture is to have the client initiate requests.
-This tends to simplify the protocol and the programs themselves\cite{socketnetworking}.
+This tends to simplify the protocol and the programs themselves \cite{socketnetworking}.
 
 \begin{figure}[H]
     \centering
@@ -121,9 +121,9 @@ TCP provides flow control by telling clients how many bytes of data can be accep
 The size of the window decreases as data is received, and decreases as the receiver reads data from its buffer.
 
 \subsubsection{UDP}
-UDP is a simple transport-layer protocol\cite{socketnetworking}.
+UDP is a simple transport-layer protocol \cite{socketnetworking}.
 An application writes a message to a UDP socket, which gets encapsulated in a UDP datagram, which further gets encapsulated in an IP datagram and then sent to the destination.
-A datagram is a self-contained entity of data carrying information to be routed from the source to the destination nodes without reliance on earlier exchanges between the nodes and the transporting network\cite{hpbrowsernetwork}.
+A datagram is a self-contained entity of data carrying information to be routed from the source to the destination nodes without reliance on earlier exchanges between the nodes and the transporting network \cite{hpbrowsernetwork}.
 A UDP datagram is not guaranteed to reach its final destination, nor is it guaranteed that order will be preserved across the network, or that datagrams arrive only once.
 This means that the UDP protocol is unreliable.
 If a datagram is lost on the network and not delivered to the UDP socket, it will not be automatically retransmitted.
@@ -138,7 +138,7 @@ A UDP server can receive several datagrams on a single UDP socket, each from dif
 
 
 \subsubsection{Choosing between UDP or TCP}
-Windowed flow control might not be necessary for transactions where both ends agree on the maximum size of a request or a reply\cite{socketnetworking}.
+Windowed flow control might not be necessary for transactions where both ends agree on the maximum size of a request or a reply \cite{socketnetworking}.
 For this project only one type of message will be sent - the player location data.
 This message will always be formatted in the same way, and as such, a maximum size can be agreed meaning the flow control aspect of TCP is not needed.
 Another aspect of TDP that is not needed for this project is the automatic retransmission of messages.
@@ -152,8 +152,8 @@ The sender should not be concerned that a message was received, it should just c
 Duplicate messages also do not pose much of an issue.
 If the applications were to receive the same location data multiple times, it would not impact the overall functionality of the program, rather just the speed at which the next updates would be received.
 UDP has no connection setup or teardown costs.
-UDP only requires two packets to exchange a request and a reply, whereas TDP requires about 10 packets\cite{socketnetworking}, if a new TCP connection is established for each exchange.
-In terms of transaction time, the minimum time for a UDP request-reply is the $round-trip time + server processing time$, and the minimum time for TDP is $2 \times round-trip time + server processing time$\cite{socketnetworking}.
+UDP only requires two packets to exchange a request and a reply, whereas TDP requires about 10 packets \cite{socketnetworking}, if a new TCP connection is established for each exchange.
+In terms of transaction time, the minimum time for a UDP request-reply is the $round-trip time + server processing time$, and the minimum time for TDP is $2 \times round-trip time + server processing time$ \cite{socketnetworking}.
 \\\\
 Because of the limited scope and uniformity of what is going to be transmitted via the networking solution, a lot of the features included in TCP are unnecessary.
 UDP is slightly faster because of its lack of reliability and other benefits, but might require some extra work in order to implement some of the functionality that is missing when compared to TCP, if this were to become necessary.
@@ -195,12 +195,11 @@ Possible issues with using this architecture is that there would need to be a wa
 \subsection{IPv4 and IPv6}\label{ipv4-ipv6}
 Both IPv4 and IPv6 provide packet delivery service for TCP and UDP.
 The major difference in IPv4 and IPv6 is the addresses they use.
-IPv4 uses 32-bit addresses, whereas IPv6, being a newer version, uses larger addresses of 128 bits\cite{socketnetworking}.
+IPv4 uses 32-bit addresses, whereas IPv6, being a newer version, uses larger addresses of 128 bits \cite{socketnetworking}.
 IPv4 addresses are usually written as four decimal numbers separated by ".".
 This is known as \textit{dotted-decimal notation}.
 Each decimal number represents one of the four bytes of the 32-bit address.
 The first of the four numbers represents the address type.
-IPv6 addresses are usually written as eight 16-bit hexadecimal numbers\cite{socketnetworking}.
+IPv6 addresses are usually written as eight 16-bit hexadecimal numbers \cite{socketnetworking}.
 The higher-order bits of the 128-address imply the type.
 For the purposes of this project this should not have a significant impact, and either can be used.
-
