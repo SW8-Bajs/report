@@ -1,0 +1,48 @@
+\section{Test plan}
+
+\subsection{Documentation}
+All functions should be documented. 
+This is done by writing comments in the code following the standards of the language.
+\\\\
+For C\#: 
+\\
+\url{https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments}
+\\\\
+For Python:
+\\
+\url{https://www.geeksforgeeks.org/python-docstrings/}
+\\\\
+These comments should explain what the parameters of the function are and a short summary of what the function does.
+\\\\
+If the function that is being implemented deals with more complex concepts, additional comments should be written in the code to explain what is happening in the function.
+
+\subsection{Testing}
+\subsubsection{What to test}
+All code that can influence the users experience should be tested. 
+This means that every function that would influence the program negatively, if it had an incorrect calculation should be tested to try to avoid this.
+\\
+All public functions should always be tested.
+
+\subsubsection{How much to test}
+
+\begin{itemize}
+	\item Unit tests
+		\begin{itemize}
+			\item Functions are tested in isolation.
+			\item If the function needs data from outside the function it should be manually generated using mocks.
+			\item \url{http://softwaretestingfundamentals.com/unit-testing/}
+		\end{itemize}
+	\item Integration tests
+		\begin{itemize}
+			\item Testing if different modules integrate correctly.
+			\item An example of this is when we are fetching data from the python server into the C\# client.
+			\item \url{http://softwaretestingfundamentals.com/integration-testing/}
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{How much to test}
+100\% code coverage is not necessary, but if there are no unit tests for a part of the system there aren’t enough. 
+The focus should be on quality of tests instead of quantity of tests.
+\\
+Al functionality in a function that can affect the output of the function should be tested.
+If a bug is fixed and it took more than a couple of minutes to fix it, there should be created unit tests for this bug to prevent it from being reintroduced later on.
