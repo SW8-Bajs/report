@@ -192,6 +192,17 @@ An illustration of this concept using UDP can be seen in \autoref{fig:udp-pub-su
 \noindent
 Possible issues with using this architecture is that there would need to be a way to ensure all clients receive a sufficient amount of messages, and that the receivers are not overloaded with messages.
 
+\subsubsection{Transmission in UDP}
+When working with UDP, there are three types of possible transmissions: Unicast, multicast or broadcast.
+Unicast is a one-to-one communication with a single source sending information to a single receiver, while a broadcast transmits the information to all nodes on a network.
+The benefit of unicast is that it has been in use for a long time and utilizes well-established protocols, it is known from applications like http, ftp and telnet \cite{finjan}.
+For this project, however, the major drawback of unicast is that in order to transmit the message to multiple nodes, it has to send multiple unicasts messages addressed to each receiver, which also requires us to know the exact IP address of each destination device.
+Looking at broadcast, we can instead transmit the information to all nodes on a network, which ensures that all nodes on the network receives the message.
+This could be useful if we only had the players of the game on our network, but since they might be connected to a larger network with a large amount of clients, this could lead to the data being sent to clients that are not a part of the ongoing game session.
+Luckily, we have multicast in the middle of the two extremes, where you do not send from one client to another or one client to all others.
+Instead the data is sent to as many destinations as express an interest in receiving it \cite{finjan}.
+This one-to-many approach seems suitable for this project, since it would intuitively lead to better bandwidth utilisation and does not require the receivers' addresses to be known.
+
 \subsection{IPv4 and IPv6}\label{ipv4-ipv6}
 Both IPv4 and IPv6 provide packet delivery service for TCP and UDP.
 The major difference in IPv4 and IPv6 is the addresses they use.
