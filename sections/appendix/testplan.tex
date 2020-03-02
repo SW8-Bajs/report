@@ -19,7 +19,7 @@ If the function that is being implemented deals with more complex concepts, addi
 \subsection{Testing}
 \subsubsection{What to test}
 All code that can influence the user's experience should be tested. 
-This means that every function that would influence the program negatively, if it had an incorrect calculation should be tested to try to avoid this.
+This means that every function that would influence the program negatively if it had an incorrect calculation should be tested to try to avoid this.
 \\
 All public functions should always be tested.
 
@@ -30,19 +30,19 @@ All public functions should always be tested.
         \begin{itemize}
             \item Functions are tested in isolation.
             \item If the function needs data from outside the function it should be manually generated using mocks.
-            \item \url{http://softwaretestingfundamentals.com/unit-testing/}
+            \item \href{http://softwaretestingfundamentals.com/unit-testing/}{More information about unit testing}
         \end{itemize}
     \item Integration tests
         \begin{itemize}
             \item Testing if different modules integrate correctly.
             \item An example of this is when we are fetching data from the python server into the C\# client.
-            \item \url{http://softwaretestingfundamentals.com/integration-testing/}
+            \item \href{http://softwaretestingfundamentals.com/integration-testing/}{More information about integration testing}
         \end{itemize}
 \end{itemize}
 
 \subsubsection{How much to test}
-100\% code coverage is not necessary, but if there are no unit tests for a part of the system there are not enough. 
+100\% code coverage is not necessary, but if there are no unit tests for a part of the system it is not enough. 
 The focus should be on the quality of tests rather than the number of tests.
 \\
 All functionality in a function that can affect the output of the function should be tested.
-If a bug is fixed and it took more than a couple of minutes to fix it, there should be created unit tests for this bug to prevent it from being reintroduced later on.
+If a bug is fixed and it took more than a couple of minutes to fix it, unit tests should be created for this bug to prevent it from being reintroduced later on.
