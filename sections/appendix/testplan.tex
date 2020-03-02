@@ -23,7 +23,7 @@ This means that every function that would influence the program negatively if it
 \\
 All public functions should always be tested.
 
-\subsubsection{How much to test}
+\subsubsection{How to test}
 
 \begin{itemize}
     \item Unit tests
@@ -39,6 +39,18 @@ All public functions should always be tested.
             \item \href{http://softwaretestingfundamentals.com/integration-testing/}{More information about integration testing}
         \end{itemize}
 \end{itemize}
+
+\subsubsection{Unit testing in unity}
+There are two ways of running unit tests in unity which is in play mode and in editor mode. 
+Play mode requires the framework to load the scenes before testing code while editor mode can test the scripts in the project without loading the scenes. 
+When the scenes are loaded in play mode the objects are instantiated with the predefined data in the scene. 
+This makes it a bit harder to control the state of the program while testing.
+\\ 
+The focus will be on testing all of the functions isolated in editor mode. 
+This has the consequence that some code that utilizes the unity API and functions on presentational objects in unity can not be tested.
+\\
+To make it easier to unit test your code you should therefore try to separate logic that uses unity features and logic that you have implemented yourself into different functions.
+
 
 \subsubsection{How much to test}
 100\% code coverage is not necessary, but if there are no unit tests for a part of the system it is not enough. 
