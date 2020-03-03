@@ -1,0 +1,46 @@
+\section{Pozyx}
+Pozyx is a hardware/software solution that is used to provide positioning with an accuracy of down to 10 cm \cite{pozyx}.
+It makes use of ultra-wideband in combination with machine learning for positioning, which according to their documentation is more precise and efficient than traditional positioning systems such as WiFi, Bluetooth, RFID, and GPS.
+\\
+Since the two major requirements for positioning in this project are precision and a high update rate to ensure that the players can have reliable data available, the Pozyx system seems like a good place to start.
+\\
+The Pozyx tags support update rates of up to 125 Hz for a single tag \cite{pozyx}.
+The Creator system from Pozyx is sold with 4 anchors and 5 locatable tags.
+An anchor is a stationary sensor used by the moveable tags to get their exact position.
+\subsection{Finding the location of anchors}
+A trilateration method is used for finding the position of a given tag using the anchors.
+This method uses basic geometry to estimate the position by measuring the distance to the anchors of which we know the position.
+With this distance estimate, it is possible to draw a circle with a given radius.
+If we use two anchors, we will have two intersection points which are the possible positions of the tag.
+This means that to find a two-dimensional location, we will need at least three anchors, which will lead to only a single point where all three circles intersect, as seen on \autoref{fig:trilateration}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{trilateration.png}
+    \caption{An example of trilateration using three anchors}
+    \label{fig:trilateration}
+\end{figure}
+
+The issue with this approach is that the measurements are not perfect, which might cause the circles to not intersect at exactly one point which will make the positional data seem to jitter.
+
+\subsection{Using UWB}
+To find the position of the tags Pozyx makes use of radio waves. 
+Radio waves travel at the speed of light in vacuum, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
+Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
+To achieve this the anchors make use of ultra-wide bandwidth (UWB) \cite{pozyx-UWB}.
+The ultra-wideband signals that the Pozyx devices utilize has a bandwidth of 500 MHz.
+This makes the wavelength very short and by detecting the peak of a narrow "pulse", an accurate time can be found.
+High bandwidth means faster data transfer, which most people would prefer, but if everyone were to use the same frequency the signals would interfere with each other, therefore the use of high-frequency signals is tightly regulated.
+Pozyx can use 500 MHz because it transmits at very low power.
+
+\subsection{Two-way-ranging}
+We are using the Pozyx Creator Kit Lite which uses the Two-way-ranging (TWR) protocol for positioning \cite{pozyx-Positioning}.
+A tag calculates its position by communicating with the anchors one by one, getting the distance from the anchor to itself.
+Once it has the distance from 3 anchors it can compute its position utilizing trilateration.
+\\
+If multiple tags are being used at once, one tag is made the master tag and the other tags become the slave tags.
+The master tag instructs the slave tags to report their position to the master tag one by one.
+The master tag is then usually connected to a computer that can use the position data.
+This technique does not scale well as all the slave tags have to be within the radio range of the master tag so spreading them across huge areas is not possible.
+Instead of a tag being the master it is possible to use an anchor.
+This makes it easier to have a computer attached, as the anchors are stationary, unlike the tags.
