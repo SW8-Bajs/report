@@ -12,6 +12,10 @@ Other third-party solutions for Unity-based games also exist, such as Photon Eng
 Photon provides functionality for the developers to make use of to create multiplayer games in the same way as UNet, exposing higher-level functionality.
 Photon supports multiple platforms outside of just Unity, with both Android and iOS support \cite{photonnet}.
 \\\\
+The advantage of using a library that is built for Unity such as UNet or Photon is that it is easy to setup with the Unity engine compared to a solution built from scratch.
+UNet provides a higher level of abstraction with functions to control the networked state of the game, send and receive messages between server and clients and much more.
+A disadvantage of these libraries is that they are generalized and thus would not be able to achieve the same efficiency as a custom solution tailored to the specific needs of the game.
+\\\\
 ZeroMQ is also a possible solution.
 ZeroMQ is an asynchronous messaging library.
 It can carry messages across various transport formats and is available in many different programming languages \cite{zeromqdoc}.
