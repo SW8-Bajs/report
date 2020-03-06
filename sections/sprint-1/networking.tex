@@ -58,12 +58,13 @@ There are certain pros and cons associated with both approaches of using either 
     \label{tab:networkprosandcons}
 \end{table}
 Based on these considerations, it was decided that a custom solution should be created to handle networking in this project.
-This choice was based on the lack of transparency in a pre-existing solution as well as the need for fast communication.
+This choice was based on two major factors: the lack of transparency in a pre-existing solution as well as the need for fast communication and the opportunity to learn more about networking at a low level.
 For the game to be playable and enjoyable, the location data collected by the Pozyx system needs to be transmitted to all the clients as quickly as possible such that they always have an up to date view of the positions of the players.
 To achieve this, it would be preferable to build a solution capable of performing the minimum amount of work as quickly as possible.
 Pre-existing solutions cannot be guaranteed to do the minimum amount of work as lower-level details are obscured from the developers.
 With a custom solution, the data sent across the network can be guaranteed to be exactly what is needed.
 ZeroMQ was also a possible choice based on the performance needs, but its generalized approach concerning itself with reusability and issues unlikely to be a big factor in this project meant it was dismissed, in favor of a custom solution in which the problems defined in the previous section are handled.
+Additionally, we have not previously worked with networking at a low level, but wanted to learn more about it, and decided that working without a framework would provide the best learning experience.
 
 \subsection{Introduction to sockets}
 In order to construct a network solution, a familiarity with the layers of a network is needed in order to gain an intuition of what sockets are.
