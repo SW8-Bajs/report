@@ -46,14 +46,55 @@ A custom solution would involve sockets, which are a network API  that allows pr
 \subsection{Choosing a solution}
 There are certain pros and cons associated with both approaches of using either a pre-existing solution or a custom solution.
 \autoref{tab:networkprosandcons} shows some of the considerations made when deciding an approach for this project.
-\begin{table}[tbp]
+The criteria's that were considered when evaluating which solution to use were:
+\begin{itemize}
+	\item Customizability
+		\begin{itemize}
+			\item How much we can customize the solution to our specific use case. If the customizability is low the project needs to be built around the networking solution while if the customizability is high the networking solution can be customized to our needs
+		\end{itemize}
+	\item Requirements
+		\begin{itemize}
+			\item How much knowledge about the subject is needed to use the solution.
+		\end{itemize}
+	\item Optimization
+		\begin{itemize}
+			\item How much optimization are we able to do ourselves if we use this solution.
+		\end{itemize}
+	\item Learning reward'
+		\begin{itemize}
+			\item How much will we learn if we use this solution.
+		\end{itemize}
+\end{itemize}
+\\\\
+\begin{table}[H]
     \begin{tabularx}{\textwidth}{|X|X|X|X|}
-    \hline
-                    & Pre-existing Unity                                                & Custom                                                                            & ZeroMQ                                                                                  \\ \hline
-    Customizability & Consists of a set of pre-defined functionalities            & Can have any functionality implemented                                            & Has pre-defined functionalities, but these are lower level than a pre-existing solution \\ \hline
-    Requirements    & Familiarity with the solution                               & Familiarity with the knowledge required to implement a usable solution            & Needs familiarity with a mix of pre-existing and custom solutions                     \\ \hline
-    Optimization    & Lower-level details are obscured, optimized for general use & Lower-level details are freely available, can be optimized for a specific purpose & Focuses on performance, but the solution is general                                     \\ \hline
-    \end{tabularx}
+    \hline2
+		
+			& Pre-existing Unity	
+			& Custom 
+			& ZeroMQ  
+			\\ \hline
+		Customizability  
+			& Consists of a set of pre-defined functionalities            
+			& Can have any functionality implemented                                            
+			& Has pre-defined functionalities, but these are lower level than a pre-existing solution 
+			\\ \hline
+		Requirements    
+			& Familiarity with the solution                               
+			& Familiarity with the knowledge required to implement a usable solution            
+			& Needs familiarity with a mix of pre-existing and custom solutions                     
+			\\ \hline
+		Optimization    
+			& Lower-level details are obscured, optimized for general use 
+			& Lower-level details are freely available, can be optimized for a specific purpose 
+			& Focuses on performance, but the solution is general                                     
+			\\ \hline
+		Learning reward
+			& Most of it is already implemented, so the learning reward is low
+			& Learning reward is high because we have to implement everything ourselves
+			& Have to customize some of it ourselves, so we will have to get familiar with the subject
+			\\ \hline
+		\end{tabularx}
     \caption{A comparison of the pros and cons of the possible solutions}
     \label{tab:networkprosandcons}
 \end{table}
