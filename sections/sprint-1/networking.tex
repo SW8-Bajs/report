@@ -14,6 +14,7 @@ Photon supports multiple platforms outside of just Unity, with both Android and 
 \\\\
 The advantage of using a library that is built for Unity such as UNet or Photon is that it is easy to setup with the Unity engine compared to a solution built from scratch.
 UNet provides a higher level of abstraction with functions to control the networked state of the game, send and receive messages between server and clients and much more.
+UNet and Photon also allows for "client-hosted" games which act like lobbies. So any client can host a game which other clients can connect to. This allows the clients to send and receive data between each other \cite{unityunet}. 
 A disadvantage of these libraries is that they are generalized and thus would not be able to achieve the same efficiency as a custom solution tailored to the specific needs of the game.
 \\\\
 ZeroMQ is also a possible solution.
