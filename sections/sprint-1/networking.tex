@@ -1,4 +1,4 @@
-\section{Networking}
+\section{Networking}\label{sec:sprint1-networking}
 The following section will examine the different possibilities regarding transmitting player position data to the Unity applications used to play the game.
 
 \subsection{Possible networking solutions}
@@ -11,6 +11,13 @@ The current UNet iteration is usable but will be removed in the future.
 Other third-party solutions for Unity-based games also exist, such as Photon Engine.
 Photon provides functionality for the developers to make use of to create multiplayer games in the same way as UNet, exposing higher-level functionality.
 Photon supports multiple platforms outside of just Unity, with both Android and iOS support \cite{photonnet}.
+\\\\
+The advantage of using a library that is built for Unity such as UNet or Photon is that it is easy to setup with the Unity engine compared to a solution built from scratch.
+UNet provides a higher level of abstraction with functions to control the networked state of the game, send and receive messages between server and clients and much more.
+UNet and Photon also allows for "client-hosted" games which act like lobbies.
+So any client can host a game which other clients can connect to.
+This allows the clients to send and receive data between each other \cite{unityunet}. 
+A disadvantage of these libraries is that they are generalized and thus would not be able to achieve the same efficiency as a custom solution tailored to the specific needs of the game.
 \\\\
 ZeroMQ is also a possible solution.
 ZeroMQ is an asynchronous messaging library.
@@ -99,12 +106,13 @@ The criteria's that were considered when evaluating which solution to use were:
     \label{tab:networkprosandcons}
 \end{table}
 Based on these considerations, it was decided that a custom solution should be created to handle networking in this project.
-This choice was based on the lack of transparency in a pre-existing solution as well as the need for fast communication.
+This choice was based on two major factors: the lack of transparency in a pre-existing solution as well as the need for fast communication and the opportunity to learn more about networking at a low level.
 For the game to be playable and enjoyable, the location data collected by the Pozyx system needs to be transmitted to all the clients as quickly as possible such that they always have an up to date view of the positions of the players.
 To achieve this, it would be preferable to build a solution capable of performing the minimum amount of work as quickly as possible.
 Pre-existing solutions cannot be guaranteed to do the minimum amount of work as lower-level details are obscured from the developers.
 With a custom solution, the data sent across the network can be guaranteed to be exactly what is needed.
 ZeroMQ was also a possible choice based on the performance needs, but its generalized approach concerning itself with reusability and issues unlikely to be a big factor in this project meant it was dismissed, in favor of a custom solution in which the problems defined in the previous section are handled.
+Additionally, we have not previously worked with networking at a low level, but wanted to learn more about it, and decided that working without a framework would provide the best learning experience.
 
 \subsection{Introduction to sockets}
 In order to construct a network solution, a familiarity with the layers of a network is needed in order to gain an intuition of what sockets are.
