@@ -52,10 +52,12 @@ A few times there were no updates in a 2 seconds time spand.
 \paragraph{Update frequency}
 
 \subsection{Possible influences on the test}
-One thing that could have affected the tags is that we used a blackboard as a measure. 
+One thing that could have affected the tags is that we used a blackboard as a measure for positions. 
 As there is metal in the blackboard this could have affected the precision on the tags.
-
-In the test with 1 tag, the 0 x coordinate was close to the wall. 
-This could have been an influence so that it will be higher than it otherwise would be, as it was difficult to center the tag over the x coordinate where x was 0.
+Metals are conductors, which can lead to the signal having less power and reduced range, and the signal might spend extra time trying to get through the metal.
+Since Pozyx positioning relies on calculating the time of flight, having the signal spend extra time travelling reduces accuracy \cite{pozyx-UWBObstacles}. 
+\\\\
+During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
+This could have been an influence on the positing result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
 
 \subsection{Conclusion on the experiment}
