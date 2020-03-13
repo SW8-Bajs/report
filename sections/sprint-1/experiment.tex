@@ -1,25 +1,26 @@
 \section{Experiment with Pozyx}
-We have created an experiment to test how accurate the tags in Pozyx are.
-The primary goal of the experiment was to test the accuracy, but a biproduct of the experiment was to see how many update frequencies there were with each tag.
+In order to determine the accuracy of the Pozyx tags we conducted an experiment.
+The primary goal of the experiment was to test the accuracy, but a by-product of the experiment was to determine the frequencies of updates for each tag.
 
 \subsection{Setup}
-The current settings goes for best precision, but gives a smaller amount of updates.
+The current settings aims to achieve best precision, but gives a smaller amount of updates.
 % Uddyb hvilke settings det er og angiv kilde.
-The setup of the experiment as seen on \autoref{fig:experiment-setup}. 
+The experiment was setup as shown on \autoref{fig:experiment-setup}. 
 The experiment was conducted indoors in Novi 9. 
-The anchors \texttt{0x632b} and \texttt{0x676e} was mounted on a wall 240 centimeters apart and the anchors \texttt{0x6738} and \texttt{0x676c} was mounted on a bulletin board.
-The number of cm above the hexadecimal number is the height the anchor was mounted.
-There was chosen different heights as Pozyx documentation suggests that not all anchors should have the same height.
-%uddyb og angiv kilde
+The anchors \texttt{0x632b} and \texttt{0x676e} were mounted on a wall 240 centimeters apart, and the remaining anchors \texttt{0x6738} and \texttt{0x676c} were mounted on a bulletin board.
+The number of centimeters accompanying the hexadecimal number of each anchor is the height at which the anchor was mounted during the experiment.
+Different heights were chosen as Pozyx documentation suggests that not all anchors should have the same height \cite{pozyx-AnchorHeights}.
+The reason for this is the principle of geometric dilution of precision(GDOP), which can cause the error on range measurements to be amplified.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{experiment-setup.JPG}
-    \caption{The setup of the experiment with the anchors and the height in the corners.}
+    \caption{The setup of the experiment with the anchors and the height at which they were placed in the corners.}
     \label{fig:experiment-setup}
 \end{figure}
 \noindent
-The fields was a blackboard where lines were drawn for each 10 centimeters to know the actual position as seen on.
+The fields were created by a blackboard on which lines were drawn every 10 centimeters to know the actual position as seen on \autoref{fig:experiment-blackboard}.
+This blackboard was moved intermittently to act as respectively field 1, field 2, field 3 and field 4.
 
 \begin{figure}[H]
     \centering
@@ -27,6 +28,12 @@ The fields was a blackboard where lines were drawn for each 10 centimeters to kn
     \caption{The blackboard with the drawn positions.}
     \label{fig:experiment-blackboard}
 \end{figure}
+\noindent
+The procedure for the experiment was based on this blackboard.
+The blackboard would be placed in one of the fields defined in \autoref{fig:experiment-setup}, and we would then place the tags in certain positions on the board and record the accuracy with with the position was reported.
+The tags would be placed in a position, remain there for five seconds, then be moved to the next position over the next five seconds and remain in this position for five seconds before being moved again.
+This procedure was repeated until a satisfactory number of measurements had been made.
+Once one field had been tested, we moved the blackboard to the next field and repeated the setup.
  
 \subsection{Precision with 1 tag} \label{sec:one-tag-precision}
 As can be seen on \autoref{app:one-tag}
