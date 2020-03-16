@@ -1,13 +1,14 @@
 \section{Experiment with Pozyx}
 In order to determine the accuracy of the Pozyx tags we conducted an experiment.
 The primary goal of the experiment was to test the accuracy, but a by-product of the experiment was to determine the frequencies of updates for each tag.
+\\\\
 According to research regarding latency in VR \cite{WaltemateThomas2016Tiol} and interactive systems \cite{10.1145/169059.169431} the number of movement errors increase as the latency increases.
 According to experiments with VR, the motor performance and sense of body ownership start to decrease at latencies above 75 ms.
 This means that the optimal results from these experiments would indicate that the Pozyx system is able to give a refresh rate which allows the system to operate with a latency of less than 75 ms between their physical movement and the in-game reflection of this movement.
 
 \subsection{Setup}
 The current settings aims to achieve best precision, but gives a smaller amount of updates.
-% Uddyb hvilke settings det er og angiv kilde.
+% Uddyb hvilke settings det er og angiv kilde. FREDERIK!!
 The experiment was setup as shown on \autoref{fig:experiment-setup}. 
 The experiment was conducted indoors in Novi 9. 
 The anchors \texttt{0x632b} and \texttt{0x676e} were mounted on a wall 240 centimeters apart, and the remaining anchors \texttt{0x6738} and \texttt{0x676c} were mounted on a bulletin board.
@@ -43,13 +44,14 @@ In \autoref{app:experiment} the data for the experiment can be seen.
 For each test we calculated the average grid, found the min and max values for \texttt{x}, \texttt{y} and \texttt{z}.
 We also calculated the average deviation from the actual grid to the average grid to get a better view of the deviation there was.
 The min and max values was noted, as we might need to take this into account. 
-
+The \texttt{z} values were very inconsistent throughout the entire test, and thereby we have chosen not to analyze them.
+We also do not currently need the \texttt{z} values for our program.
 
 \subsection{Precision with 1 tag} 
-In \autoref{app:one-tag} can be seen the average grid coordinates, with min and max values.
-
-In \autoref{Tab:average-deviation-1-tag} the average deviation can be seen.
 The average of average deviation is 10.54 cm.
+There were spikes where the max and min values spiked a lot.
+For \texttt{(30, 60)} the min x value was -33.3, which is a deviation of around 60 cm and for \texttt{(120, 0)} the y min value were -54.5 cm, which is also 54.5 cm, away from the actual data point.
+There are more cases where the deviation of a single data point is far away.
 
 \subsection{Precision with 3 tag}
 For this part of the experiment we tested the accuracy with 3 tags. 
@@ -57,35 +59,49 @@ For this part of the experiment we tested the accuracy with 3 tags.
 \subsubsection{Tag 26467}
 The overall average deviation for this tag was 11.2 cm.
 There were however a large deviation at \texttt{140, 90} and \texttt{(140, 120)} with 20.63 and 20.46 cm.
+The min and max values for \texttt{x} and \texttt{y} were good, and there were never larger spikes away from the actual data point than around 25 cm.
 
 \subsubsection{Tag 26895}
 The overall average deviation for this tag was 6.31 cm.
 The average deviation was more accurate than expected for this tag.
+For this tag there were also not larger spikes than around 20 cm for the \texttt{x} and \texttt{y} values.
 
 \subsubsection{Tag 24622}
 The overall average deviation for this tag was 17.41.
 The first three points we tried out seemed fairly accurate, however the grid \texttt{(220, 90)} and \texttt{(220, 120)} had a large deviation of 37.53 cm and 24.4 cm.
+The min and max values for \texttt{x} and \texttt{y} were larger in this than the previous, with around 40 cm deviations.
 
 \subsection{Precision with 5 tag}
 For this experiment we have also noted how many data points there were sent in the 5 second intervals, as well as the average deviation
 
 \subsubsection{Tag 24622}
 The average deviation for this tag was 8.42 cm and the average amount of data points each 5 seconds was around 4.28 data points.
-However, at \texttt{(180, 120)} we only recieved 1 data point.
+However, at \texttt{(180, 120)} we only received 1 data point.
+The min and max values of \texttt{x} and \texttt{y} were lower than 25 cm.
 
 \subsubsection{Tag 26467}
 For this tag the average deviation was 11.20 cm and the average amount of data points was 3.28.
 At \texttt{140, 40} there were only one update and \texttt{140, 80} there were only 2 updates for each 5 seconds.
+The max \texttt{x} value was around 30 cm away from the actual data point, but otherwise they did not spiked larger than that.
+
 
 \subsubsection{Tag 26895}
 Tag 26895 had an average deviation of 14.78 cm. 
 The deviation was higher than the two previous, however there were an average update rate of 9.57, which is more than twice as high as the two previous tags.
+The min and max values for min \texttt{y} and max \texttt{y} deviated at \texttt{(160, 20)}, where the min value was -28, and max value was 49.4.
 
 \subsubsection{Tag 26901}
 The average deviation of tag 26901 was 8.56 cm, and an average data points of 10 for each 5 seconds.
 This tag was quite stable as there almost every time were 10 data points each 5 seconds and the average deviation never spiked higher than 12 cm.
+Around \texttt{(220, 100)} the min y value was 51.3 cm, which is quite far away from the actual position.
+There were a few instance of large gaps between min and max values and actual grid.
 
 \subsubsection{Tag 27001}
+The average deviation of this tag is 9.61 and the average amount of data points for each 5 seconds was 5.57.
+This was also quite consistent with the average deviation. 
+The max values for x and y was also quite consistent and there were no large deviations.
+The min and max deviation of the \texttt{x} coordinate was quite accurate with a largest distance of around 20 cm, but mostly less than 10 cm.
+The \texttt{y} coordinate fluctuated more, but was still less than 25 cm.
 
 \subsection{Possible influences on the test}
 One thing that could have affected the tags is that we used a blackboard as a measure for positions. 
@@ -97,3 +113,6 @@ During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the
 This could have been an influence on the positing result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
 
 \subsection{Conclusion on the experiment}
+Our conclusion of this experiment is that the precision is satisfactory, but we need to do something about the update rate as that does not meet the standards of the refresh rate needed.
+\\\\
+We also need to consider the spikes in the coordinate, so that the user does not jump around on screen, even though that the user does not move.
