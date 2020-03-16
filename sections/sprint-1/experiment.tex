@@ -51,7 +51,7 @@ The \texttt{z} values were very inconsistent throughout the entire test, and due
 \subsection{Precision with 1 tag} 
 The average of all deviations is 10.54 cm.
 There were spikes where the max and min values spiked a lot.
-For \texttt{(30, 60)} the minmum $x$ value was -33.3, which is a deviation of around 60 cm and for \texttt{(120, 0)} the minimum $y$ value was -54.5 cm, which is also 54.5 cm away from the actual data point.
+For \texttt{(30, 60)} the minimum $x$ value was -33.3, which is a deviation of around 60 cm and for \texttt{(120, 0)} the minimum $y$ value was -54.5 cm, which is also 54.5 cm away from the actual data point.
 There are more cases where the deviation of a single data point is far away. 
 
 \subsection{Precision with 3 tag}
@@ -112,7 +112,12 @@ Since Pozyx positioning relies on calculating the time of flight, having the sig
 During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
 This could have been an influence on the positing result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
 \\\\
-% Der skal skrives om de fejl vi fik. Blandt andet possible firmware errors og Error: No error.
+While the experiment was running the tags could throw errors instead of giving a position if something went wrong.
+Mainly doing the multi tag tests some tags would report bag with errors such as unable to get firmware version, flash memory corrupted and an error message saying there was no error.
+At that point of the experiment it was not clear whether it was an hardware error with some of the tags or if it was code related.
+The tags would throw these errors randomly and then report back there position like normal at the next update.
+This resulted in some of the tags had periods of update rates of less than 0.2 Hz.
+Further investigation into this issue was decided to be conducted at a later point.
 
 \subsection{Conclusion on the experiment}
 Our conclusion of this experiment is that the precision is satisfactory, but we need to do something about the update rate as that does not meet the standards of the refresh rate needed.
