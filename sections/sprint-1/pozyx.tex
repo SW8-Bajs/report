@@ -1,6 +1,6 @@
 \section{Pozyx}
 Pozyx is a hardware/software solution that is used to provide positioning with an accuracy of down to 10 cm \cite{pozyx}.
-It makes use of ultra-wideband in combination with machine learning for positioning, which according to their documentation is more precise and efficient than traditional positioning systems such as WiFi, Bluetooth, RFID, and GPS.
+It makes use of ultra-wide band (UWB) in combination with machine learning for positioning, which according to their documentation is more precise and efficient than traditional positioning systems such as WiFi, Bluetooth, RFID, and GPS.
 \\
 Since the two major requirements for positioning in this project are precision and a high update rate to ensure that the players can have reliable data available, the Pozyx system seems like a good place to start.
 \\
@@ -25,10 +25,10 @@ The issue with this approach is that the measurements are not perfect, which mig
 
 \subsection{Using UWB}
 To find the position of the tags Pozyx makes use of radio waves. 
-Radio waves travel at the speed of light in vacuum, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
+Radio waves travel at the speed of light, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
 Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
-To achieve this the anchors make use of ultra-wide bandwidth (UWB) \cite{pozyx-UWB}.
-The ultra-wideband signals that the Pozyx devices utilize has a bandwidth of 500 MHz.
+To achieve this the anchors make use of UWB \cite{pozyx-UWB}.
+The UWB signals that the Pozyx devices utilize has a bandwidth of 500 MHz.
 This makes the wavelength very short and by detecting the peak of a narrow "pulse", an accurate time can be found.
 High bandwidth means faster data transfer, which most people would prefer, but if everyone were to use the same frequency the signals would interfere with each other, therefore the use of high-frequency signals is tightly regulated.
 Pozyx can use 500 MHz because it transmits at very low power.
