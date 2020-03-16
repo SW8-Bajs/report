@@ -1,16 +1,18 @@
 \section{Experiment with Pozyx}
 In order to determine the accuracy of the Pozyx tags we conducted an experiment.
-The primary goal of the experiment was to test the accuracy, but a by-product of the experiment was to determine the frequencies of updates for each tag.
+The primary goal of the experiment was to test the accuracy, but a secondary goal of the experiment was to determine the frequencies of updates for each tag.
 \\\\
 According to research regarding latency in VR \cite{WaltemateThomas2016Tiol} and interactive systems \cite{10.1145/169059.169431} the number of movement errors increase as the latency increases.
 According to experiments with VR, the motor performance and sense of body ownership start to decrease at latencies above 75 ms.
 This means that the optimal results from these experiments would indicate that the Pozyx system is able to give a refresh rate which allows the system to operate with a latency of less than 75 ms between their physical movement and the in-game reflection of this movement.
 
 \subsection{Setup}
-The current settings aims to achieve best precision, but gives a smaller amount of updates.
-% Uddyb hvilke settings det er og angiv kilde. FREDERIK!!
+The tags were set to transmit with the highest bitrate with the longest preamble length and with the ranging mode set to precise\cite{pozyx-Performance}.
+According to the documentation these values lower the tags update rate to about 9hz which is then divided by the amount of tags used in the system as described in \ref{pozyx:TWR}.
+Because the main goal of the experiment was to test the accuracy we decided to use these setting to gives the most accurate positioning.
+We can then change the settings at a later point to get try and get the update rate to a level where the latency for the users are acceptable.
 The experiment was setup as shown on \autoref{fig:experiment-setup}. 
-The experiment was conducted indoors in Novi 9. 
+The experiment was conducted indoors on our campus in the building Novi 9. 
 The anchors \texttt{0x632b} and \texttt{0x676e} were mounted on a wall 240 centimeters apart, and the remaining anchors \texttt{0x6738} and \texttt{0x676c} were mounted on a bulletin board.
 The number of centimeters accompanying the hexadecimal number of each anchor is the height at which the anchor was mounted during the experiment.
 Different heights were chosen as Pozyx documentation suggests that not all anchors should have the same height \cite{pozyx-AnchorHeights}.
