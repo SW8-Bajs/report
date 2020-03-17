@@ -1,4 +1,5 @@
 \section{Pozyx}\label{sec:sprint1-pozyx}
+Since positioning is a major part of the project, it is important to have accurate positioning information.
 Pozyx is a hardware/software solution that is used to provide positioning with an accuracy of down to 10 cm \cite{pozyx}.
 It makes use of ultra-wideband in combination with machine learning for positioning, which according to their documentation is more precise and efficient than traditional positioning systems such as WiFi, Bluetooth, RFID, and GPS.
 \\
@@ -7,6 +8,7 @@ Since the two major requirements for positioning in this project are precision a
 The Pozyx tags support update rates of up to 125 Hz for a single tag \cite{pozyx}.
 The Creator system from Pozyx is sold with 4 anchors and 5 locatable tags.
 An anchor is a stationary sensor used by the moveable tags to get their exact position.
+
 \subsection{Finding the location of anchors}
 A trilateration method is used for finding the position of a given tag using the anchors.
 This method uses basic geometry to estimate the position by measuring the distance to the anchors of which we know the position.
@@ -21,11 +23,12 @@ This means that to find a two-dimensional location, we will need at least three 
     \label{fig:trilateration}
 \end{figure}
 
+\noindent
 The issue with this approach is that the measurements are not perfect, which might cause the circles to not intersect at exactly one point which will make the positional data seem to jitter.
 
 \subsection{Using UWB}
 To find the position of the tags Pozyx makes use of radio waves. 
-Radio waves travel at the speed of light in vacuum, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
+Radio waves travel at the speed of light in vacuum, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found. \\
 Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
 To achieve this the anchors make use of ultra-wide bandwidth (UWB) \cite{pozyx-UWB}.
 The ultra-wideband signals that the Pozyx devices utilize has a bandwidth of 500 MHz.
@@ -35,16 +38,16 @@ Pozyx can use 500 MHz because it transmits at very low power.
 
 \subsection{Alternatives to UWB}
 Having a high accuracy is essential for the users' experience since a low accuracy could result in the in-game information being incorrect or just too imprecise to make it a joyful experience.
-While Pozyx uses UWB for positioning, it is interesting to take a look at the primary alternatives to indoor positioning and to see if any of them can compete with Pozyx' high accuracy \ref{pozyx}.
+While Pozyx uses UWB for positioning, it is interesting to take a look at the primary alternatives to indoor positioning and to see if any of them can compete with Pozyx' high accuracy \cite{pozyx}.
 
 \subsubsection{GPS}
 The obvious alternative for positioning data is GPS, which is frequently used for outdoors positioning.
-In optimal outdoor situations, GPS can provide accuracy within 4.9 meters \ref{gpsgov:accuracy}.
+In optimal outdoor situations, GPS can provide accuracy within 4.9 meters \cite{gpsgov:accuracy}.
 However, the GPS positioning accuracy can be degraded due to buildings, bridges, and trees, making it a sub-optimal choice for indoor positioning.
 
 \subsubsection{Wi-Fi}
 Since the project already utilizes networking for data transfer, Wi-Fi may be worth considering to decrease the number of technologies needed.
-However, Wi-Fi only provides an accuracy of between 5 and 15 meters depending on the hardware chosen for access points and clients.
+However, Wi-Fi only provides an accuracy of between 5 and 15 meters depending on the hardware chosen for access points and clients.\\
 In addition to this, iOS devices are blocked from using Wi-Fi for indoor navigation purposes, since it usually makes use of a technology called fingerprinting, which only functions with Android devices due to technical restrictions \cite{infsoft:wifi}.
 
 \subsubsection{Bluetooth}
@@ -56,13 +59,12 @@ Unlike Wi-Fi, this solution would work on both iOS and Android devices but has a
 
 \subsubsection{RFID}
 Finally, we have RFID which uses radio waves to wirelessly transmit the identity of an object.
-Unlike the other solutions, RFID offers high accuracy, but a very limited range of less than a meter \cite{infsoft:rfid}.
-For a game like what we are building, it would be possible to use RFID for the location of the ball to check which player is currently holding it, but due to the limited range, it would not make sense to use it for localizing the players.
-
+Unlike the other solutions, RFID offers high accuracy, but a very limited range of less than a meter \cite{infsoft:rfid}.\\
+For a game like what we are building, it would be possible to use RFID for the location of the ball to check which player is currently holding it, but due to the limited range, it would not make sense to use it for localizing the players.\\
 Generally, using Pozyx with their UWB technology for tracking the position of the players and the ball appears to be the most optimal solution.
 
 \subsection{Two-way-ranging} \label{pozyx:TWR}
-We are using the Pozyx Creator Kit Lite which uses the Two-way-ranging (TWR) protocol for positioning \cite{pozyx-Positioning}.
+We are using the Pozyx Creator Kit Lite which uses the Two-way-ranging (TWR) protocol for positioning \cite{pozyx-Positioning}.\\
 A tag calculates its position by communicating with the anchors one by one, getting the distance from the anchor to itself.
 Once it has the distance from 3 anchors it can compute its position utilizing trilateration.
 \\
@@ -70,5 +72,5 @@ If multiple tags are being used at once, one tag is made the master tag and the 
 The master tag instructs the slave tags to report their position to the master tag one by one.
 The master tag is then usually connected to a computer that can use the position data.
 This technique does not scale well as all the slave tags have to be within the radio range of the master tag so spreading them across huge areas is not possible.
-Instead of a tag being the master it is possible to use an anchor.
+Instead of a tag being the master it is possible to use an anchor.\\
 This makes it easier to have a computer attached, as the anchors are stationary, unlike the tags.
