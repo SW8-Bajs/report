@@ -105,6 +105,7 @@ The criteria that were considered when evaluating which solution to use were:
     \caption{A comparison of the pros and cons of the possible solutions}
     \label{tab:networkprosandcons}
 \end{table}
+\noindent
 Based on these considerations, it was decided that a custom solution should be created to handle networking in this project.
 This choice was based on two major factors: the lack of transparency in a pre-existing solution as well as the need for fast communication and the opportunity to learn more about networking at a low level. \\
 For the game to be playable and enjoyable, the location data collected by the Pozyx system needs to be transmitted to all the clients as quickly as possible such that they always have an up to date view of the positions of the players.\\
@@ -126,7 +127,7 @@ This model is illustrated in \autoref{fig:osi-layer}, along with approximate map
 \end{figure}
 \noindent
 As shown, the relevant layers for the purpose of creating a networking solution though sockets is the third and fourth layers, transport and network.
-The network layer is handled by the IPv4 and IPv6 protocols, which will be discussed in \autoref{ipv4-ipv6}, and the transport layer is handled by either TCP or UDP.\\
+The network layer is handled by the IPv4 and IPv6 protocols, which will be discussed in \autoref{ipv4-ipv6}, and the transport layer is handled by either TCP or UDP, which is described in \autoref{sec:tcp-udp}.\\
 The reason for the gap between TCP and UDP is to illustrate that it is possible to bypass this layer and use IPv4 or IPv6 directly \cite{socketnetworking}.
 Sockets provide the interface from the upper application layers to the transport layer.
 The upper layer handles details about the application, and the lower layers handle details relating to communication.
@@ -147,7 +148,7 @@ This tends to simplify the protocol and the programs themselves \cite{socketnetw
 \end{figure}
 
 
-\subsection{TCP and UDP}
+\subsection{TCP and UDP}\label{sec:tcp-udp}
 The following section introduces two different protocols for the transport layer - Transmission Control Protocol (TCP) and User Datagram Protocol (UDP).
 Both of these protocols use a network-layer protocol known as IP, which can be either the protocol IPv4 or IPv6.
 
