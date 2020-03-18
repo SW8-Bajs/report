@@ -23,7 +23,7 @@ Anchors and tags are associated through a UWB connection in order to generate th
 The host node is dependent on the positional data artifact, the component receives the positional data and transforms it for communication.
 Positional data is transferred from the Pozyx system to the host through a USB association.
 The host application component contains a user interface component, which is the interface that the person using the host component will interact with, in the form of a terminal application for the early version of the system.
-The host node is associated with the clients through a UDP connection in order to communicate the positional data.
-As such, the mobile client application component is dependent on the host application component.
-The mobile clients also contain interface components, which is how the users interact with that part of the system.
-This interface is the virtual playing field generated in Unity, that the users see in the headset.
+The host node is associated with the clients through a UDP connection in order to communicate both the positional data and configuration data to perform game setup.
+As such, the mobile client application component is dependent on the host application component, since it needs the configuration data.
+The mobile clients also contain user interface components, which is how the users interact with that part of the system.
+This user interface is the virtual playing field generated in Unity that the users view in the headset.
