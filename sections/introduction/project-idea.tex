@@ -1,7 +1,7 @@
 \section{Project idea}\label{sec:projectidea}
 The idea for this project is to create a team-building game using augmented reality (AR).
 Two teams will compete against each other to score the most goals using a ball. 
-Each player will be equipped with a Google Cardboard, and these will display the playing field from a top-down 2D view. 
+Each player will be equipped with a smartphone-based virtual reality headset, and these will display the playing field from a top-down 2D view. 
 To achieve this, each player's position needs to be tracked as well as where the ball is located on the field.
 In the top-down view, each player needs to see the positions of the other players and the ball.
 They also need to see their position on the playing field and where the goals are.
@@ -16,6 +16,13 @@ In \autoref{fig:game_illustration}, an illustration of the playing field for the
 There are goals at each end of the field, and the teams score goals by getting the ball between the goalposts.
 An alternative version of the game is suggested where, instead of goals at each end of the field, there would be virtual goal zones seen in the game which the teams need to bring the ball.
 These zones could even change locations as the game progressed.
+
+\subsection{Technical requirements for the project}
+Multiple pieces of hardware will be required to realize the vision of the game.
+First of all, each player must have a headset to hold their smartphone such that they can view a virtualized version of the playing field while playing.
+In order for the data to be synchronized between the players, they will also need to be equipped with a positioning device, which can transmit their location to the other players.
+This transfer of information will require a networking solution so that the virtualized playing field is synchronized between the players.
+
 \subsection{Problems to consider}
 The project idea proposes some problems that will need to be solved for the game to work.
 We will need to consider which technologies to use for the development of the visual aspect of the game which should show a top-down view for each player. 

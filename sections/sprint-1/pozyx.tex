@@ -1,4 +1,4 @@
-\section{Pozyx}
+\section{Pozyx}\label{sec:sprint1-pozyx}
 Pozyx is a hardware/software solution that is used to provide positioning with an accuracy of down to 10 cm \cite{pozyx}.
 It makes use of ultra-wide band (UWB) in combination with machine learning for positioning, which according to their documentation is more precise and efficient than traditional positioning systems such as WiFi, Bluetooth, RFID, and GPS.
 \\
@@ -66,7 +66,7 @@ For a game like what we are building, it would be possible to use RFID for the l
 
 Generally, using Pozyx with their UWB technology for tracking the position of the players and the ball appears to be the most optimal solution.
 
-\subsection{Two-way-ranging}\label{pozyx:TWR}
+\subsection{Two-way-ranging} \label{pozyx:TWR}
 We are using the Pozyx Creator Kit Lite which uses the Two-way-ranging (TWR) protocol for positioning \cite{pozyx-Positioning}.
 A tag calculates its position by communicating with the anchors one by one, getting the distance from the anchor to itself.
 Once it has the distance from 3 anchors it can compute its position utilizing trilateration.
