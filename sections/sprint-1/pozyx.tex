@@ -24,14 +24,19 @@ This means that to find a two-dimensional location, we will need at least three 
 The issue with this approach is that the measurements are not perfect, which might cause the circles to not intersect at exactly one point which will make the positional data seem to jitter.
 
 \subsection{Using UWB}
-To find the position of the tags Pozyx makes use of radio waves. 
+To find the position of the tags, Pozyx makes use of radio waves. 
 Radio waves travel at the speed of light, so by dividing the time of travel between anchors with the speed of light, the distance between them can be found.
 Because the speed of light is so fast the time measure needs to be very accurate to get the correct distance.
 To achieve this the anchors make use of UWB \cite{pozyx-UWB}.
-The UWB signals that the Pozyx devices utilize has a bandwidth of 500 MHz.
-This makes the wavelength very short and by detecting the peak of a narrow "pulse", an accurate time can be found.
-High bandwidth means faster data transfer, which most people would prefer, but if everyone were to use the same frequency the signals would interfere with each other, therefore the use of high-frequency signals is tightly regulated.
-Pozyx can use 500 MHz because it transmits at very low power.
+UWB is a technology for transmitting data over a wide bandwidth usually wider than 500 MHz.
+The Pozyx sensors use exactly 500 MHz which means they just qualify as a UWB system.
+Because the bandwidth is this wide it makes the wavelength very short and by combining multiple sinusoidal signals with slightly different frequencies the Pozyx tags can create a pulse with a peak which is very narrow and measuring a narrow peak results in a more accurate timing allowing the Pozyx to much more precise than other technologies like Bluetooth and WiFi.
+But high bandwidth means faster data transfer, which most people would prefer, but if everyone were to use the same frequency the signals would interfere with each other, therefore the use of high-frequency signals is tightly regulated\cite{tait-radio}.
+To reduce the amount of interference the regulations say that UWB systems may only transmit at very low power.
+This means that a UWB transmission can not travel very far and therefore the chance of it interfering with another system is very low.
+Because of this we are not able to build huge playing fields with the limited amount of anchors we have if we also want it to be precise or even playable.
+Building a too big playing field could cause some tags to not reach all anchors and therefor not calculate a position.
+This could be combated somehow by having more anchors but as will be explained in \ref{pozyx:TWR} the slave tags might not be able to communicate with the master tag because the distance between them is too large.
 
 \subsection{Alternatives to UWB}
 Having a high accuracy is essential for the users' experience since a low accuracy could result in the in-game information being incorrect or just too imprecise to make it a joyful experience.
@@ -61,7 +66,7 @@ For a game like what we are building, it would be possible to use RFID for the l
 
 Generally, using Pozyx with their UWB technology for tracking the position of the players and the ball appears to be the most optimal solution.
 
-\subsection{Two-way-ranging}
+\subsection{Two-way-ranging}\label{pozyx:TWR}
 We are using the Pozyx Creator Kit Lite which uses the Two-way-ranging (TWR) protocol for positioning \cite{pozyx-Positioning}.
 A tag calculates its position by communicating with the anchors one by one, getting the distance from the anchor to itself.
 Once it has the distance from 3 anchors it can compute its position utilizing trilateration.
