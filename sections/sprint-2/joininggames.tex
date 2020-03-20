@@ -9,7 +9,7 @@ To do this, the game must include some form of LAN discoverability.
 One way of achieving this is to have clients searching for a game broadcast a message to available hosts via the LAN.
 The hosts then reply if they are available along with data for a multicast group, and the client can then join that group.
 Another method could be to make use of Internet Group Management Protocol (IGMP), which is a communications protocol used on IPv4 networks to establish multicast groups.
-The IP address 224.0.0.1 is a notable IPv4 address reserved for IP multicasting, which is the multicast group address for all hosts on the sane network \cite{ipv4multicastaddresses}.
+The IP address 224.0.0.1 is a notable IPv4 address reserved for IP multicasting, which is the multicast group address for all hosts on the same network \cite{ipv4multicastaddresses}.
 All hosts should join that group on start-up, and clients could then message the group that they are looking for an available game.
 \\\\
 Another way would be to have the host continually broadcast messages that it is available for players.
