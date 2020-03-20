@@ -43,7 +43,7 @@ The tags would be placed in a position, remain there for five seconds, then be m
 This procedure was repeated until a satisfactory number of measurements had been made, this amount was usually 5 measurements.
 Once one field had been tested, the whiteboard was moved to the next field and repeated the setup.
 
-\subsection{Analysis on data}
+\subsection{Analyzing the data}
 In \autoref{app:experiment} the data for the experiment can be seen.
 For each test the average grid was calculated, and found the min and max values for \texttt{x}, \texttt{y} and \texttt{z}.
 Likewise, the average deviation was calculated from the actual grid to the average grid to get a better view of the deviation.
@@ -115,7 +115,7 @@ As there is metal in the whiteboard this could have affected the precision on th
 Metals are conductors, which can lead to the signal having less power and reduced range, and the signal might spend extra time trying to get through the metal.
 Since Pozyx positioning relies on calculating the time of flight, having the signal spend extra time traveling reduces accuracy \cite{pozyx-UWBObstacles}. 
 \\\\
-If we look at the $z$ coordinate in the test experiment data, it can be seen that $z$ fluctuates a lot more than the other coordinates. 
+If we look at the $z$ coordinate in the test experiment data, it can be seen that $z$ fluctuates a lot more than the $x$ and $y$ coordinate. 
 This can be due to the heights between the anchors were not sufficient enough, and should have been larger.
 \\\\
 During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
@@ -134,7 +134,7 @@ Our conclusion of this experiment is that the precision is satisfactory, but the
 We also need to consider the spikes in the coordinates, such that the user does not jump around on the screen, even though the user might not be moving.
 \\\\
 With this experiment, it would not be possible to make the game 3 dimensional, as the $z$ coordinate fluctuates too much.
-If we later on choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different larger height differences.
+If we later on choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different larger height differences, but as it currently is only a two dimensional game, it is not necessary.
 \\\\
 It also seemed like some tags were not able to send as many data points as others. This was also due to getting errors from some of the tags.
 This is something that should be investigated.
