@@ -6,7 +6,7 @@ The primary goal of the experiment was to test the accuracy, but a secondary goa
 According to research regarding latency in VR \cite{WaltemateThomas2016Tiol} and interactive systems \cite{10.1145/169059.169431} the number of movement errors increase as the latency increases.
 An example of this is when a tag is moved, and the tag first sends a new position after 3 seconds, then the movement error could be high as the user does not know his exact position for these 3 seconds.
 According to experiments with VR, the motor performance and sense of body ownership start to decrease at latencies above 75 ms.\\
-This means that the optimal results from these experiments would indicate that the Pozyx system can send enough position updates which allows the system to operate with a latency of less than 75 ms between their physical movement and the in-game reflection of this movement.
+This means that the optimal results from these experiments would indicate that the Pozyx system can send position updates fast enough which allows the system to operate with a latency of less than 75 ms between their physical movement and the in-game reflection of this movement.
 
 \subsection{Setup}
 The tags were set to transmit with the highest bitrate with the longest preamble length and with the ranging mode set to precise \cite{pozyx-Performance}.\\
@@ -58,8 +58,8 @@ There are more cases where the deviation of a single data point is far away.
 
 \subsubsection{Precision with 3 tag}
 For this part of the experiment, the accuracy was tested with three tags. 
-The tags where positioned at three different x coordinates. 
-140, 180 and 220 were chosen the x coordinates and then moved up the y coordinate 30 each time starting from 0 to 120.
+The tags were positioned at three different x-coordinates. 
+140, 180 and 220 were chosen the x-coordinates and then moved up the y-coordinate 30 cm each time starting from 0 to 120.
 
 \paragraph{Tag 26467}
 The overall average deviation for this tag was 11.2 cm.
@@ -78,8 +78,8 @@ The min and max values for $x$ and $y$ were greater in this than the previous, w
 
 \subsubsection{Precision with 5 tag}
 For this experiment, it was noted how many data points were sent in the 5-second intervals, as well as the average deviation.
-The tags where positioned at five different x coordinates. 
-140, 160, 180, 200 and 220 were chosen the x coordinates and then moved up the y coordinate 20 cm each time starting from 0 to 120.
+The tags were positioned at five different x-coordinates. 
+140, 160, 180, 200 and 220 were chosen the x-coordinates and then moved up the y-coordinate 20 cm each time starting from 0 to 120.
 
 \paragraph{Tag 24622}
 The average deviation for this tag was 8.42 cm and the average amount of data points every 5 seconds was around 4.28 data points.
@@ -116,7 +116,7 @@ Metals are conductors, which can lead to the signal having less power and reduce
 Since Pozyx positioning relies on calculating the time of flight, having the signal spend extra time traveling reduces accuracy \cite{pozyx-UWBObstacles}. 
 \\\\
 If we look at the $z$ coordinate in the test experiment data, it can be seen that $z$ fluctuates a lot more than the $x$ and $y$ coordinate. 
-This can be due to the heights between the anchors were not sufficient enough, and should have been larger.
+This can be due to the height difference between the anchors were not sufficiently large.
 \\\\
 During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
 This could have been an influence on the positing result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
@@ -134,7 +134,7 @@ Our conclusion of this experiment is that the precision is satisfactory, but the
 We also need to consider the spikes in the coordinates, such that the user does not jump around on the screen, even though the user might not be moving.
 \\\\
 With this experiment, it would not be possible to make the game 3 dimensional, as the $z$ coordinate fluctuates too much.
-If we later on choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different larger height differences, but as it currently is only a two dimensional game, it is not necessary.
+If we, later on, choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different larger height differences, but as it currently is only a two-dimensional game, it is not necessary.
 \\\\
 It also seemed like some tags were not able to send as many data points as others. This was also due to getting errors from some of the tags.
 This is something that should be investigated.
