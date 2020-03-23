@@ -77,7 +77,7 @@ The criteria that were considered when evaluating which solution to use were:
     \begin{tabularx}{\textwidth}{|X|X|X|X|}
     \hline
         
-            & \textbf{Pre-existing Unity}    
+            & \textbf{Pre-existing Unity-based}    
             & \textbf{Custom}
             & \textbf{ZeroMQ}  
             \\ \hline
@@ -126,7 +126,7 @@ This model is illustrated in \autoref{fig:osi-layer}, along with approximate map
     \label{fig:osi-layer}
 \end{figure}
 \noindent
-As shown, the relevant layers for the purpose of creating a networking solution though sockets is the third and fourth layers, transport and network.
+As shown, the relevant layers for the purpose of creating a networking solution through sockets is the third and fourth layers, transport and network.
 The network layer is handled by the IPv4 and IPv6 protocols, which will be discussed in \autoref{ipv4-ipv6}, and the transport layer is handled by either TCP or UDP, which is described in \autoref{sec:tcp-udp}.\\
 The reason for the gap between TCP and UDP is to illustrate that it is possible to bypass this layer and use IPv4 or IPv6 directly \cite{socketnetworking}.
 Sockets provide the interface from the upper application layers to the transport layer.
@@ -189,7 +189,7 @@ A UDP server can receive several datagrams on a single UDP socket, each from dif
 
 \subsubsection{Choosing between UDP or TCP}
 Windowed flow control might not be necessary for transactions where both ends agree on the maximum size of a request or a reply \cite{socketnetworking}.
-For this project, only one type of message will be sent - the player location data.
+For this project, the most important type of message is the player location data.
 This message will always be formatted in the same way, and as such, a maximum size can be agreed to mean the flow control aspect of TCP is not needed.
 Another aspect of TDP that is not needed for this project is the automatic retransmission of messages.
 While this can provide reliability, it is of no importance for the game.\\
@@ -203,7 +203,7 @@ Duplicate messages also do not pose much of an issue.
 If the applications were to receive the same location data multiple times, it would not impact the overall functionality of the program, rather just the speed at which the next updates would be received.\\
 UDP has no connection setup or teardown costs.
 UDP only requires two packets to exchange a request and a reply, whereas TDP requires about 10 packets \cite{socketnetworking}, if a new TCP connection is established for each exchange.
-In terms of transaction time, the minimum time for a UDP request-reply is the $round-trip time + server processing time$, and the minimum time for TDP is $2 \times round-trip time + server processing time$ \cite{socketnetworking}.
+In terms of transaction time, the minimum time for a UDP request-reply is the round-trip time $+$ server processing time, and the minimum time for TDP is $2 \times$ round-trip time $+$ server processing time \cite{socketnetworking}.
 \\\\
 Because of the limited scope and uniformity of what is going to be transmitted via the networking solution, a lot of the features included in TCP are unnecessary.
 UDP is slightly faster because of its lack of reliability and other benefits but might require some extra work to implement some of the functionality that is missing when compared to TCP if this were to become necessary.
