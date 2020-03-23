@@ -3,8 +3,8 @@ To determine the accuracy of the Pozyx tags an experiment was conducted.
 The primary goal of the experiment was to test the accuracy, but a secondary goal of the experiment was to determine the frequencies of updates for each tag.
 \\
 \subsection{Purpose}
-According to research regarding latency in VR \cite{WaltemateThomas2016Tiol} and interactive systems \cite{10.1145/169059.169431} the number of movement errors increase as the latency increases.
-An example of this is when a tag is moved, and the tag first sends a new position after 3 seconds, then the movement error could be high as the user does not know his exact position for these 3 seconds.
+According to research regarding latency in VR \cite{WaltemateThomas2016Tiol} and interactive systems \cite{10.1145/169059.169431}, the number of movement errors increase as the latency increases.
+An example of this is when a tag is moved, and the tag first sends a new position after 3 seconds, then the movement error could be high as the user does not know their exact position for these 3 seconds.
 According to experiments with VR, the motor performance and sense of body ownership start to decrease at latencies above 75 ms.\\
 This means that the optimal results from these experiments would indicate that the Pozyx system can send position updates fast enough which allows the system to operate with a latency of less than 75 ms between their physical movement and the in-game reflection of this movement.
 
@@ -38,17 +38,18 @@ This whiteboard was moved intermittently to act as respectively fields 1, 2, 3, 
 \end{figure}
 \noindent
 The procedure for the experiment was based on this whiteboard.
-The whiteboard would be placed in one of the fields defined in \autoref{fig:experiment-setup}, and the tags would be placed in certain positions on the board and record the accuracy with the position was reported.
+The whiteboard would be placed in one of the fields defined in \autoref{fig:experiment-setup}, and the tags would be placed in certain positions on the board and record the accuracy with which the position was reported.
 The tags would be placed in a position, remain there for five seconds, then be moved to the next position over the next five seconds and remain in this position for five seconds before being moved again.
-This procedure was repeated until a satisfactory number of measurements had been made, this amount was usually 5 measurements.
-Once one field had been tested, the whiteboard was moved to the next field and repeated the setup.
+This procedure was repeated until a satisfactory number of measurements had been made.
+This amount was usually 5 measurements.
+Once one field had been tested, the whiteboard was moved to the next field and the process repeated.
 
 \subsection{Analyzing the data}
 In \autoref{app:experiment} the data for the experiment can be seen.
-For each test the average grid was calculated, and found the min and max values for \texttt{x}, \texttt{y} and \texttt{z}.
+For each test the average grid was calculated, and the minimum and maximum values for $x$, $y$ and $z$ were found.
 Likewise, the average deviation was calculated from the actual grid to the average grid to get a better view of the deviation.
 The min and max values were noted, as they may be useful for future analysis.
-The \texttt{z} values were very inconsistent throughout the entire test, and due to this and the z-axis being largely irrelevant to the game, we will not focus on analyzing them.
+The $z$ values were very inconsistent throughout the entire test, and due to this and the z-axis being largely irrelevant to the game, we will not focus on analyzing them.
 
 \subsubsection{Precision with 1 tag} 
 The average of all deviations is 10.54 cm.
@@ -63,7 +64,7 @@ The tags were positioned at three different x-coordinates.
 
 \paragraph{Tag 26467}
 The overall average deviation for this tag was 11.2 cm.
-There was, however, a large deviation at \texttt{140, 90} and \texttt{(140, 120)} with 20.63 and 20.46 cm.
+There was, however, a large deviation at \texttt{140, 90} and \texttt{(140, 120)} with 20.63 cm and 20.46 cm, respectively.
 The min and max values for $x$ and $y$ were good, and there were never any larger spikes from the actual data point than around 25 cm.
 
 \paragraph{Tag 26895}
@@ -88,7 +89,7 @@ The min and max values of $x$ and $y$ were lower than 25 cm.
 
 \paragraph{Tag 26467}
 For this tag, the average deviation was 11.20 cm and the average amount of data points was 3.28.
-At \texttt{140, 40} there was only one update, and at \texttt{140, 80} there were only 2 updates every 5 seconds.
+At \texttt{140, 40} there was only one update, and at \texttt{(140, 80)} there were only 2 updates every 5 seconds.
 The max \texttt{x} value was around 30 cm away from the actual data point, but otherwise, they did not spike larger than that.
 
 \paragraph{Tag 26895}
@@ -103,7 +104,7 @@ Around \texttt{(220, 100)} the min $y$ value was 51.3 cm, which is quite far awa
 There were a few instances of large gaps between min and max values and the actual grid.
 
 \paragraph{Tag 27001}
-The average deviation of this tag is 9.61 and the average amount of data points every 5 seconds was 5.57.
+The average deviation of this tag is 9.61cm and the average amount of data points every 5 seconds was 5.57.
 This was also quite consistent with the average deviation. 
 The max values for $x$ and $y$ were also quite consistent and there were no large deviations.
 The min and max deviation of the $x$ coordinate were quite accurate with the largest distance of around 20 cm, but mostly less than 10 cm.
@@ -120,7 +121,7 @@ The max $z$ coordinate for multiple experiments is often more than 3 meters and 
 This could be due to the height difference between the anchors not being sufficiently large.
 \\\\
 During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
-This could have been an influence on the positing result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
+This could have been an influence on the positioning result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
 \\\\
 While the experiment was running the tags could throw errors instead of giving a position if something went wrong.
 Mainly during the multi-tag tests, some tags would report back with errors such as unable to get firmware version, flash memory corrupted or an error message saying there was no error.
@@ -136,7 +137,8 @@ We also need to consider the spikes in the coordinates, such that the user does 
 \\\\
 The results of this experiment shows that a three dimensional game is not viable with the errors that we had on the $z$ coordinate. 
 This is due to the height difference between the anchors only being 20 cm.
-If we, later on, choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different larger height differences, but as it currently is only a two-dimensional game, it is not necessary.
+If we, later on, choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different, larger height differences, but as it currently is only a two-dimensional game it is not necessary.
 \\\\
-It also seemed like some tags were not able to send as many data points as others. This was also due to getting errors from some of the tags.
+It also seemed like some tags were not able to send as many data points as others.
+This was also due to getting errors from some of the tags.
 This is something that should be investigated.
