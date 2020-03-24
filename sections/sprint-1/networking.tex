@@ -263,3 +263,49 @@ The first of the four numbers represent the address type.
 IPv6 addresses are usually written as eight 16-bit hexadecimal numbers \cite{socketnetworking}.
 The higher-order bits of the 128-address imply the type.
 For this project, this should not have a significant impact, and either can be used.
+
+
+\subsection{Sending data}
+As we need to send data over the network, we need to define the format that it needs to be sent as.
+\\
+The network format for the field anchor, player position and goal position is \texttt{0xttssiixxxxyyyy}, where \texttt{t} is Type, \texttt{s} is timestamp, \texttt{i} is ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position 
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-3)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.353)\end{tabular} \\ \hline
+    2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                               & 4 hexadecimal                                                 & 4 hexadecimal                                                 \\ \hline
+    \end{tabular}
+    \caption{Field anchor position format.}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-4)\\ 0 = Ball\\ 1-4 = Player\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.353)\end{tabular} \\ \hline
+    2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                                                    & 4 hexadecimal                                                 & 4 hexadecimal                                                 \\ \hline
+    \end{tabular}
+    \caption{Player position format.}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM ID (i)\\ 0-1\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.353)\end{tabular} \\ \hline
+2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                             & 4 hexadecimal                                                 & 4 hexadecimal                                                 \\ \hline
+\end{tabular}
+\caption{Goal position format}
+\end{table}
+\noindent
+The goals scored has a different format of \texttt{0xttss0011}, where \texttt{t} is type, \texttt{s} is timestamp, \texttt{00} is the score of team 0 and \texttt{11} is the score of team 1. 
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM0SCORE (0)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM1SCORE (1)\\ (0-100)\end{tabular} \\ \hline
+    2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                                    & 2 hexadecimal                                                    \\ \hline
+    \end{tabular}
+\caption{Goals scored format}
+\end{table}
