@@ -265,47 +265,60 @@ The higher-order bits of the 128-address imply the type.
 For this project, this should not have a significant impact, and either can be used.
 
 
-\subsection{Sending data}
-As we need to send data over the network, we need to define the format that it needs to be sent as.
-\\
-The network format for the field anchor, player position and goal position is \texttt{0xttssiixxxxyyyy}, where \texttt{t} is Type, \texttt{s} is timestamp, \texttt{i} is ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position 
+\subsection{Format of data}
+As we need to send data over the network, it is required to define the format it is sent as.
+The network format for the field anchor, player position and goal position is \texttt{0xyyyyxxxxiisstt}, where \texttt{t} is the type, \texttt{s} is the timestamp, \texttt{i} is the ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position.
+These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:player-format}.
+These are almost identical, as the same information is required.
+The only difference between them is the type, and the context of the IDs.
+The type is at the end of the hexadecimal, so that it is easy to bitshift, and then switch on which type it is.
+After the type the timestamp is placed, which is used to detect outdated data.
+\\\\
+We decided to use 2 and 4 hexadecimal, so that it is in byte format and hereby straightforward to work with in \texttt{C\#}.
+Given the highest number that can be in two bytes are $2^{16} - 1$, the maximum number for the \texttt{x} and \texttt{y} positions are 65.535. 
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|l|l|l|l|}
     \hline
-    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-3)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.353)\end{tabular} \\ \hline
-    2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                               & 4 hexadecimal                                                 & 4 hexadecimal                                                 \\ \hline
+    \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-3)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (0)\end{tabular} \\ \hline
+    4 hexadecimal                                                 & 4 hexadecimal                                                 & 2 hexadecimal                                          & 2 hexadecimal                                                 & 2 hexadecimal                                        \\ \hline
     \end{tabular}
-    \caption{Field anchor position format.}
+    \caption{Format for field anchor position}
+    \label{Tab:anchor-format}
 \end{table}
 
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|l|l|l|l|}
     \hline
-    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-4)\\ 0 = Ball\\ 1-4 = Player\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.353)\end{tabular} \\ \hline
-    2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                                                    & 4 hexadecimal                                                 & 4 hexadecimal                                                 \\ \hline
+    \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID \\ (0-4)\\ 0 = Ball\\ 1-4 = Player\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (1)\end{tabular} \\ \hline
+    4 hexadecimal                                                 & 4 hexadecimal                                                 & 2 hexadecimal                                                                 & 2 hexadecimal                                                 & 2 hexadecimal                                        \\ \hline
     \end{tabular}
-    \caption{Player position format.}
+    \caption{Format for player positions.}
+    \label{Tab:player-format}
 \end{table}
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM ID (i)\\ 0-1\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.353)\end{tabular} \\ \hline
-2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                             & 4 hexadecimal                                                 & 4 hexadecimal                                                 \\ \hline
-\end{tabular}
-\caption{Goal position format}
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM ID (i)\\ (0-1)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (2)\end{tabular} \\ \hline
+    4 hexadecimal                                                 & 4 hexadecimal                                                 & 2 hexadecimal                                               & 2 hexadecimal                                                 & 2 hexadecimal                                        \\ \hline
+    \end{tabular}
+    \caption{Format for the goal positions.}
+    \label{Tab:goal-position-format}
 \end{table}
 \noindent
-The goals scored has a different format of \texttt{0xttss0011}, where \texttt{t} is type, \texttt{s} is timestamp, \texttt{00} is the score of team 0 and \texttt{11} is the score of team 1. 
+The goals scored has a different format of \texttt{0x1100sstt}, where \texttt{t} is type, \texttt{s} is timestamp, \texttt{00} is the score of team 0 and \texttt{11} is the score of team 1. 
+This format can be seen on \autoref{Tab:goals-scored-format}.
+
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|l|l|l|}
     \hline
-    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 0\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ 0-255\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM0SCORE (0)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM1SCORE (1)\\ (0-100)\end{tabular} \\ \hline
-    2 hexadecimal                                        & 2 hexadecimal                                                 & 2 hexadecimal                                                    & 2 hexadecimal                                                    \\ \hline
+    \begin{tabular}[c]{@{}l@{}}TEAM1SCORE (1)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM0SCORE (0)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (3)\end{tabular} \\ \hline
+    2 hexadecimal                                                    & 2 hexadecimal                                                    & 2 hexadecimal                                                   & 2 hexadecimal                                        \\ \hline
     \end{tabular}
-\caption{Goals scored format}
+    \caption{Format for goals scored.}
+    \label{Tab:goals-scored-format}
 \end{table}
