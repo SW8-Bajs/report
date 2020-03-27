@@ -1,0 +1,56 @@
+\section{UDP implementation}
+In this section, we will delve into the implementation details of the UDP client and host.
+As described in \autoref{sec:sprint2-deploymentdia}, the system will consist of a host computer which receives positional data from Pozyx and transmits it to the players using IP multicasting.
+
+\subsubsection{Host}
+The main functionality of the host is to transmit positional data from the Pozyx tags to the clients via multicasting.
+The first setup step of this is to connect the host to an IP address on the network dedicated to multicasting, as described in \autoref{sec:accessonnetwork}.
+For the time being, this is hardcoded to be \texttt{224.3.29.71:10000}.
+
+After this initial setup, the host will continuously run through a loop where it updates the ball position, player positions and increments the timestamp.
+
+Each update consists of three steps: Getting the positional data from Pozyx, transforming it to fit the format described in \autoref{subsec:dataform} and transmitting the data to the clients, as seen on \autoref{lst:updateballposition}.
+
+\begin{lstlisting}[caption={Updating ball position},language=Python,label={lst:updateballposition}]
+def update_ball_position(self):
+    """Broadcasts the updated ball position"""
+    ball_tag = self.setup.ball_tag
+    position = self.multi_tag_positioning.get_position(ball_tag)
+    message = self.formatter.format_player_position(self.time_stamp, 0, position.x, position.y)
+    self.multicast_sender.send(message)
+\end{lstlisting}
+
+
+\subsubsection{Client}
+Like the host, the client joins the multicast group on the specified IP.
+While the host continuously sends positional data, the client's job is to receive and react to the data that is being sent to the multicast.
+This is done by creating an asynchronous callback, which ensures that the data receiver is called whenever data is being transmitted, which is seen on the first three lines of \autoref{lst:receivedata}.
+Once the \texttt{Receive} function is called, it saves the received bytes to an array and starts listening for new data before it starts working with the data.
+This was done to ensure that new messages would not be blocked if it takes too long to handle the data.
+
+In the current version, the receiver will simply log the data to the Unity console, but in future versions, it will be able to call the appropriate functions based on the type of data it has received.
+
+
+\begin{lstlisting}[caption={Receiving data from host},language=CSharp,label={lst:receivedata}]
+public void StartListening()
+{
+    uClient.BeginReceive(new AsyncCallback(Receive), null);
+}
+
+public void Receive(IAsyncResult res)
+{
+    // Represents a network endpoint as IP address and port number.
+    IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, portNumber);
+
+    // Receives the message as an array of bytes, then ends communication with the remote endpoint.
+    Byte[] receiveBytes = uClient.EndReceive(res, ref RemoteIpEndPoint);
+
+    // Restarts communication again to receive a new datagram.
+    uClient.BeginReceive(new AsyncCallback(Receive), null);
+
+    // The bytes that were received are converted to a string, which is written to the unity debug log.
+    string returnData = System.Text.Encoding.ASCII.GetString(receiveBytes);
+    datagramMessage = returnData;
+    datagramSender = "Adress: " + RemoteIpEndPoint.Address.ToString() + ", port: " + RemoteIpEndPoint.Port.ToString();
+}
+\end{lstlisting}
