@@ -20,7 +20,6 @@ def update_ball_position(self):
     self.multicast_sender.send(message)
 \end{lstlisting}
 
-
 \subsubsection{Client}
 Like the host, the client joins the multicast group on the specified IP.
 While the host continuously sends positional data, the client's job is to receive and react to the data that is being sent to the multicast.
@@ -30,8 +29,7 @@ This was done to ensure that new messages would not be blocked if it takes too l
 
 In the current version, the receiver will simply log the data to the Unity console, but in future versions, it will be able to call the appropriate functions based on the type of data it has received.
 
-
-\begin{lstlisting}[caption={Receiving data from host},language=CSharp,label={lst:receivedata}]
+\begin{lstlisting}[caption={Receiving data from host},language=C,label={lst:receivedata}]
 public void StartListening()
 {
     uClient.BeginReceive(new AsyncCallback(Receive), null);
