@@ -270,7 +270,7 @@ As it is necessary to send data over the network, the format of the data must be
 The network format for the field anchor, player position and goal position is \texttt{0xyyyyxxxxiisstt}, where \texttt{t} is the type, \texttt{s} is the timestamp, \texttt{i} is the ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position.
 These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:player-format}.
 The data sent is almost identical, as the same information is required, the only difference between them is the type and the context of the IDs.
-The type is at the end of the hexadecimal, so that it is easy to bitshift, and then switch on which type it is.
+The type is at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
 After the type the timestamp is placed, which is used to detect outdated data.
 \\\\
 It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variables in \texttt{C\#} and hereby easy to type cast.
