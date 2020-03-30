@@ -272,7 +272,7 @@ The network format for the field anchor, player position and goal position is \t
 These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:goal-position-format}.
 The data sent is almost identical, as the same information is required, the only difference between them is the type and the context of the IDs.
 The \texttt{x} and \texttt{y} position is the location of the player or anchor.
-For \autoref{Tab:goal-position-format} the \texttt{x} and \texttt{y} position is the center of the goal, where the size of the goal is set in unity.
+For \autoref{Tab:goal-position-format} the \texttt{x} and \texttt{y} position is the center of the goal, where the size of the goal is set to have a length equal to 20\% of the shortest side of the playing field.
 The IDs for \autoref{Tab:anchor-format} is for each anchor.
 For \autoref{Tab:player-format} the ID 0 represents the ball and 1-4 represents a player and for \autoref{Tab:goal-position-format} the ID identifies the team.
 The type is at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
