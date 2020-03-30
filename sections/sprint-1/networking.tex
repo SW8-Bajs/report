@@ -280,7 +280,6 @@ After the type the timestamp is placed, which is used to detect outdated data.
 The timestamp is an integer that represents time from 0-255 and when it hits 255 it loops to 0 again as the newest value.
 When implementing this, it is required to consider if some packages are not received.
 A solution to this could be that 0 to 20 is considered as newer timestamps than 235 to 255 as it is very unlikely that 20 packages are not receive 20 times in a row.
-This is however not a guarantee.
 \\\\
 It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variable types in \texttt{C\#} and hereby easy to type cast.
 Given the highest number that can be in two bytes is $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions is 65.535.
