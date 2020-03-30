@@ -278,8 +278,8 @@ For \autoref{Tab:player-format} the ID 0 represents the ball and 1-4 represents 
 The type is at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
 After the type the timestamp is placed, which is used to detect outdated data.
 The timestamp is an integer that represents time from 0-255 and when it hits 255 it loops to 0 again as the newest value.
-When implementing this, it is required to consider if some packages are not received.
-A solution to this could be that 0 to 20 is considered as newer timestamps than 235 to 255 as it is very unlikely that 20 packages are not receive 20 times in a row.
+The downside to this approach is since UDP does not guarantee delivery of messages, it may not go straight from 255 to 0 every time.
+To counter this, 0 to 20 is considered as newer timestamps than 235 to 255 so that the system is allowed to miss up to 20 messages near the end, to ensure that it does not end up being locked until the values reach the high range again.
 \\\\
 It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variable types in \texttt{C\#} and hereby easy to type cast.
 Given the highest number that can be in two bytes is $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions is 65.535.
