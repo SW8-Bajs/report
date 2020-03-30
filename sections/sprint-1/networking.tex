@@ -282,8 +282,8 @@ When implementing this, it is required to consider if some packages are not rece
 A solution to this could be that 0 to 20 is considered as newer timestamps than 235 to 255 as it is very unlikely that 20 packages are not receive 20 times in a row.
 This is however not a guarantee.
 \\\\
-It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variables in \texttt{C\#} and hereby easy to type cast.
-Given the highest number that can be in two bytes are $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions are 65.535.
+It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variable types in \texttt{C\#} and hereby easy to type cast.
+Given the highest number that can be in two bytes is $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions is 65.535.
 
 \begin{table}[h!]
     \centering
