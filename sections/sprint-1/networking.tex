@@ -155,11 +155,10 @@ Both of these protocols use a network-layer protocol known as IP, which can be e
 \subsubsection{TCP}
 TCP provides connections between clients and servers.
 A TCP client establishes a connection with a given server, then it receives or sends data to that server across the network and closes the connection.
-TCP provides reliability.
 When TCP sends data, it requires an acknowledgment from the receiver that the data has been received.
 If it does not receive such an acknowledgment, TCP automatically retransmits the data and then waits for an acknowledgment for the retransmission.
 After a certain number of retransmissions, TCP gives up.\\
-Based on implementation TCP will typically attempt to send data for 4-10 minutes.
+Based on the implementation TCP will typically attempt to send data for 4-10 minutes.
 This does not guarantee that the receiver will receive the data, but the guarantee is that it will deliver the data if possible, or notify the user that the connection has been broken without an acknowledgment from the receiver.
 To know how long to wait for acknowledgments, TCP contains algorithms to estimate the \textit{round-trip time} between the client and server dynamically.
 It also performs these estimations continuously, as the result can be affected by variations in the network traffic.
@@ -168,7 +167,7 @@ For example, if an application writes 2048 bytes to a TCP socket, it would be se
 If they arrive in the wrong order, the receiving TCP reorders the segments based on the sequence numbers before passing the data to the receiving application.
 If the receiver receives duplicate data this can also be detected through the sequence numbers, and the duplicate data can be deleted.\\
 TCP provides flow control by telling clients how many bytes of data can be accepted at any time, known as the window.
-The size of the window decreases as data is received, and decreases as the receiver reads data from its buffer.
+The size of the window decreases as data is received, and increases as the receiver reads data from its buffer.
 
 \subsubsection{UDP}
 UDP is a simple transport-layer protocol \cite{socketnetworking}.
