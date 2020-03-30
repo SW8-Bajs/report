@@ -269,10 +269,18 @@ For this project, this should not have a significant impact, and either can be u
 \subsection{Format of data}\label{subsec:data-format}
 As it is necessary to send data over the network, the format of the data must be decided upon.
 The network format for the field anchor, player position and goal position is \texttt{0xyyyyxxxxiisstt}, where \texttt{t} is the type, \texttt{s} is the timestamp, \texttt{i} is the ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position.
-These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:player-format}.
+These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:goal-position-format}.
 The data sent is almost identical, as the same information is required, the only difference between them is the type and the context of the IDs.
+The \texttt{x} and \texttt{y} position is the location of the player or anchor.
+For \autoref{Tab:goal-position-format} the \texttt{x} and \texttt{y} position is the center of the goal, where the size of the goal is set in unity.
+The IDs for \autoref{Tab:anchor-format} is for each anchor.
+For \autoref{Tab:player-format} the ID 0 is the ball, where 1-4 is a player and for \autoref{Tab:goal-position-format} the ID identifies what team it is..
 The type is at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
 After the type the timestamp is placed, which is used to detect outdated data.
+The timestamp is an integer that represents time from 0-255 and when it hits 255 it loops to 0 again as the newest value.
+When implementing this, it is required to consider if some packages are not received.
+A solution to this could be that 0 to 20 is considered as newer timestamps than 235 to 255 as it is very unlikely that 20 packages are not receive 20 times in a row.
+This is however not a guarantee.
 \\\\
 It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variables in \texttt{C\#} and hereby easy to type cast.
 Given the highest number that can be in two bytes are $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions are 65.535.
@@ -292,7 +300,7 @@ Given the highest number that can be in two bytes are $2^{16} - 1$, the maximum 
     \centering
     \begin{tabular}{|l|l|l|l|l|}
         \hline
-        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID \\ (0-4)\\ 0 = Ball\\ 1-4 = Player\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (1)\end{tabular} \\ \hline
+        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID \\ (0-4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (1)\end{tabular} \\ \hline
         16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
     \end{tabular}
     \caption{Format for player positions.}
