@@ -16,7 +16,7 @@ The advantage of using a library that is built for Unity such as UNet or Photon 
 UNet provides a higher level of abstraction with functions to control the networked state of the game, send and receive messages between server and clients and much more.\\
 UNet and Photon also allow for "client-hosted" games that act like lobbies.
 So any client can host a game that other clients can connect to.
-This allows the clients to send and receive data between each other \cite{unityunet}. 
+This allows the clients to send and receive data between each other \cite{unityunet}.
 A disadvantage of these libraries is that they are generalized and thus would not be able to achieve the same efficiency as a custom solution tailored to the specific needs of the game.
 \\\\
 ZeroMQ is also a possible solution.
@@ -42,9 +42,9 @@ These issues are mostly applicable to general solutions that need to accommodate
 However, for this project, not all of these issues are relevant.
 In terms of problems to overcome, this project should only be concerned with handling dynamic components, handling lost messages, routing messages and handling network errors.\\
 If a player closes the game application it can lead to dynamic component issues.
-A message can be lost during the playing of the game. 
+A message can be lost during the playing of the game.
 Messages should be delivered to all players to ensure that they all have the same information.
-Finally, a player might suddenly disconnect from the network. 
+Finally, a player might suddenly disconnect from the network.
 \\\\
 The alternative to making use of a pre-existing solution is creating a custom solution.
 A custom solution entails a need to establish a familiarity with the required knowledge to construct such a solution.
@@ -56,52 +56,52 @@ There are certain pros and cons associated with both approaches of using either 
 The criteria that were considered when evaluating which solution to use were:
 \begin{itemize}
     \item Customizability
-        \begin{itemize}
-            \item How much we can customize the solution to our specific use case. If the customizability is low the project needs to be built around the networking solution, whereas if the customizability is high the networking solution can be customized to our needs.
-        \end{itemize}
+          \begin{itemize}
+              \item How much we can customize the solution to our specific use case. If the customizability is low the project needs to be built around the networking solution, whereas if the customizability is high the networking solution can be customized to our needs.
+          \end{itemize}
     \item Requirements
-        \begin{itemize}
-            \item How much knowledge about the subject is needed to use the solution.
-        \end{itemize}
+          \begin{itemize}
+              \item How much knowledge about the subject is needed to use the solution.
+          \end{itemize}
     \item Optimization
-        \begin{itemize}
-            \item How much optimization are we able to do ourselves if we use this solution.
-        \end{itemize}
+          \begin{itemize}
+              \item How much optimization are we able to do ourselves if we use this solution.
+          \end{itemize}
     \item Learning reward
-        \begin{itemize}
-            \item How much will we learn if we use this solution.
-        \end{itemize}
+          \begin{itemize}
+              \item How much will we learn if we use this solution.
+          \end{itemize}
 \end{itemize}
 
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{|X|X|X|X|}
-    \hline
-        
-            & \textbf{Pre-existing Unity-based}    
-            & \textbf{Custom}
-            & \textbf{ZeroMQ}  
-            \\ \hline
-        \textbf{Customizability} 
-            & Consists of a set of pre-defined functionalities            
-            & Can have any functionality implemented                                            
-            & Has pre-defined functionalities, but these are lower level than a pre-existing solution 
-            \\ \hline
-        \textbf{Requirements}    
-            & Familiarity with the solution                               
-            & Familiarity with the knowledge required to implement a usable solution            
-            & Needs familiarity with a mix of pre-existing and custom solutions                     
-            \\ \hline
-        \textbf{Optimization}    
-            & Lower-level details are obscured, optimized for general use 
-            & Lower-level details are freely available, can be optimized for a specific purpose 
-            & Focuses on performance, but the solution is general                                     
-            \\ \hline
+        \hline
+
+         & \textbf{Pre-existing Unity-based}
+         & \textbf{Custom}
+         & \textbf{ZeroMQ}
+        \\ \hline
+        \textbf{Customizability}
+         & Consists of a set of pre-defined functionalities
+         & Can have any functionality implemented
+         & Has pre-defined functionalities, but these are lower level than a pre-existing solution
+        \\ \hline
+        \textbf{Requirements}
+         & Familiarity with the solution
+         & Familiarity with the knowledge required to implement a usable solution
+         & Needs familiarity with a mix of pre-existing and custom solutions
+        \\ \hline
+        \textbf{Optimization}
+         & Lower-level details are obscured, optimized for general use
+         & Lower-level details are freely available, can be optimized for a specific purpose
+         & Focuses on performance, but the solution is general
+        \\ \hline
         \textbf{Learning reward}
-            & Most of it is already implemented, so the learning reward is low
-            & Learning reward is high because we have to implement everything ourselves
-            & Have to customize some of it ourselves, so we will have to get familiar with the subject
-            \\ \hline
-        \end{tabularx}
+         & Most of it is already implemented, so the learning reward is low
+         & Learning reward is high because we have to implement everything ourselves
+         & Have to customize some of it ourselves, so we will have to get familiar with the subject
+        \\ \hline
+    \end{tabularx}
     \caption{A comparison of the pros and cons of the possible solutions}
     \label{tab:networkprosandcons}
 \end{table}
@@ -217,7 +217,7 @@ UDP is a connectionless, unreliable datagram protocol.
 \autoref{fig:udp-client-server} shows an illustration of the client-server architecture using UDP.
 The client-side creates a socket and sends a request to the server as illustrated.\\
 Once the request has been sent the client transitions to a state of awaiting a reply.
-Once the reply is received the client can send another request, or the socket can be closed. 
+Once the reply is received the client can send another request, or the socket can be closed.
 The server side also creates a socket, and then binds the socket to a port.
 Once bound, the server can await a request from the client.
 When a request is received, the server processes it, and then sends it to the client after which it can return to awaiting requests.
@@ -264,3 +264,69 @@ The first of the four numbers represent the address type.
 IPv6 addresses are usually written as eight 16-bit hexadecimal numbers \cite{socketnetworking}.
 The higher-order bits of the 128-address imply the type.
 For this project, this should not have a significant impact, and either can be used.
+
+
+\subsection{Format of data}\label{subsec:data-format}
+As it is necessary to send data over the network, the format of the data must be decided upon.
+The network format for the field anchor, player position and goal position is \texttt{0xyyyyxxxxiisstt}, where \texttt{t} is the type, \texttt{s} is the timestamp, \texttt{i} is the ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position.
+These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:goal-position-format}.
+The data sent is almost identical, as the same information is required, the only difference between them is the type and the context of the IDs.
+The \texttt{x} and \texttt{y} position is the location of the player or anchor.
+For \autoref{Tab:goal-position-format} the \texttt{x} and \texttt{y} position is the center of the goal, where the size of the goal is set to have a length equal to 20\% of the shortest side of the playing field.
+The IDs for \autoref{Tab:anchor-format} are for each anchor.
+For \autoref{Tab:player-format} the ID 0 represents the ball and 1-4 represents a player and for \autoref{Tab:goal-position-format} the ID identifies the team.
+The type is at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
+After the type the timestamp is placed, which is used to detect outdated data.
+The timestamp is an integer value ranging between 0 and 255 such that when it hits 255 it resets to 0 to be able to continuously send timestamps, regardless of game length.
+The downside to this approach is since UDP does not guarantee delivery of messages, it may not go straight from 255 to 0 every time.
+To counter this, 0 to 20 is considered as newer timestamps than 235 to 255 so that the system is allowed to miss up to 20 messages near the end, to ensure that it does not end up being locked until the values reach the high range again.
+\\\\
+It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variable types in \texttt{C\#} and hereby easy to type cast.
+Given the highest number that can be in two bytes is $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions is 65.535.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-3)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (0)\end{tabular} \\ \hline
+        16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
+    \end{tabular}
+    \caption{Format for field anchor position}
+    \label{Tab:anchor-format}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID \\ (0-4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (1)\end{tabular} \\ \hline
+        16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
+    \end{tabular}
+    \caption{Format for player positions.}
+    \label{Tab:player-format}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM ID (i)\\ (0-1)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (2)\end{tabular} \\ \hline
+        16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
+    \end{tabular}
+    \caption{Format for the goal positions.}
+    \label{Tab:goal-position-format}
+\end{table}
+\noindent
+The goals scored has a different format of \texttt{0x1100sstt}, where \texttt{t} is type, \texttt{s} is timestamp, \texttt{00} is the score of team 0 and \texttt{11} is the score of team 1.
+This format can be seen on \autoref{Tab:goals-scored-format}.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \begin{tabular}[c]{@{}l@{}}TEAM1SCORE (1)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM0SCORE (0)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (3)\end{tabular} \\ \hline
+        8 bits                     & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
+    \end{tabular}
+    \caption{Format for goals scored.}
+    \label{Tab:goals-scored-format}
+\end{table}
