@@ -25,7 +25,6 @@ While the host continuously sends positional data, the client's job is to receiv
 This is done by creating an asynchronous callback, which ensures that the data receiver is called whenever data is being transmitted, which is seen on the first three lines of \autoref{lst:receivedata}.
 Once the \texttt{Receive} function is called, it saves the received bytes to an array and starts listening for new data before it starts working with the data.
 This was done to ensure that new messages would not be blocked if it takes too long to handle the data.
-
 In the current version, the receiver will simply log the data to the Unity console, but in future versions, it will be able to call the appropriate functions based on the type of data it has received.
 
 \begin{lstlisting}[caption={Receiving data from host},language=C,label={lst:receivedata}]
@@ -48,6 +47,6 @@ public void Receive(IAsyncResult res)
     // The bytes that were received are converted to a string, which is written to the unity debug log.
     string returnData = System.Text.Encoding.ASCII.GetString(receiveBytes);
     datagramMessage = returnData;
-    datagramSender = "Adress: " + RemoteIpEndPoint.Address.ToString() + ", port: " + RemoteIpEndPoint.Port.ToString();
+    datagramSender = "Address: " + RemoteIpEndPoint.Address.ToString() + ", port: " + RemoteIpEndPoint.Port.ToString();
 }
 \end{lstlisting}
