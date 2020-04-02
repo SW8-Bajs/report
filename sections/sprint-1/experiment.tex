@@ -47,15 +47,28 @@ Once one field had been tested, the whiteboard was moved to the next field and t
 \subsection{Analyzing the data}
 In \autoref{app:experiment} the data for the experiment can be seen.
 For each test the average grid was calculated, and the minimum and maximum values for $x$, $y$ and $z$ were found.
-Likewise, the average deviation was calculated from the actual grid to the average grid to get a better view of the deviation.
 The min and max values were noted, as they may be useful for future analysis.
 The $z$ values were very inconsistent throughout the entire test, and due to this and the z-axis being largely irrelevant to the game, we will not focus on analyzing them.
+Because it was decided to only calculate the deviance between the actual position and the measured position in the xy-plane.
 
 \subsubsection{Precision with 1 tag} 
-The average of all deviations is 10.54 cm.
-There were spikes where the max and min values spiked a lot.
-For \texttt{(30, 60)} the minimum $x$ value was -33.3, which is a deviation of around 60 cm and for \texttt{(120, 0)} the minimum $y$ value was -54.5 cm, which is also 54.5 cm away from the actual data point.
-There are more cases where the deviation of a single data point is far away. 
+When testing with only one tag the average of all deviations is 15.20 cm.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{1tagdiagram.PNG}
+    \caption{A boxplot showing the dispersion of measured positions with 1 tag}
+    \label{fig:1tagdiagram}
+\end{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{1tagdiagram.PNG}
+\caption{The boxplot showing the }
+As can be seen on \ref{fig:1tagdiagram} some measurements can be quite far off the actual position. 
+Interestingly it is the positions closest to x-axis that is the most inaccurate.
+The measurement with the highest deviance was recorded when the tag was in position \texttt{(0,300)} were the measured position was 1.3 meters off.
+But even then the average deviance of all the measurements from that position was only 36.5 cm.
+The highest average deviance of all the positions was 39.5 cm in position \texttt{(0,600)}
+When running with one tag the average amount of measurements per position was 12.368 per second.
+ 
 
 \subsubsection{Precision with 3 tag}
 For this part of the experiment, the accuracy was tested with three tags. 
