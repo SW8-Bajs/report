@@ -155,6 +155,7 @@ Both of these protocols use a network-layer protocol known as IP, which can be e
 \subsubsection{TCP}
 TCP provides connections between clients and servers.
 A TCP client establishes a connection with a given server, then it receives or sends data to that server across the network and closes the connection.
+TCP provide reliability by making sure that every package that is sent is recieved by the reciever.
 When TCP sends data, it requires an acknowledgment from the receiver that the data has been received.
 If it does not receive such an acknowledgment, TCP automatically retransmits the data and then waits for an acknowledgment for the retransmission.
 After a certain number of retransmissions, TCP gives up.\\
