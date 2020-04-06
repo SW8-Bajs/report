@@ -1,0 +1,59 @@
+\section{Test plan}
+\label{app:test-plan}
+\subsection{Documentation}
+All functions should be documented. 
+This is done by writing comments in the code following the standards of the language.
+\\\\
+For C\#: 
+\\
+\url{https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments}
+\\\\
+For Python:
+\\
+\url{https://www.geeksforgeeks.org/python-docstrings/}
+\\\\
+These comments should explain what the parameters of the function are and a short summary of what the function does.
+\\\\
+If the function that is being implemented deals with more complex concepts, additional comments should be written in the code to explain what is happening in the function.
+
+\subsection{Testing}
+\subsubsection{What to test}
+All code that can influence the user's experience should be tested. 
+This means that every function that would influence the program negatively if it had an incorrect calculation should be tested to try to avoid this.
+\\
+All public functions should always be tested.
+
+\subsubsection{How to test}
+
+\begin{itemize}
+    \item Unit tests
+        \begin{itemize}
+            \item Functions are tested in isolation.
+            \item If the function needs data from outside the function it should be manually generated using mocks.
+            \item \href{http://softwaretestingfundamentals.com/unit-testing/}{More information about unit testing}
+        \end{itemize}
+    \item Integration tests
+        \begin{itemize}
+            \item Testing if different modules integrate correctly.
+            \item An example of this is when we are fetching data from the python server into the C\# client.
+            \item \href{http://softwaretestingfundamentals.com/integration-testing/}{More information about integration testing}
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Unit testing in unity}
+There are two ways of running unit tests in Unity: play mode and editor mode. 
+Play mode requires the framework to load the scenes before testing code while editor mode can test the scripts in the project without loading the scenes. 
+When the scenes are loaded in play mode, the objects are instantiated with the predefined data in the scene.
+\\ 
+Since this makes it more difficult to control the state of the program, the focus will be on testing the functions isolated in editor mode. 
+This has the consequence that some code that utilizes the Unity API and functions on presentational objects in Unity can not be tested without using the play mode.
+\\
+To make it easier to unit test your code you should try to separate logic that depends on Unity features and logic that does not into different functions.
+
+
+\subsubsection{How much to test}
+100\% code coverage is not necessary, but if there are no unit tests for a part of the system it is not enough. 
+The focus should be on the quality of tests rather than the number of tests.
+\\
+All functionality in a function that can affect the output of the function should be tested.
+If a bug is fixed and it took more than a couple of minutes to fix it, unit tests should be created for this bug to prevent it from being reintroduced later on.

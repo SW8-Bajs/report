@@ -1,0 +1,36 @@
+\section{Project idea}\label{sec:projectidea}
+The idea for this project is to create a location-based competitive game using augmented reality (AR).
+Two teams will compete against each other to score the most goals using a ball. 
+Each player will be equipped with a smartphone-based virtual reality headset, and these will display the playing field from a top-down 2D view. 
+To achieve this, each player's position needs to be tracked as well as where the ball is located on the field.
+In the top-down view, each player needs to see the positions of the other players and the ball.
+They also need to see their position on the playing field and where the goals are.
+The players should be able to set a number of goals they need to score to win before beginning the game. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Spil.PNG}
+    \caption{An illustration of the playing field}
+    \label{fig:game_illustration}
+\end{figure}
+\noindent
+In \autoref{fig:game_illustration}, an illustration of the playing field for the game is shown.
+There are goals at each end of the field, and the teams score goals by getting the ball between the goalposts.
+An alternative version of the game is suggested where, instead of goals at each end of the field, there would be virtual goal zones seen in the game which the teams need to bring the ball into.
+These zones could even change locations as the game progressed.
+
+\subsection{Technical requirements for the project}
+Multiple pieces of hardware will be required to realize the vision of the game.
+First of all, each player must have a headset to hold their smartphone such that they can view a virtualized version of the playing field while playing.
+In order for the data to be synchronized between the players, they will also need to be equipped with a positioning device, which can transmit their location to the other players.
+This transfer of information will require a networking solution so that the virtualized playing field is synchronized between the players.
+
+\subsection{Problems to consider}
+The project idea proposes some problems that will need to be solved for the game to work.
+We will need to consider which technologies to use for the development of the visual aspect of the game which should show a top-down view for each player. 
+As it is something we do not have experience with, it would be preferable if it is not necessary to have to build it from scratch.
+We will also need hardware that can track the positions of players and the ball.
+This must be accurate and update quickly such that the players do not run into each other, otherwise the game will not work.
+Another problem to consider is how the ball should be displayed in a 2D view.
+For the players to be able to find the ball on the field, it either has to be quite large to make it easier to find from the top-down view, or the game will need some metric to display how far the ball is from the ground.
+The game will also need to track when the ball has crossed the goal line and then give feedback to the players.
+Another problem to solve is how to keep the positional data synchronized across all the players' devices, as it will be difficult to play the game without accurate data.
