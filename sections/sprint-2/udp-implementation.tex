@@ -7,10 +7,10 @@ The main functionality of the host is to transmit positional data from the Pozyx
 The first setup step of this is to connect the host to an IP address on the network dedicated to multicasting, as described in \autoref{sec:accessonnetwork}.
 For the time being, this is hardcoded to be \texttt{224.3.29.71:10000}.
 After this initial setup, the host will continuously run through a loop where it updates the ball position, player positions and increments the timestamp.
-
+\noindent
 Each update consists of three steps: Getting the positional data from Pozyx, transforming it to fit the format described in \autoref{subsec:data-format} and transmitting the data to the clients, as seen on \autoref{lst:updateballposition}.
 
-\begin{lstlisting}[caption={Updating ball position},language=Python,label={lst:updateballposition}]
+\begin{lstlisting}[caption={Updating ball position}, captionpos=b,language=Python,label={lst:updateballposition}]
 def update_ball_position(self):
     """Broadcasts the updated ball position"""
     ball_tag = self.setup.ball_tag
@@ -27,7 +27,7 @@ Once the \texttt{Receive} function is called, it saves the received bytes to an 
 This was done to ensure that new messages would not be blocked if it takes too long to handle the data.
 In the current version, the receiver will simply log the data to the Unity console, but in future versions, it will be able to call the appropriate functions based on the type of data it has received.
 
-\begin{lstlisting}[caption={Receiving data from host},language=C,label={lst:receivedata}]
+\begin{lstlisting}[caption={Receiving data from host}, captionpos=b,language=C,label={lst:receivedata}]
 public void StartListening()
 {
     uClient.BeginReceive(new AsyncCallback(Receive), null);
