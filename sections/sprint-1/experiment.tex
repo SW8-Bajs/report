@@ -71,8 +71,8 @@ The end of the lower whisker is the lowest deviance measured in the set, likewis
 
 Interestingly it is the measurements closest to the $x$-axis that are the most inaccurate, we will discuss why in \autoref{subsec:influence-on-the-test}.
 The measurement with the highest deviance was recorded when the tag was in position \texttt{(0,3000)} where the measured position was 1.3 meters off.
-But even then the average deviance of all the measurements from that position was only 36.5 cm.
-The highest average deviance of all the different measurements sets was 39.5 cm in position \texttt{(0,6000)}
+The average deviance of all the measurements from that position was only 36.5 cm, however.
+The highest average deviance of all the positions was 39.5 cm in position \texttt{(0,6000)}.
 When running with one tag the average amount of measurements were 12.368 per second.
  
 
@@ -81,7 +81,7 @@ For this part of the experiment, the accuracy was tested with three tags.
 The tags were positioned at three different x-coordinates. 
 1400, 1800 and 2200 were chosen as the $x$ coordinates and the $y$ coordinate was moved up by 300 mm each time starting from 0 and going up to 1200.
 The average amount of updates from all the tags per second were 1.83, less than 10 percent of the amount of updates when only one tag was used.
-The amount of updates were very different between the different tags as the one with the highest update rate had an average of 3.4 per second and the lowest only 0.92.
+The amount of updates were very different between the different tags, as the one with the highest update rate had an average of 3.4 per second and the lowest only 0.92.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{3tagdiagram.PNG}
@@ -89,18 +89,18 @@ The amount of updates were very different between the different tags as the one 
     \label{fig:3tagdiagram}
 \end{figure}
 \noindent
-On figure \ref{fig:3tagdiagram} all the measurements from the 3 tag experiment can be seen.
+On \autoref{fig:3tagdiagram} all the measurements from the 3 tag experiment can be seen.
 The 3 last sets of measurements are from when all the tags were placed close to each other at the same point.
 The trailing number after the coordinate is which tag the set of measurements belong to, \texttt{(1800,600)1400} denotes the tag used for the measurments along the line where $x$ equals 1400.
 
 This was done to see if they would affect the precision of each other.
 Based on the data it seems they might have a small effect on each other but not enough for it to be a problem.
-The biggest deviance in the test was only 46 cm off compared to 1.3 meters in the 1 tag test which seemed interesting, but could be because the measurements in the 3 tag experiment was made in the middle of the playing field compared to at the edge in the 1 tag experiment.
+The biggest deviance in the test was only 46 cm off compared to 1.3 meters in the 1 tag test which seemed interesting, but could be because the measurements in the 3 tag experiment were made in the middle of the playing field compared to at the edge in the 1 tag experiment.
 
 \paragraph{Tag 26467}
 This tag was positioned 1400 mm along the $x$-axis.
 The overall average deviation for this tag was 11.9 cm and it made 1.16 measurements per second.
-No measurements were further away than 26.3 cm from the actual position and the biggest average deviance for a set of measurements were only 22.26 cm.
+No measurements were further away than 26.3 cm from the actual position and the biggest average deviance for a set of measurements was only 22.26 cm.
 
 
 \paragraph{Tag 26895}
@@ -113,7 +113,7 @@ This was by far the best performing tag in this experiment regarding both precis
 \paragraph{Tag 24622}
 This tag was positioned 2200 mm along the $x$-axis.
 The overall average deviation for this tag was 14.48 cm and an update rate at 0.92 hz.
-The first three points the results seemed fairly accurate, however, the grid \texttt{(2200, 900)} had a large deviation of 22.43 cm.
+For the first three points the results seemed fairly accurate, however, the grid \texttt{(2200, 900)} had a large deviation of 22.43 cm.
 That set also had the measurement with highest deviance with 46.0 cm.
 
 \subsubsection{Precision with 5 tag}
@@ -139,7 +139,7 @@ Besides that the other sets were among the most accurate.
 \paragraph{Tag 26467}
 This tag was positioned 1400 mm along the $x$-axis.
 For this tag, the average deviation was 12.75 cm and the average amount of data points per second was 0.6.
-At \texttt{1400, 200} the tag only returned one measurement and at \texttt{(1400, 600)} there were only two measurements doing the 5 second period the tag was laid there.
+At \texttt{1400, 200} the tag only returned one measurement and at \texttt{(1400, 600)} there were only two measurements completed during the 5 second period the tag was in that position.
 The tag was overall very precise with all measurements within 23.6 cm of the actual position.
 
 \paragraph{Tag 26895}
