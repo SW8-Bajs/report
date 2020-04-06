@@ -268,21 +268,32 @@ For this project, this should not have a significant impact, and either can be u
 
 \subsection{Format of data}\label{subsec:data-format}
 As it is necessary to send data over the network, the format of the data must be decided upon.
-The network format for the field anchor, player position and goal position is \texttt{0xyyyyxxxxiisstt}, where \texttt{t} is the type, \texttt{s} is the timestamp, \texttt{i} is the ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position.
-These formats can be seen on \autoref{Tab:anchor-format}, \autoref{Tab:player-format} and \autoref{Tab:goal-position-format}.
-The data sent is almost identical, as the same information is required, the only difference between them is the type and the context of the IDs.
-The \texttt{x} and \texttt{y} position is the location of the player or anchor.
-For \autoref{Tab:goal-position-format} the \texttt{x} and \texttt{y} position is the center of the goal, where the size of the goal is set to have a length equal to 20\% of the shortest side of the playing field.
-The IDs for \autoref{Tab:anchor-format} are for each anchor.
-For \autoref{Tab:player-format} the ID 0 represents the ball and 1-4 represents a player and for \autoref{Tab:goal-position-format} the ID identifies the team.
-The type is at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
-After the type the timestamp is placed, which is used to detect outdated data.
+The network format for player position and goal position is \texttt{0xyyyyxxxxiisstt}, where \texttt{t} is the type, \texttt{s} is the timestamp, \texttt{i} is the ID, \texttt{xxxx} is the \texttt{x} position and \texttt{yyyy} is the \texttt{y} position.
+The format can be seen for the player positions on \autoref{Tab:player-format}.
+The format is little-endian, as the most significant byte is the one related to type, which is placed at the end.
+The abstract syntax for these messages is:
+\begin{itemize}
+    \item Type of the message
+    \item Timestamp
+    \item ID associated with the message
+    \item X position
+    \item Y Position
+\end{itemize}
+The format for both is identical, the only difference between them is the type of the message and the context of the IDs.
+The abstract syntax for field anchor position is nearly identical, as the same information is required, but the field anchor format does not require a timestamp.
+For player position and field anchor position messages the \texttt{x} and \texttt{y} position is the location of the player or anchor.
+For the goal position format the \texttt{x} and \texttt{y} position is the center of the goal, where the size of the goal is set to have a length equal to 20\% of the shortest side of the playing field.
+\\\\
+The IDs for each syntax represent different things.
+The IDs for \autoref{Tab:player-format} are for each anchor, whereas ID for players is either the player tag or the ball tag, and the ID for the goal position message identifies the team.
+The type is represented at the right hand side of the hexadecimal so that it is faster to decode and to switch on which type it is.
+After the type the timestamp is placed, which is used to detect outdated data as a sequence number.
 The timestamp is an integer value ranging between 0 and 255 such that when it hits 255 it resets to 0 to be able to continuously send timestamps, regardless of game length.
 The downside to this approach is since UDP does not guarantee delivery of messages, it may not go straight from 255 to 0 every time.
-To counter this, 0 to 20 is considered as newer timestamps than 235 to 255 so that the system is allowed to miss up to 20 messages near the end, to ensure that it does not end up being locked until the values reach the high range again.
+To counter this, 0 to 20 is considered as newer sequence numbers than 235 to 255 so that the system is allowed to miss up to 20 messages near the end, to ensure that it does not end up being locked until the values reach the high range again.
 \\\\
 It was decided to use a size of respectively 16 and 8 bits so that it is straightforward to work with in the \texttt{C\#} language, because it is the same size as some variable types in \texttt{C\#} and hereby easy to type cast.
-Given the highest number that can be in two bytes is $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions is 65.535.
+Given the highest unsigned number that can be in two bytes is $2^{16} - 1$, the maximum value for the \texttt{x} and \texttt{y} positions is 65.535.
 
 \begin{table}[h!]
     \centering
@@ -291,32 +302,11 @@ Given the highest number that can be in two bytes is $2^{16} - 1$, the maximum v
         \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-3)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (0)\end{tabular} \\ \hline
         16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
     \end{tabular}
-    \caption{Format for field anchor position}
-    \label{Tab:anchor-format}
-\end{table}
-
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|l|l|l|l|l|}
-        \hline
-        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID \\ (0-4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (1)\end{tabular} \\ \hline
-        16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
-    \end{tabular}
-    \caption{Format for player positions.}
+    \caption{Format for player positions}
     \label{Tab:player-format}
 \end{table}
-
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|l|l|l|l|l|}
-        \hline
-        \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM ID (i)\\ (0-1)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (2)\end{tabular} \\ \hline
-        16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
-    \end{tabular}
-    \caption{Format for the goal positions.}
-    \label{Tab:goal-position-format}
-\end{table}
 \noindent
+\\
 The goals scored has a different format of \texttt{0x1100sstt}, where \texttt{t} is type, \texttt{s} is timestamp, \texttt{00} is the score of team 0 and \texttt{11} is the score of team 1.
 This format can be seen on \autoref{Tab:goals-scored-format}.
 

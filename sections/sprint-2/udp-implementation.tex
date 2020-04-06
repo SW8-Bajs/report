@@ -3,7 +3,7 @@ In this section, we will delve into the implementation details of the UDP client
 As described in \autoref{sec:sprint2-deploymentdia}, the system will consist of a host computer which receives positional data from Pozyx and transmits it to the players using IP multicasting.
 
 \subsubsection{Host}
-The main functionality of the host is to transmit positional data from the Pozyx tags to the clients via multicasting.
+The main functionality of the host is to transmit positional and game state data from the Pozyx tags to the clients via multicasting.
 The first setup step of this is to connect the host to an IP address on the network dedicated to multicasting, as described in \autoref{sec:accessonnetwork}.
 For the time being, this is hardcoded to be \texttt{224.3.29.71:10000}.
 After this initial setup, the host will continuously run through a loop where it updates the ball position, player positions and increments the timestamp.
