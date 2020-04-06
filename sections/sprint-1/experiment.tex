@@ -63,12 +63,12 @@ When testing with only one tag the average of all deviations was 15.20 cm.
 As can be seen on \autoref{fig:1tagdiagram}, some measurements can be quite far off the actual position. 
 On the $x$-axis you can see the actual position of the tag in mm compared to the playing field.
 The $y$-axis shows the amount that the measurements were off the actual position in mm.
-The boxplot shows the minimum and maximum values as well as the distribution of the measurements according to what quartile it is in.
-The box is the measurements withing first and third quartile and the whiskers that are extended out from it is the measurements on outside of the these quartiles.
-Interestingly it is the positions closest to x-axis that is the most inaccurate.
+The boxplot shows the minimum and maximum values as well as the distribution of the measurements according to what quartiles they are in.
+The box is the measurements within the first and third quartile and the whiskers that are extended out from it is the measurements the outside of these quartiles.
+Interestingly it is the measurements closest to the $x$-axis that are the most inaccurate.
 The measurement with the highest deviance was recorded when the tag was in position \texttt{(0,3000)} where the measured position was 1.3 meters off.
 But even then the average deviance of all the measurements from that position was only 36.5 cm.
-The highest average deviance of all the positions was 39.5 cm in position \texttt{(0,6000)}
+The highest average deviance of all the different measurements sets was 39.5 cm in position \texttt{(0,6000)}
 When running with one tag the average amount of measurements were 12.368 per second.
  
 
@@ -112,32 +112,32 @@ That set also had the measurement with highest deviance with 46.0 cm.
 
 \subsubsection{Precision with 5 tag}
 The tags were positioned at five different x-coordinates. 
-1400, 1600, 1800, 2000 and 2200 were chosen as the $x$ coordinates and the $y$ coordinate was moved up by 200 mm each time starting from 0 to 120 cm.
+1400, 1600, 1800, 2000 and 2200 were chosen as the $x$ coordinates and the $y$ coordinate was moved up by 200 mm each time starting from 0 to 1200 mm.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{5tagdiagram.PNG}
-    \caption{A boxplot showing the dispersion of measured positions with 3 tags}
+    \caption{A boxplot showing the dispersion of measured positions with 5 tags}
     \label{fig:5tagdiagram}
 \end{figure}
 \noindent
-Like the experiment with 3 tags there was no huge outliers like in the first experiment.
-But we do still se two instances were the measurements are futhere off than normal.
+Like the experiment with 3 tags, seen on \autoref{fig:3tagdiagram}, there were no huge outliers like in the first experiment where some measurements were off by more than a meter.
+But we do still se two instances were the measurements are further off than normal.
 
 
 \paragraph{Tag 24622}
-This tag was positioned 1800 mm along the x-axis.
+This tag was positioned 1800 mm along the $x$-axis.
 The average deviation for this tag was 12.99 cm and the average update rate was 0.83 Hz.
 This was the tag that had the worst measurement on coordinates \texttt{(1800, 0)} which was off by 65.1 cm and the worst average deviance of a measurement set with 31.7 cm.
 Besides that the other sets were among the most accurate.
 
 \paragraph{Tag 26467}
-This tag was positioned 1400 mm along the x-axis.
+This tag was positioned 1400 mm along the $x$-axis.
 For this tag, the average deviation was 12.75 cm and the average amount of data points per second was 0.6.
 At \texttt{1400, 200} the tag only returned one measurement and at \texttt{(1400, 600)} there were only two measurements doing the 5 second period the tag was laid there.
 The tag was overall very precise with all measurements within 23.6 cm of the actual position.
 
 \paragraph{Tag 26895}
-This tag was positioned 1600 mm along the x-axis.
+This tag was positioned 1600 mm along the $x$-axis.
 Tag 26895 had an average deviation of 12.39 cm and an update rate at 2.11 Hz. 
 This update rate was much higher than tag 24622, 26467 and 27001, and equal to 26901 even though they all had the same settings.
 
@@ -153,7 +153,7 @@ This tag was pretty average with no big deviations.
 Its worst measurement set had an average deviation of 18.34 cm.
 
 
-\subsection{Possible influences on the test}
+\subsection{Possible influences on the test}\label{subsec:influence-on-the-test}
 One thing that could have affected the tags is that a whiteboard was used as a measure for positions. 
 As there is metal in the whiteboard this could have affected the precision of the tags.
 Metals are conductors, which can lead to the signal having less power and reduced range, and the signal might spend extra time trying to get through the metal.
