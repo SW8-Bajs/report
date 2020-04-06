@@ -48,7 +48,7 @@ Once one field had been tested, the whiteboard was moved to the next field and t
 In \autoref{app:experiment} the data for the experiment can be seen.
 For each test the average grid was calculated, and the minimum and maximum values for $x$, $y$ and $z$ were found.
 The min and max values were noted, as they may be useful for future analysis.
-The $z$ values were very inconsistent throughout the entire test, and due to this and the z-axis being largely irrelevant to the game, we will not focus on analyzing them.
+The $z$ values were very inconsistent throughout the entire test, and due to this and the $z$-axis being largely irrelevant to the game, we will not focus on analyzing them.
 Because of this, it was decided to only calculate the deviance between the actual position and the measured position in the $xy$-plane.
 
 \subsubsection{Precision with 1 tag} 
@@ -63,9 +63,13 @@ When testing with only one tag the average of all deviations was 15.20 cm.
 As can be seen on \autoref{fig:1tagdiagram}, some measurements can be quite far off the actual position. 
 On the $x$-axis you can see the actual position of the tag in mm compared to the playing field.
 The $y$-axis shows the amount that the measurements were off the actual position in mm.
-The boxplot shows the minimum and maximum values as well as the distribution of the measurements according to what quartiles they are in.
-The box is the measurements within the first and third quartile and the whiskers that are extended out from it is the measurements the outside of these quartiles.
-Interestingly it is the measurements closest to the $x$-axis that are the most inaccurate.
+Each measurement set has its own box and whiskers.
+The box shows the measurements within the first quartile and third quartile.
+Within the box the $X$ denotes the second quartile which is equal to the median and the flat line denotes the average value of all the measurements.
+Extending from the box is the lower and upper whiskers where the lower whisker shows the measurements below the first quartile and the upper whisker shows the measurements above the third quartile.
+The end of the lower whisker is the lowest deviance measured in the set, likewise the end of the upper whisker is the highest deviance measured.
+
+Interestingly it is the measurements closest to the $x$-axis that are the most inaccurate, we will discuss why in \autoref{subsec:influence-on-the-test}.
 The measurement with the highest deviance was recorded when the tag was in position \texttt{(0,3000)} where the measured position was 1.3 meters off.
 But even then the average deviance of all the measurements from that position was only 36.5 cm.
 The highest average deviance of all the different measurements sets was 39.5 cm in position \texttt{(0,6000)}
@@ -87,25 +91,27 @@ The amount of updates were very different between the different tags as the one 
 \noindent
 On figure \ref{fig:3tagdiagram} all the measurements from the 3 tag experiment can be seen.
 The 3 last sets of measurements are from when all the tags were placed close to each other at the same point.
+The trailing number after the coordinate is which tag the set of measurements belong to, \texttt{(1800,600)1400} denotes the tag used for the measurments along the line where $x$ equals 1400.
+
 This was done to see if they would affect the precision of each other.
 Based on the data it seems they might have a small effect on each other but not enough for it to be a problem.
 The biggest deviance in the test was only 46 cm off compared to 1.3 meters in the 1 tag test which seemed interesting, but could be because the measurements in the 3 tag experiment was made in the middle of the playing field compared to at the edge in the 1 tag experiment.
 
 \paragraph{Tag 26467}
-This tag was positioned 1400 mm along the x-axis.
+This tag was positioned 1400 mm along the $x$-axis.
 The overall average deviation for this tag was 11.9 cm and it made 1.16 measurements per second.
 No measurements were further away than 26.3 cm from the actual position and the biggest average deviance for a set of measurements were only 22.26 cm.
 
 
 \paragraph{Tag 26895}
-This tag was positioned 1800 mm along the x-axis.
+This tag was positioned 1800 mm along the $x$-axis.
 This tag was only 9.2 cm off on average and had by far the highest average update rate at 3.4 Hz.
 Like the previous tag it also did not have any measurements with large deviances.
 The furthest measurement was 22.1 cm off and the worst average deviance for a set was 15.09 cm.
 This was by far the best performing tag in this experiment regarding both precision and update rate.
 
 \paragraph{Tag 24622}
-This tag was positioned 2200 mm along the x-axis.
+This tag was positioned 2200 mm along the $x$-axis.
 The overall average deviation for this tag was 14.48 cm and an update rate at 0.92 hz.
 The first three points the results seemed fairly accurate, however, the grid \texttt{(2200, 900)} had a large deviation of 22.43 cm.
 That set also had the measurement with highest deviance with 46.0 cm.
@@ -142,7 +148,7 @@ Tag 26895 had an average deviation of 12.39 cm and an update rate at 2.11 Hz.
 This update rate was much higher than tag 24622, 26467 and 27001, and equal to 26901 even though they all had the same settings.
 
 \paragraph{Tag 26901}
-This tag was positioned 2200 mm along the x-axis.
+This tag was positioned 2200 mm along the $x$-axis.
 The average deviation of tag 26901 was 14.74 cm, and it had an update rate of 2.11 Hz aswell.
 This tag had a few spikes when measuring on coordinate \texttt{(2200, 200)}, where the average deviance was 20.99 cm and the worst measurement was 54.6 cm off.
 
@@ -165,6 +171,7 @@ This could be due to the height difference between the anchors not being suffici
 \\\\
 During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
 This could have been an influence on the positioning result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
+Also, the wall could have created interference with the signal and there might have been metal or wires going through it which could have affected the signal.
 \\\\
 While the experiment was running the tags could throw errors instead of giving a position if something went wrong.
 Mainly during the multi-tag tests, some tags would report back with errors such as unable to get firmware version, flash memory corrupted or an error message saying there was no error.
