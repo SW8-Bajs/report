@@ -61,12 +61,14 @@ Using Bluetooth for indoor location is similar to how Pozyx works with anchors a
 Instead of anchors, Bluetooth beacons are able to send out signals with a range of up to 30 meters \cite{infsoft:bluetooth}.
 With Bluetooth, you get a significantly higher accuracy compared to GPS and Wi-Fi.
 In the optimal settings, this solution can provide an accuracy of up to one meter.
-Unlike Wi-Fi, this solution would work on both iOS and Android devices but has a lower range than the Pozyx solution.
+Unlike Wi-Fi, this solution would work on both iOS and Android devices.
 
 \subsubsection{RFID}
 Finally, we have RFID which uses radio waves to wirelessly transmit the identity of an object.
 Unlike the other solutions, RFID offers high accuracy, but a very limited range of less than a meter \cite{infsoft:rfid}.\\
 For a game like what we are building, it would be possible to use RFID for the location of the ball to check which player is currently holding it, but due to the limited range, it would not make sense to use it for localizing the players.\\
+
+\subsubsection{Conclusion}
 Generally, using Pozyx with their UWB technology for tracking the position of the players and the ball appears to be the most optimal solution.
 
 \subsection{Two-way-ranging} \label{pozyx:TWR}
