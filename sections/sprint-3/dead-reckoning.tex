@@ -51,7 +51,9 @@ We create projections for the current kinematic state and the last known kinemat
     Q_t = P_t + (P'_t - P_t)\hat{T} \qquad \rlap{\text{(Combination of the two)}}
 \end{displaymath}
 \\\\
-From this we get the dead reckoned location $ Q_t $ at the specified time. 
+Here, $T_t$ is how much time has elapsed since $T_0$ when is the time at the last known position, which would be the beginning of the curve. $T_1$ is the time when the player reaches the end of the curve. $\hat{T}$ is a normalized time value where $0.0\le\hat{T}\le1.0$ and should represent how far along the curve the player is.
+\\\\
+From these calculations we get the dead reckoned location $ Q_t $ at the specified time.
 The reason that $ A'_0 $ is used in both projections is that it will converge to the player's true path much faster and it reduces oscillation, compared to when using $ A_0 $ when calculating $ P_t $. 
 However, these calculations will still give inadequate results since the player's movement will have bad oscillations. 
 These are cause by the changes in velocity,$V_0$ and $V'_0$, when new updates are received from the server. To account for this, a linear interpolation between the old velocity and the last known velocity is computed, which creates a blended velocity $V_b$. 
