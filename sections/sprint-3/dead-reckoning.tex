@@ -45,7 +45,7 @@ The recommended approach for this problem is projective velocity blending \autoc
 \\\\
 Projections are created for the current kinematic state and the last known kinematic state and then these are blended together. 
 \begin{displaymath}
-    P_t = P_0 + V_0T_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from where player was)}}
+    P_t = P_0 + V_0T_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from last dead reckoned position)}}
 \end{displaymath}
 \begin{displaymath}
     P'_t = P'_0 + V'_0T_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from last known)}}
@@ -70,10 +70,10 @@ This is what is known as \textit{projective velocity blending} \autocite{DeadRec
     V_b = V_0 + (V'_0 - V_0)\hat{T} \quad \rlap{\text{(Velocity blending)}}
 \end{displaymath}
 \begin{displaymath}
-    P_t = P_0 + V_bT_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from where player was)}}
+    P_t = P_0 + V_bT_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from last dead reckoned position)}}
 \end{displaymath}
 \begin{displaymath}
-    P'_t = P'_0 + V'_0T_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from last known)}}
+    P'_t = P'_0 + V'_0T_t + \frac{1}{2}A'_0T_t^2 \quad \rlap{\text{(Projecting from last known position)}}
 \end{displaymath}
 \begin{displaymath}
     Q_t = P_t + (P'_t - P_t)\hat{T} \qquad \rlap{\text{(Combination of the two)}}
