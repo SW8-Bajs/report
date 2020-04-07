@@ -1,7 +1,6 @@
 \section{UPPAAL modelling}
 To illustrate how the UDP protocol should work in detail an UPPAAL model was constructed consisting of two templates: The host and an arbitrary amount of clients.
 This first iteration of the model is not intended for heavy model checking, but rather to take a higher-level look at how the protocol is intended to work.
-
 The two templates can be seen on Figures \ref{fig:uppaal-host-1} and \ref{fig:uppaal-client-1}.
 
 \begin{figure}[H]
@@ -71,12 +70,12 @@ void processData(){
     }
 }
 \end{lstlisting}
-
+\noindent
 Likewise, when the host has to send data, it will update the first element of the buffer and fill in the relevant data in the other elements.
 
 \subsubsection{Checksum}
 For checking whether the client has the correct setup information, a checksum will be calculated on the client and based on the checksum that the host broadcasts, the players will return either an acknowledge or negative-acknowledge.
-
+\\
 This checksum is simply calculated as the sum of all four anchor coordinates, as seen in \autoref{lst:uppaal:checksum}.
 
 \begin{lstlisting}[caption={Calculating checksum in UPPAAL model}, captionpos=b,language=C,label={lst:uppaal:checksum}]
@@ -95,11 +94,11 @@ This checksum is simply calculated as the sum of all four anchor coordinates, as
 \subsection{Updates to the network protocol}
 A good side-effect of generating the UPPAAL model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
 This resulted in some minor refactoring of the format.
-
+\\
 First of all, the format for sending a field anchor position had a timestamp as a part of the package. 
 Since the anchors will only be sent once, it does not make sense to timestamp it and this has been removed.
 The updated version of the data format can be found in \todo{link til appendix med data format}.
-
+\\
 Additionally, three new packages have been specified: Sending a player tag, sending an acknowledge or sending the signal to start the game.
 
 \begin{table}[h!]
@@ -134,5 +133,5 @@ Additionally, three new packages have been specified: Sending a player tag, send
     \caption{Game start.}
     \label{tab:gamestart}
 \end{table}
-
+\noindent
 The reason that \autoref{tab:acknowledge} does not have a type, is that it is the only package that will be sent from the client to the host, so it will only need to contain a signal for the host to know whether the checksum is correct or not.
