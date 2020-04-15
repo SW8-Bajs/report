@@ -29,5 +29,21 @@ As such, the phase split loses some of its purpose, as an acknowledgment would n
 In addition to the data defined in \todo{REF TIL APPENDIX NETVÆRK FORMAT NÅR DET ER DONE}, crucial data could be appended to all messages sent during play.
 This would mean that whenever any message was received, it would include to required information, and no acknowledgment would be necessary as the clients are guaranteed to receive some messages if they are continuously sent.
 This would have the detriment of increasing the size of each individual package.
-While the packages are currently not large enough to where this is likely to cause a problem, creating minimal packages \todo{ref til kilde til det her}
+While the packages are currently not large enough to where this is likely to cause a problem, creating minimal packages \todo{ref til kilde til det her} should be attempted.
+
+\subsubsection{Introducing TCP}
+On top of the currently described UDP approach to sending messages to ensure recent data is used for positioning while the game is played, a TCP socket connection between the host and clients could be implemented.
+As described in \autoref{sec:sprint1-networking}, TCP includes reliability.
+This reliability ensures that every message sent will be received by the client, through built in acknowledgments.
+This would remove the need for clients sending UDP acknowledgments for game crucial data.
+Because of the reliability, and needing established connections, TCP messages will be slower to transmit.
+As one of the focuses for the project is creating a networking solution capable of continuously updating positional data as quickly as possible, this is not an ideal solution for transmitting the data when the game is being played.
+As such, a combination is proposed - TCP for crucial data, and UDP for positional data.
+The issue described above relating to goalzones can also be remedied through a combination.
+Rather than send location for the new goalzones while the game was being played and waiting for an acknowledgment, this data could be sent on the TCP connection as well, to ensure it arrives.
+
+\subsubsection{Final choice of updating}
+Based on the three alternatives to remedy the issues encountered, introducing a separate TCP connection between the hosts and the clients to handle crucial data that requires acknowledgments seems like the ideal choice.
+It avoids the confusion inherent in the unreliability of UDP requiring manual handling of acknowledgments, and avoids communication back and forth, while allowing fast update times for positional data through the UDP connection.
+ 
 
