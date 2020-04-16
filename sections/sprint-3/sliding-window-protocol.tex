@@ -6,12 +6,10 @@ To find a better solution to sliding window protocol was researched.
 Sliding window protocols are often used where reliable data is required.
 Whenever the senders has sent the window sized packets, it waits for acknowledgement from the receiver before it sends new packets.
 Each packet gets a sequence number and the acknowledgement sends back this number.
-By doing this the receiver can keep track of the packets, and know which order is the correct one.
-It can also discard duplicates and identify which packets are missing.
+By doing this the receiver can keep track of the packets, remove duplicates, identify missing packets and know which order is the correct one.
 \\\\
-On \autoref{fig:sliding-window} there is an illustration of a sliding window, where W is the window size, and n is the number of packets that has not been acknowledged.
-The sender will send the packets until the buffer is full.
-The sender will then wait for an acknowledgement from the sent packages.
+On \autoref{fig:sliding-window} there is an illustration of an ideal sliding window, where W is the window size, and n is the number of packets that has not been acknowledged.
+The sender will send the packets until the window is full and then wait for an acknowledgement from the sent packets.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{window-protocol-illustration.PNG}
@@ -20,6 +18,6 @@ The sender will then wait for an acknowledgement from the sent packages.
 \end{figure}
 \noindent
 For our project reliable data in the format of goal zones and goal score is important, however the player position is not important that it is reliable.
-This is due to prioritizing that the update rate is higher and hereby we previously choose to use UDP in \autoref{subsubsec:choosing-between-udp-or-tcp}.
-With Sliding Window protocol a player position would be retransmitted if it previously failed, and failed positions are quickly becoming outdated.
-TCP already uses sliding window for flow control \cite{ibm:sliding-window}.
+This is due to our prioritization that the update rate is higher and hereby we previously choose to use UDP in \autoref{subsubsec:choosing-between-udp-or-tcp}.
+With Sliding Window protocol a player position would be retransmitted if it previously failed, and these positions quickly become outdated.
+TCP also already uses sliding window for flow control so for goal zones and goal score it is not necessary to implement, as these use TCP \cite{ibm:sliding-window}.
