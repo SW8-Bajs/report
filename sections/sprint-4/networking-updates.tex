@@ -30,7 +30,7 @@ As such, the phase split loses some of its purpose, as an acknowledgment would n
 In addition to the data defined in \todo{REF TIL APPENDIX NETVÆRK FORMAT NÅR DET ER DONE}, crucial data could be appended to all messages sent during play.
 This would mean that whenever any message was received, it would include to required information, and no acknowledgment would be necessary as the clients are guaranteed to receive some messages if they are continuously sent.
 This would have the detriment of increasing the size of each individual package.
-While the packages are currently not large enough to where this is likely to cause a problem, creating minimal packages \todo{ref til kilde til det her} should be attempted.
+While the packages are currently not large enough to where this is likely to cause a problem, creating minimal packages is still a worthwhile goal in order to increase the speed of transmission and decoding.
 
 \subsubsection{Introducing TCP}
 On top of the currently described UDP approach to sending messages to ensure recent data is used for positioning while the game is played, a TCP socket connection between the host and clients could be implemented.
