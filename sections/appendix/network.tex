@@ -1,9 +1,9 @@
 \section{Network packets}\label{app:network}
 
 The final format of the network packages are described in this appendix.
-
-For all packages, it is assumed that the TCP messages are treated as unicast to a single recipient, and UDP are treated as multicast on socket.
+For all packages, it is assumed that the TCP messages are treated as unicast to a single recipient, and UDP messages are treated as multicast.
 All of these packets will only describe the actual data of the packet, and not contain the UDP/TCP headers.
+Each packet contains an ID identifying the type as well as the required information.
 
 \subsection*{0: Send tag position (UDP)}
 \begin{table}[H]
@@ -17,6 +17,7 @@ All of these packets will only describe the actual data of the packet, and not c
 Purpose: The position of a given tag will be continuously transmitted on the multicast channel for all players to receive.
 The positions are sent as values relative to the anchor positions sent during setup, such that a missed package will not impact the future game state.
 The ID (i) \texttt{0} is reserved for the ball tag, and all other tags are considered to be players.
+For a game with 4 players, each would have a unique ID ranging from 1-4.
 
 
 \subsection*{1: Send anchor position (TCP)}
@@ -74,4 +75,5 @@ This triggers the host to generate new goal positions.
 \end{tabular}
 \end{table}
 
-Purpose: Sends a new goal position to the clients when a goal is scored. The packet will be sent twice, one packet for each team with different team IDs (i).
+Purpose: Sends a new goal position to the clients when a goal is scored.
+The packet will be sent twice, one packet for each team with different team IDs (i).
