@@ -1,0 +1,77 @@
+\section{Network packets}\label{app:network}
+
+The final format of the network packages are described in this appendix.
+
+For all packages, it is assumed that the TCP messages are treated as unicast to a single recipient, and UDP are treated as multicast on socket.
+All of these packets will only describe the actual data of the packet, and not contain the UDP/TCP headers.
+
+\subsection*{0: Send tag position (UDP)}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{POSY (y)} & \textbf{POSX (x)} & \textbf{ID (i)} & \textbf{TIMESTAMP (s)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 0\end{tabular}}} \\ \hline
+16 bit            & 16 bit            & 8 bit           & 8 bit                  & 8 bit                                                                              \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: The position of a given tag will be continuously transmitted on the multicast channel for all players to receive.
+The positions are sent as values relative to the anchor positions sent during setup, such that a missed package will not impact the future game state.
+The ID (i) \texttt{0} is reserved for the ball tag, and all other tags are considered to be players.
+
+
+\subsection*{1: Send anchor position (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{POSY (y)} & \textbf{POSX (x)} & \textbf{ANCHOR\_ID (i)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 1\end{tabular}}} \\ \hline
+16 bit            & 16 bit            & 8 bit                   & 8 bit                                                                              \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: Used as a part of the setup phase, where the host sends the position of one of the four anchors to the player.
+This packet will be sent multiple times to each client, but with various anchor IDs (i) until all clients have received the four positions.
+
+\subsection*{2: Send player tag (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{PLAYER\_ID (p)} & \textbf{TAG\_ID (i)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 2\end{tabular}}} \\ \hline
+8 bit                   & 16 bit               & 8 bit                                                                              \\ \hline
+\end{tabular}
+\end{table}
+Purpose: Used as a part of the setup phase, where the host sends the related tag ID to the player, such that they can find the physical tag related to their client instance.
+This packet will be sent once to each client, but with various tag IDs (i) until all clients have received their tag ID.
+
+\subsection*{3: Signal game start (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 3\end{tabular}}} \\ \hline
+8 bit                                                                               \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: Used to signal to the players that the game has been started.
+
+\subsection*{4: Send goal scored (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{TEAM2SCORE (2)} & \textbf{TEAM1SCORE (1)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 4\end{tabular}}} \\ \hline
+8 bit                   & 8 bit                   & 8 bit                                                                              \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: Used to signal the clients that a goal has been scored, and the scoreboard should be updated on their GUI.
+This triggers the host to generate new goal positions.
+
+\subsection*{5: Send new goal position (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{POSY (y)} & \textbf{POSX (x)} & \textbf{TEAM\_ID (i)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 5\end{tabular}}} \\ \hline
+16 bit            & 16 bit            & 8 bit                 & 8 bit                                                                              \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: Sends a new goal position to the clients when a goal is scored. The packet will be sent twice, one packet for each team with different team IDs (i).
