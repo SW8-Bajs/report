@@ -1,0 +1,27 @@
+\section{Sliding window protocol}
+In \autoref{subsec:data-format} it was decided that the format of timestamps would be an integer from 0-255, where 0 to 20 would be considered as newer timestamps than 235 to 255.
+However, if all the timestamps between 0 to 20, there would not be any updates until it has looped to a number between 0 and 20 and sent new updates.
+To find a better solution to sliding window protocol was researched.
+\\\\
+Sliding window protocols are often used where reliable data is required.
+Whenever the senders has sent the window sized packets, it waits for acknowledgement from the receiver before it sends new packets.
+
+Each packet gets a sequence number and the acknowledgement sends back this number.
+By doing this the receiver can keep track of the packets, and know which order is the correct one.
+It can also discard duplicates and identify which packets are missing.
+\\\\
+As seen on \autoref{fig:sliding-window} an illustration of the sliding window has been made.
+The sender will send the packets until the sliding window is full.
+The sender will then wait for an acknowledgement from the first send packet in the window before it will send a new packets.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{sliding-window-illustration.jpg}
+    \caption{An illustration of sliding window, where the window size is 4.}
+    \label{fig:sliding-window}
+\end{figure}
+\noindent
+For our project reliable data in the format of goal zones and goal score is important, however the player position is not important that it is reliable.
+This is due to prioritizing that the update rate is higher and hereby we previously choose to use UDP in \autoref{subsubsec:choosing-between-udp-or-tcp}.
+With Sliding Window protocol a player position would be retransmitted if it previously failed, and failed positions are quickly becoming outdated.
+TCP already uses sliding window for flow control \cite{ibm:sliding-window}.

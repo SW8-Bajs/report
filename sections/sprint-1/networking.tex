@@ -188,6 +188,7 @@ A UDP server can receive several datagrams on a single UDP socket, each from dif
 
 
 \subsubsection{Choosing between UDP or TCP}
+\label{subsubsec:choosing-between-udp-or-tcp}
 Windowed flow control might not be necessary for transactions where both ends agree on the maximum size of a request or a reply \cite{socketnetworking}.
 For this project, the most important type of message is the player location data.
 This message will always be formatted in the same way, and as such, a maximum size can be agreed to mean the flow control aspect of TCP is not needed.
@@ -300,7 +301,7 @@ Given the highest unsigned number that can be in two bytes is $2^{16} - 1$, the 
     \begin{tabular}{|l|l|l|l|l|}
         \hline
         \begin{tabular}[c]{@{}l@{}}POSY (y)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}POSX (x)\\ (0-65.535)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ID (i)\\ (0-3)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (0)\end{tabular} \\ \hline
-        16 bits                    & 16 bits                    & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
+        16 bits                        & 16 bits                        & 8 bits                         & 8 bits                         & 8 bits                         \\ \hline
     \end{tabular}
     \caption{Format for player positions}
     \label{Tab:player-format}
@@ -315,7 +316,7 @@ This format can be seen on \autoref{Tab:goals-scored-format}.
     \begin{tabular}{|l|l|l|l|}
         \hline
         \begin{tabular}[c]{@{}l@{}}TEAM1SCORE (1)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TEAM0SCORE (0)\\ (0-100)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TIMESTAMP (s)\\ (0-255)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ (3)\end{tabular} \\ \hline
-        8 bits                     & 8 bits                     & 8 bits                     & 8 bits                     \\ \hline
+        8 bits                         & 8 bits                         & 8 bits                         & 8 bits                         \\ \hline
     \end{tabular}
     \caption{Format for goals scored.}
     \label{Tab:goals-scored-format}
