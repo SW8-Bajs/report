@@ -75,6 +75,6 @@ This triggers the host to generate new goal positions.
 \end{tabular}
 \end{table}
 
-Purpose: Sends a new goal position to the clients when a goal is scored.
-The packet will be sent twice to each team, once per goal.
-The positions are the X and Y coordinates of the center of the goal as they have a pre-defined size based on the shortest edge of the playing field.```
+Purpose: Sends a new goal position to the clients.
+This message will be sent twice to each team when a goal is scored, such that they receive new positions for both teams' goals.
+The positions are the X and Y coordinates of the center of the goal as they have a pre-defined size based on the shortest edge of the playing field.
