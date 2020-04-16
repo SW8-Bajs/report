@@ -191,7 +191,7 @@ A UDP server can receive several datagrams on a single UDP socket, each from dif
 Windowed flow control might not be necessary for transactions where both ends agree on the maximum size of a request or a reply \cite{socketnetworking}.
 For this project, the most important type of message is the player location data.
 This message will always be formatted in the same way, and as such, a maximum size can be agreed to mean the flow control aspect of TCP is not needed.
-Another aspect of TDP that is not needed for this project is the automatic retransmission of messages.
+Another aspect of TCP that is not needed for this project is the automatic retransmission of messages.
 While this can provide reliability, it is of no importance for the game.\\
 The players of the game are only concerned with the most recent updates of their position.
 As such, if a message were to not be received, it would not make sense to continually delay subsequent messages to attempt to retransmit a message containing position data that is more and more likely to be outdated.\\
@@ -202,8 +202,8 @@ The sender should not be concerned that a message was received, it should just c
 Duplicate messages also do not pose much of an issue.
 If the applications were to receive the same location data multiple times, it would not impact the overall functionality of the program, rather just the speed at which the next updates would be received.\\
 UDP has no connection setup or teardown costs.
-UDP only requires two packets to exchange a request and a reply, whereas TDP requires about 10 packets \cite{socketnetworking}, if a new TCP connection is established for each exchange.
-In terms of transaction time, the minimum time for a UDP request-reply is the round-trip time $+$ server processing time, and the minimum time for TDP is $2 \times$ round-trip time $+$ server processing time \cite{socketnetworking}.
+UDP only requires two packets to exchange a request and a reply, whereas TCP requires about 10 packets \cite{socketnetworking}, if a new TCP connection is established for each exchange.
+In terms of transaction time, the minimum time for a UDP request-reply is the round-trip time $+$ server processing time, and the minimum time for TCP is $2 \times$ round-trip time $+$ server processing time \cite{socketnetworking}.
 \\\\
 Because of the limited scope and uniformity of what is going to be transmitted via the networking solution, a lot of the features included in TCP are unnecessary.
 UDP is slightly faster because of its lack of reliability and other benefits but might require some extra work to implement some of the functionality that is missing when compared to TCP if this were to become necessary.
