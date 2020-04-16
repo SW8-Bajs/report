@@ -5,19 +5,17 @@ To find a better solution to sliding window protocol was researched.
 \\\\
 Sliding window protocols are often used where reliable data is required.
 Whenever the senders has sent the window sized packets, it waits for acknowledgement from the receiver before it sends new packets.
-
 Each packet gets a sequence number and the acknowledgement sends back this number.
 By doing this the receiver can keep track of the packets, and know which order is the correct one.
 It can also discard duplicates and identify which packets are missing.
 \\\\
-As seen on \autoref{fig:sliding-window} an illustration of the sliding window has been made.
-The sender will send the packets until the sliding window is full.
-The sender will then wait for an acknowledgement from the first send packet in the window before it will send a new packets.
-
+On \autoref{fig:sliding-window} there is an illustration of a sliding window, where W is the window size, and n is the number of packets that has not been acknowledged.
+The sender will send the packets until the buffer is full.
+The sender will then wait for an acknowledgement from the sent packages.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{sliding-window-illustration.jpg}
-    \caption{An illustration of sliding window, where the window size is 4.}
+    \includegraphics[width=0.6\linewidth]{window-protocol-illustration.PNG}
+    \caption{Sliding window protocol without timeouts or message loss \cite{design-and-validation-of-computer-protocols}.}
     \label{fig:sliding-window}
 \end{figure}
 \noindent
