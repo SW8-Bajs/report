@@ -3,13 +3,14 @@ In \autoref{subsec:data-format} it was decided that the format of timestamps wou
 However, if all the timestamps from 0 to 20 were lost, there would not be any updates until it has iterated through all other timestamps and back to 0.
 To find a better solution to this problem sliding window protocol was researched.
 \\\\
-Sliding window protocols are often used where reliable data is required.
+Sliding window protocols are often used where reliable data is required, which means making sure that all data points are received.
+This protocol uses a window sized packet, which is a fixed number where it sends this number of the elements to the receiver.
 Whenever the sender has sent the window sized packets, it waits for acknowledgement from the receiver before it sends new packets.
-Each packet gets a sequence number and the acknowledgement sends back this number.
+Each packet gets a sequence number and the acknowledgement that is sent back also contains the sequence number.
 By doing this the receiver can keep track of the packets, remove duplicates, identify missing packets and know which order is the correct one.
 \\\\
-On \autoref{fig:sliding-window} there is an illustration of an ideal sliding window, where W is the window size, and n is the number of packets that has not been acknowledged.
-The sender will send the packets until the window is full and then wait for an acknowledgement from the sent packets.
+On \autoref{fig:sliding-window} there is an illustration of an ideal sliding window, where W is the window size, and n is the number of packets that have not been acknowledged.
+The sender will send the packets until the window is full and then wait for acknowledgements from the receiver for the sent packets.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{window-protocol-illustration.PNG}
@@ -18,6 +19,6 @@ The sender will send the packets until the window is full and then wait for an a
 \end{figure}
 \noindent
 For our project reliable data in the format of goal zones and goal score is important, however the reliability of player positions are not important.
-This is due to our prioritization that the update rate is higher and hereby we previously choose to use UDP in \autoref{subsubsec:choosing-between-udp-or-tcp}.
+The reasoning for this is explained in \autoref{subsubsec:choosing-between-udp-or-tcp}.
 With Sliding Window protocol a player position would be retransmitted if it previously failed, and these positions quickly become outdated.
 TCP also already uses sliding window for flow control so for goal zones and goal score it is not necessary to implement, as these use TCP \cite{ibm:sliding-window}.
