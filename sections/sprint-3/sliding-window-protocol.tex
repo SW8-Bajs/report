@@ -9,12 +9,14 @@ Whenever the sender has sent the window sized packets, it waits for acknowledgem
 Each packet gets a sequence number and the acknowledgement that is sent back also contains the sequence number.
 By doing this the receiver can keep track of the packets, remove duplicates, identify missing packets and know which order is the correct one.
 \\\\
-On \autoref{fig:sliding-window} there is an illustration of an ideal sliding window, where W is the window size, and n is the number of packets that have not been acknowledged.
-The sender will send the packets until the window is full and then wait for acknowledgements from the receiver for the sent packets.
+On \autoref{fig:sliding-window} there is an illustration of a sliding window, where the window size is three.
+In the first frame three packets are send to the receiver, and in the second frame the receiver have acknowledged all three packets, but the first acknowledgement fails.
+The sliding window for the receiver has moved its window, but as the sender only has an acknowledgement from the second and third packet, it is unable to move its window, and resend the packet in the third frame.
+In the fourth frame the first packet has been acknowledged, and hereby the sliding window has moved for the sender and is able to send new packets.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{window-protocol-illustration.PNG}
-    \caption{Sliding window protocol without timeouts or message loss \cite{design-and-validation-of-computer-protocols}.}
+    \includegraphics[width=\linewidth]{sliding-window-illustration.png}
+    \caption{Sliding window protocol illustration where the top is the sender and the bottom is the receiver.}
     \label{fig:sliding-window}
 \end{figure}
 \noindent
