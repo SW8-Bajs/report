@@ -71,13 +71,14 @@ This triggers the host to generate new goal positions.
 
 \subsection*{5: Send new goal position (TCP)}
 \begin{table}[H]
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l|l|l|l|l|}
 \hline
-\textbf{POSY (y)} & \textbf{POSX (x)} & \textbf{TEAM\_ID (i)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 5\end{tabular}}} \\ \hline
-16 bit            & 16 bit            & 8 bit                 & 8 bit                                                                              \\ \hline
+\textbf{SIZE (s)} & \textbf{POSY (y)} & \textbf{POSX (x)} & \textbf{TEAM\_ID (i)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 5\end{tabular}}} \\ \hline
+8 bit & 16 bit            & 16 bit            & 8 bit                 & 8 bit                                                                              \\ \hline
 \end{tabular}
 \end{table}
 
 Purpose: Sends a new goal position to the clients.
 This message will be sent twice to each team when a goal is scored, such that they receive new positions for both teams' goals.
 The positions are the X and Y coordinates of the center of the goal as they have a pre-defined size based on the shortest edge of the playing field.
+It also contains the size of the goal zone (s), which is used to determine the size of the goal zone square.
