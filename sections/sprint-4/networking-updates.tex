@@ -46,4 +46,13 @@ Rather than send location for the new goalzones while the game was being played 
 \subsubsection{Final choice of updating}
 Based on the three alternatives to remedy the issues encountered, introducing a separate TCP connection between the hosts and the clients to handle crucial data that requires acknowledgments seems like the ideal choice.
 It avoids the confusion inherent in the unreliability of UDP requiring manual handling of acknowledgments, and avoids communication back and forth, while allowing fast update times for positional data through the UDP connection.
- 
+Facilitating these changes would entail a slight change in the deployment diagram shown in \autoref{fig:sprint2-deployment}.
+An association would have to be added between the host and client nodes indicating the new TCP connection, which is shown on \autoref{fig:sprint4-deployment}.
+The dependency between the host and client application has also been updated to indicate that the client depends on both configuration and positional data.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{sprint4/deployment-sprint4.JPG}
+    \caption{A slightly revised deployment diagram for the system.}
+    \label{fig:sprint4-deployment}
+\end{figure}
+\noindent
