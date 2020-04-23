@@ -4,6 +4,9 @@ The final format of the network packages are described in this appendix.
 For all packages, it is assumed that the TCP messages are treated as unicast to a single recipient, and UDP messages are treated as multicast.
 All of these packets will only describe the actual data of the packet, and not contain the UDP/TCP headers.
 Each packet contains an ID identifying the type as well as the required information.
+Additionally, each TCP package will be prefixed with a number indicating the length of the current message, since it is transmitted as a stream. 
+This ensures that the receiver knows when to stop reading the current packet and be ready to process the next one.
+
 
 \subsection*{0: Send tag position (UDP)}
 \begin{table}[H]
