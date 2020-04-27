@@ -1,25 +1,25 @@
 \section{Goal generation}\label{subsec:goalrefactoring}
 The first implementation of goal generation was done entirely in Unity.
-Which means that the goal generation and detection would have been handled on the client side.
+This means that the goal generation and detection would have been handled on the client-side.
 The idea was to limit the amount of data that needed to be sent across the network.
-But when it was decided that new goalzones should be generated in random locations after a goal had been scored, generating it on the client side could cause the gamestate to be different between different players.
-Either by some players not recieving all the necesary ball positions to observe a goal or by generating goalzones in different places.
-One way to solve this was giving all clients the same seed at the start of the match to generate random positions based of, so that the goalzones would be in the same positions across all clients.
+But when it was decided that new goal zones should be generated in random locations after a goal had been scored, generating it on the client-side could cause the game state to be different between different players.
+Either by some players not receiving all the necessary ball positions to observe a goal or by generating goal zones in different places.
+One way to solve this was by giving all clients the same seed at the start of the match to generate random positions based of so that the goal zones would be in the same positions across all clients.
 The concern about this solution was that the goal detection could still have issues if some of the positional data for the ball would not arrive at the same time or at all.
-In the end it was decided to move all the goalzone generation and goal detection to the server side and uttilzing TCP so that the data would be consistent across all clients.
+In the end, it was decided to move all the goal zone generation and goal detection to the server-side and utilizing TCP so that the data would be consistent across all clients.
 
 \subsection{Server side}
-On the server side the size of the goal is calculated based on a percentage of the shortest edge of the playing field.
-This size is used to calculate where the center points of the goalzones can be placed as the corners of the goalzones should not exceed the playing field edges.
-The goalzone will always be a sqaure where all edge lengths are of equal length and the playing field should always closely resemble a rectangle.
-The first goalzones are always set at a certain point on the playing field, afterwards the goalzones positions is randomly generated.
-The randomly generated goalzones will always mirror eachother and will not spawn to close to the middle of the playing field.
-The goalzones will also never changes sides so if a goalzone is initialy generated on the left of the center of the playing field it will stay on that side for the duration of the game.
-Whenever a goal is scored new center points are generated for both goalzones and then send from the server to all the clients connected.
+On the server-side, the size of the goal is calculated based on a percentage of the shortest edge of the playing field.
+This size is used to calculate where the center points of the goal zones can be placed as the corners of the goal zones should not exceed the playing field edges.
+The goal zone will always be a square where all edge lengths are of equal length and the playing field should always closely resemble a rectangle.
+The first goal zones are always set at a certain point on the playing field, afterward, the goal zones positions are randomly generated.
+The randomly generated goal zones will always mirror each other and will not spawn to close to the middle of the playing field.
+The goal zones will also never change sides so if a goal zone is initially generated on the left of the center of the playing field it will stay on that side for the duration of the game.
+Whenever a goal is scored new center points are generated for both goal zones and then send from the server to all the clients connected.
 
 \subsection{Client side}
-On the client side the new centerpoints are recived along with the goal size.
-Based on this data the corners of the goalzones can be calculated.
-The corners get calculated in a clockwise order, this is done to make it easier to apply the mesh which is the visual component in unity that renders the goalzone so that the players can actually see it.
+On the client-side, the new center points are received along with the goal size.
+Based on this data the corners of the goal zones can be calculated.
+The corners get calculated in clockwise order, this is done to make it easier to apply the mesh which is the visual component in unity that renders the goal zone so that the players can actually see it.
 The mesh can only be rendered in triangles and the mesh is only visible from one direction, meaning if you see the mesh from the back it will be invisible.
-This means that the goalzone has to be split up in two triangles which toghether creates a square and the corners of the triangles needs to be in the correct order or else the goalzone can not be seen from the players perspective.
+This means that the goal zone has to be split up in two triangles which together creates a square and the corners of the triangles need to be in the correct order or else the goal zone can not be seen from the players' perspective.
