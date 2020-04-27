@@ -6,15 +6,15 @@ In order to support multiple games being played at the same time, the system als
 Clients should only receive data from one specific host in their specific multicast group.
 \\\\
 To do this, the game must include some form of LAN discoverability.
-One way of achieving this is to have clients searching for a game broadcast a message to available hosts via the LAN.
+One way of achieving this is to have clients broadcast a message to available hosts via the LAN when they are searching for a game.
 The hosts then reply, if they are available, with data for a multicast group, and the client can then join that group.
 Another method could be to make use of Internet Group Management Protocol (IGMP), which is a communications protocol used on IPv4 networks to establish multicast groups.
 The IP address 224.0.0.1 is a notable IPv4 address reserved for IP multicasting, which is the multicast group address for all hosts on the same network \cite{ipv4multicastaddresses}.
-All hosts should join that group on start-up, and clients could then message the group that they are looking for an available game.
+All hosts should join that group on start-up, and clients could then message the group to signal that they are looking for an available game.
 \\\\
 Another way would be to have the host continually broadcast messages that it is available for players.
-This would, however, lead to the host needing to repeatedly send messages as long as the game it is hosting is not filled with players or has not started.
-This would likely be a less elegant solution than having players searching for hosts message a couple of times.
+This would, however, lead to the host needing to repeatedly send messages as long as the game it is hosting has available slots for players or has not started.
+This would likely be a less elegant solution than having players that are searching for a host sending the message.
 Having the players send a message to the multicast group address for all hosts is the preferable solution, as it will avoid unnecessary overhead caused by broadcast messages being sent to unrelated machines on the network.
 \\\\
 Another option is to make use of the Zero Configuration Networking (Zeroconf) protocol.

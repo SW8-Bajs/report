@@ -1,4 +1,4 @@
-\section{UPPAAL modelling}
+\section{UPPAAL modelling}\label{sec:sprint3-uppaal}
 To illustrate how the UDP protocol should work in detail an UPPAAL model was constructed consisting of two templates: The host and an arbitrary amount of clients.
 This first iteration of the model is not intended for heavy model checking, but rather to take a higher-level look at how the protocol is intended to work.
 The two templates can be seen on Figures \ref{fig:uppaal-host-1} and \ref{fig:uppaal-client-1}.
@@ -91,7 +91,7 @@ This checksum is simply calculated as the sum of all four anchor coordinates, as
     }
 \end{lstlisting}
 
-\subsection{Updates to the network protocol}
+\subsection{Updates to the network protocol}\label{subsec:sprint3networkupdate}
 A good side-effect of generating the UPPAAL model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
 This resulted in some minor refactoring of the format.
 \\
