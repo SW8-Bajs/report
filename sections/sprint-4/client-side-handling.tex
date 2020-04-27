@@ -1,4 +1,81 @@
 \section{Receiving the information}
 With the networking protocol in place, let us take a look at how the data is received on the mobile clients.
-The \texttt{in-game} scene in Unity has an \texttt{empty object} which handles receiving data from the UDP and TCP client.
-W
+The \texttt{in-game} scene in Unity has an \texttt{empty object} which handles receiving data from the UDP and TCP clients.
+Having two separate clients allows them to run concurrently, so the UDP client does not block the TCP client or vice-versa.
+
+\subsection*{UDP client}
+Handling the datagrams on the UDP client is simple as it can currently only receive a message with type 1, which is to a message containing a position for a Pozyx tag.
+When this datagram is received, we convert the data to a byte and switch on it as seen on \autoref{lst:readingudpdatagram}.
+
+\begin{lstlisting}[caption={Processing datagrams in UDP client}, captionpos=b,language=C,label={lst:readingudpdatagram}]
+private void DatagramHandler(string datagramMessage)
+{
+    // Remove 0x from string before parsing
+    if(datagramMessage.ToLower().StartsWith("0x"))
+    {
+        datagramMessage = datagramMessage.Remove(0, 2);
+    }
+
+    long data;
+    byte type;
+    if (long.TryParse(datagramMessage, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out data))
+    {
+        type = (byte)data;
+        switch (type)
+        {
+            case 1:
+                UpdatePlayerData(data);
+                break;
+
+        }
+    }
+    else
+    {
+        Debug.LogError("Network data could not be parsed");
+    }
+}
+\end{lstlisting}
+
+The next step in processing the data is calling the appropriate function as seen in the switch, in this case we will take a look at the \texttt{UpdatePlayerData}.
+
+\begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
+private void UpdatePlayerData(long data)
+{
+    // bitshifting the hex string and typecasting to byte to get the values.
+    // see network format in the report for more detail
+    byte time = (byte)(data >> 8);
+    byte id = (byte)(data >> 16);
+    ushort x = (ushort)(data >> 24);
+    ushort y = (ushort)(data >> 40);
+
+
+    if (CheckTimestamp(time))
+    {
+        if (id == 0)
+        {
+            gameStateHandler.ballPosition.x = x;
+            gameStateHandler.ballPosition.y = y;
+        }
+        else
+        {
+            // Player id starts at 1 while the playerposition array is 0 indexed. Decrementing id so that they line up.
+            id--;
+            gameStateHandler.playerPositions[id].x = x;
+            gameStateHandler.playerPositions[id].y = y;
+        }
+    }
+    
+}
+\end{lstlisting}
+
+The next step in processing the data is to read the actual content of the message sent, in this step we utilize that the fact that all messages have a size corresponding to a type in C\#.
+We continue to read the messages from right to left using the bitshift operation.
+The first part we want to read from the message is the timestamp, which we know from the network format (\autoref{app:network}) has a size of 8 bits, which corresponds to the byte type in C\#.
+After this, the data is bitshifted another 16 bit and the value is assigned to the \texttt{id} variable, which is also a byte.\\
+When all the data has been loaded into variables, the \texttt{CheckTimestamp} is called to ensure that the received package is newer than the currently loaded data, since UDP does not ensure that packages are received in the right order.
+
+\subsection*{TCP client}
+The principle behind the TCP client is much like the UDP client, where the type is read as a byte and then a switch statement ensures that the data is handled by the correct function.
+However, since TCP is sent as a stream, all packages have been prefixed with a numerical values to indicate the length of each package.
+This means that the client cannot simply wait for a new message, read it and act according to the type.
+Instead, the client will read the first two bytes of the stream and then read the incoming amount of bytes indicated by this numerical value, allowing the program to handle packages of varying length.
