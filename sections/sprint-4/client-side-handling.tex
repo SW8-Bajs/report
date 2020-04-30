@@ -5,7 +5,18 @@ Having two separate clients allows them to run concurrently, so the UDP client d
 
 \subsection*{UDP client}
 Handling the datagrams on the UDP client is simple as it can currently only receive a message with type 0, which is to a message containing a position for a Pozyx tag.
-When this datagram is received, we convert the data to a byte and switch on it as seen on \autoref{lst:readingudpdatagram}.
+The datagram is recieved in the format \textit{0xYYYYXXXXIISSTT} where:
+\begin{itemize}
+    \item Y - Y position of tag
+    \item X - X position of tag
+    \item I - Id of player
+    \item S - Timestamp
+    \item T - Package type
+\end{itemize}
+
+When this datagram is received, we start by parsing the hexadecimal to a long.
+Because one hexadecimal corresponds to four bits we can get type of the datagram which is the last two hexadecimals of the datagram by typecasting it to a byte.
+As seen on line 13 in \autoref{lst:readingudpdatagram}.
 
 \begin{lstlisting}[caption={Processing datagrams in UDP client}, captionpos=b,language=C,label={lst:readingudpdatagram}]
 private void DatagramHandler(string datagramMessage)
@@ -20,7 +31,7 @@ private void DatagramHandler(string datagramMessage)
     byte type;
     if (long.TryParse(datagramMessage, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out data))
     {
-        type = (byte)data;
+        type = (byte)data;|\label{line:decode-type}|
         switch (type)
         {
             case 0:
@@ -68,12 +79,11 @@ private void UpdatePlayerData(long data)
 }
 \end{lstlisting}
 
-The next step in processing the data is to read the actual content of the message sent, in this step we utilize that the fact that all messages have a size corresponding to a type in C\#.
-We continue to read the messages from right to left using the bitshift operation.
+The next step in processing the data is to read the actual content of the datagram sent, in this step we utilize that the fact that all messages have a size corresponding to a type in C\#.
+We continue to read the datagram from right to left using the right bitshift operation.
 The first part we want to read from the message is the timestamp, which we know from the network format (\autoref{app:network}) has a size of 8 bits, which corresponds to the byte type in C\#.
-After this, the data is bitshifted another 16 bit and the value is assigned to the \texttt{id} variable, which is also a byte.\\
-When all the data has been loaded into variables, the \texttt{CheckTimestamp} is called to ensure that the received package is newer than the currently loaded data, since UDP does not ensure that packages are received in the right order.
-
+We know that the type of the package is 8 bits, we can therefore remove the type and get the timestamp to the back of the datagram by right bitshifting it by 8 bits as can be seen on line 5 in \autoref{lst:updateplayerdata} 
+We continue doing this for each message in the datagram where we start by right shifting the datagram by the combined size of the previously read messages and then typecasting it to a variable type with the same size as the message that is being read.
 \subsection*{TCP client}
 The principle behind the TCP client is much like the UDP client, where the type is read as a byte and then a switch statement ensures that the data is handled by the correct function.
 However, since TCP is sent as a stream, all packages have been prefixed with a numerical values to indicate the length of each package.
