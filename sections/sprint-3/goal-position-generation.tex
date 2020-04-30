@@ -12,7 +12,7 @@ In the end, it was decided to move all the goal zone generation and goal detecti
 On the server-side, the size of the goal is calculated based on a percentage of the shortest edge of the playing field.
 This size is used to calculate where the center points of the goal zones can be placed as the corners of the goal zones should not exceed the playing field edges.
 The goal zone will always be a square where all edge lengths are of equal length and the playing field should always closely resemble a rectangle.
-The first goal zones are always set at a certain point on the playing field, afterward, the goal zones positions are randomly generated.
+The first goal zones are always set at a certain point on the playing field, after which, the goal zones positions are randomly generated.
 The randomly generated goal zones will always mirror each other and will not spawn too close to the middle of the playing field.
 The goal zones will also never change sides so if a goal zone is initially generated on the left of the center of the playing field it will stay on that side for the duration of the game.
 Whenever a goal is scored, new center points are generated for both goal zones and then send from the server to all the clients connected.
