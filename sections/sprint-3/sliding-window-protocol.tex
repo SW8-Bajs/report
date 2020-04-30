@@ -11,7 +11,7 @@ By doing this the receiver can keep track of the packets, remove duplicates, ide
 \\\\
 On \autoref{fig:sliding-window} there is an illustration of a sliding window, where the window size is three.
 In the first frame three packets are sent to the receiver, in the second frame the receiver has acknowledged all three packets, but the first acknowledgement fails.
-The sliding window for the receiver has moved its window, but as the sender only has recieved acknowledgements from the second and third packet, it is unable to move its window and instead sends the first packet again in the third frame.
+The sliding window for the receiver has moved its window, but as the sender only has received acknowledgements from the second and third packet, it is unable to move its window and instead sends the first packet again in the third frame.
 In the fourth frame the first packet has been acknowledged, and therefore the sliding window is moved for the sender and the sender is now able to send new packets.
 \begin{figure}[H]
     \centering
@@ -20,7 +20,7 @@ In the fourth frame the first packet has been acknowledged, and therefore the sl
     \label{fig:sliding-window}
 \end{figure}
 \noindent
-For our project reliable data in the format of goal zones and goal score is important, however the reliability of player positions are not important.
+Reliable data in the format of goal zones and goal score is important for this project, however the reliability of player positions are not important.
 The reasoning for this is explained in \autoref{subsubsec:choosing-between-udp-or-tcp}.
-With Sliding Window protocol a player position would be retransmitted if it previously failed, and this position would now be outdated because the player might have moved since then.
-TCP also already uses sliding window for flow control so for goal zones and goal score it is not necessary to implement, as these use TCP \cite{ibm:sliding-window}.
+With the \texttt{Sliding Window} protocol a player position would be retransmitted if it previously failed, and this position would now be outdated because the player might have moved since then.
+TCP also already uses sliding window for flow control so for goal zones and scored goals it is not necessary to implement, as these use TCP \cite{ibm:sliding-window}.

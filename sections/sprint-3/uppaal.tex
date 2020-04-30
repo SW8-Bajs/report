@@ -1,5 +1,5 @@
 \section{UPPAAL modelling}\label{sec:sprint3-uppaal}
-To illustrate how the UDP protocol should work in detail an UPPAAL model was constructed consisting of two templates: The host and an arbitrary amount of clients.
+To illustrate how the UDP protocol should work in detail a UPPAAL model was constructed consisting of two templates: The host and an arbitrary amount of clients.
 This first iteration of the model is not intended for heavy model checking, but rather to take a higher-level look at how the protocol is intended to work.
 The two templates can be seen on Figures \ref{fig:uppaal-host-1} and \ref{fig:uppaal-client-1}.
 
@@ -20,7 +20,7 @@ The two templates can be seen on Figures \ref{fig:uppaal-host-1} and \ref{fig:up
 \subsection{Walkthrough of the model}
 The model for the client is fairly straight forward, it starts in an \uppLoc{initial} location which indicates that the client is not yet trying to connect to the host.
 The connection happens on the edge from the initial location to the \uppLoc{connecting} location.
-In the model, this is represented with the client utilizing the channel \uppChan{connect}, waiting for the host to synchronize by listening to the same channel.
+In the model, this is represented with the client utilizing the channel \uppChan{connect}, and waiting for the host to synchronize by listening to the same channel.
 When the synchronization happens, the host will execute the \uppFunc{setDataToTag()} function, which updates the data it is transmitting, and uses the channel \uppChan{connectPlayer} to inform the client that connection is now ready.
 The client will call a function \uppFunc{processData()} to read the content of the buffer and react accordingly. 
 These steps will happen until the amount of \uppVar{tagsSent} is equal to the number of clients specified in the configuration.
@@ -35,14 +35,14 @@ In case any client returns a negative-acknowledge (using the channel \uppChan{na
 \subsubsection{InGame}
 Finally, both the client and host will go to the \uppLoc{InGame} location to imply that the game is now happening.
 To simulate asynchronous tasks, the host will continuously take a non-deterministic choice between sending a goal position, a tag position, a goal update or ending the game.
-Meanwhile, the client only has two choices: Process Data received on the multicast or wait for the game to end.
+Meanwhile, the client only has two choices: Process data received on the multicast or wait for the game to end.
 
 \subsubsection{Code aspect}
 Behind the model, there are a series of variables and functions to make it all work.
 In the global declarations the number of clients is specified, as well as an integer array called data, which is used as a buffer to transmit data between the host and clients, to simulate the internet connection in the real implementation.
 The array has space for 5 elements to conform to the data format specified in \autoref{subsec:data-format}, such that the first element in the array will always be the type, which allows the client to act based on that when \uppFunc{processData()} is called.
 The concrete implementation of \uppFunc{processData()} can be seen on \autoref{lst:uppaal:processData}.
-For the this iteration of the UPPAAL model, updating player and goal positions are not implemented, since it did not seem like a significant detail to model.
+For this iteration of the UPPAAL model, updating player and goal positions are not implemented, since it did not seem like a significant detail to model.
 
 \begin{uppaalcode}[caption={Processing Data in UPPAAL model}, captionpos=b,label={lst:uppaal:processData}]
 void processData(){
@@ -74,7 +74,7 @@ void processData(){
 Likewise, when the host has to send data, it will update the first element of the buffer and fill in the relevant data in the other elements.
 
 \subsubsection{Checksum}
-For checking whether the client has the correct setup information, a checksum will be calculated on the client and based on the checksum that the host broadcasts, the players will return either an acknowledge or negative-acknowledge.
+A checksum will be calculated on the client for checking whether or not the client has the correct setup information, and based on the checksum that the host broadcasts, the players will return either an acknowledge or negative-acknowledge.
 \\
 This checksum is simply calculated as the sum of all four anchor coordinates, as seen in \autoref{lst:uppaal:checksum}.
 
@@ -99,7 +99,7 @@ First of all, the format for sending a field anchor position had a timestamp as 
 Since the anchors will only be sent once, it does not make sense to timestamp it and this has been removed.
 The updated version of the data format can be found in \autoref{app:network}
 \\
-Additionally, three new packages have been specified: Sending a player tag, sending an acknowledge or sending the signal to start the game.
+Additionally, three new packages have been specified: Sending a player tag, sending an acknowledgement or sending the signal to start the game.
 
 \begin{table}[h!]
     \centering
@@ -134,4 +134,4 @@ Additionally, three new packages have been specified: Sending a player tag, send
     \label{tab:gamestart}
 \end{table}
 \noindent
-The reason that \autoref{tab:acknowledge} does not have a type, is that it is the only package that will be sent from the client to the host, so it will only need to contain a signal for the host to know whether the checksum is correct or not.
+The reason that \autoref{tab:acknowledge} does not have a type is that it is the only package that will be sent from the client to the host, so it will only need to contain a signal for the host to know whether the checksum is correct or not.
