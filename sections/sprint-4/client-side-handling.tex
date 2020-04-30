@@ -5,7 +5,7 @@ Having two separate clients allows them to run concurrently, so the UDP client d
 
 \subsection*{UDP client}
 Handling the datagrams on the UDP client is simple as it can currently only receive a message with type 0, which is to a message containing a position for a Pozyx tag.
-The datagram is recieved in the format \textit{0xYYYYXXXXIISSTT} where:
+The datagram is received in the format \textit{0xYYYYXXXXIISSTT} where 0x indicates hex and the rest of the identifiers are:
 \begin{itemize}
     \item Y - Y position of tag
     \item X - X position of tag
@@ -14,8 +14,8 @@ The datagram is recieved in the format \textit{0xYYYYXXXXIISSTT} where:
     \item T - Package type
 \end{itemize}
 
-When this datagram is received, we start by parsing the hexadecimal to a long.
-Because one hexadecimal corresponds to four bits we can get type of the datagram which is the last two hexadecimals of the datagram by typecasting it to a byte.
+When this datagram is received, we start by parsing the hexadecimal to a long datatype.
+Since one hexadecimal corresponds to four bits we can get the type of the message, which is the last two hex values of the datagram by typecasting it to a byte.
 As seen on line 13 in \autoref{lst:readingudpdatagram}.
 
 \begin{lstlisting}[caption={Processing datagrams in UDP client}, captionpos=b,language=C,label={lst:readingudpdatagram}]
