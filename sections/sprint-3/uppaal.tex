@@ -18,33 +18,33 @@ The two templates can be seen on Figures \ref{fig:uppaal-host-1} and \ref{fig:up
 \end{figure}
 
 \subsection{Walkthrough of the model}
-The model for the client is fairly straight forward, it starts in an \texttt{initial} location which indicates that the client is not yet trying to connect to the host.
-The connection happens on the edge from the initial location to the \texttt{connecting} location.
-In the model, this is represented with the client utilizing the channel \texttt{connect}, waiting for the host to synchronize by listening to the same channel.
-When the synchronization happens, the host will execute the \texttt{setDataToTag()} function, which updates the data it is transmitting, and uses the channel \texttt{connectPlayer} to inform the client that connection is now ready.
-The client will call a function \texttt{processData()} to read the content of the buffer and react accordingly. 
-These steps will happen until the amount of \texttt{tagsSent} is equal to the number of clients specified in the configuration.
+The model for the client is fairly straight forward, it starts in an \uppLoc{initial} location which indicates that the client is not yet trying to connect to the host.
+The connection happens on the edge from the initial location to the \uppLoc{connecting} location.
+In the model, this is represented with the client utilizing the channel \uppChan{connect}, waiting for the host to synchronize by listening to the same channel.
+When the synchronization happens, the host will execute the \uppFunc{setDataToTag()} function, which updates the data it is transmitting, and uses the channel \uppChan{connectPlayer} to inform the client that connection is now ready.
+The client will call a function \uppFunc{processData()} to read the content of the buffer and react accordingly. 
+These steps will happen until the amount of \uppVar{tagsSent} is equal to the number of clients specified in the configuration.
 
 \subsubsection{Setup}
-The next location for both the host and client is \texttt{Setup}, which is the point where the host will transmit the anchor positions and ensure that all clients have consistent data.
-The host will attempt to send the anchors one at a time with the \texttt{sendAnchor()} function until it has sent all 4 anchors to the clients.
-Unlike the \texttt{connect} and \texttt{connectPlayer} channels, this happens on a broadcast channel, which allows multiple clients to receive the data at once to simulate the use of multicasting.
+The next location for both the host and client is \uppLoc{Setup}, which is the point where the host will transmit the anchor positions and ensure that all clients have consistent data.
+The host will attempt to send the anchors one at a time with the \uppFunc{sendAnchor()} function until it has sent all 4 anchors to the clients.
+Unlike the \uppChan{connect} and \uppChan{connectPlayer} channels, this happens on a broadcast channel, which allows multiple clients to receive the data at once to simulate the use of multicasting.
 Since there is a chance that not all clients have received the four anchor coordinates correctly, the host will broadcast a checksum and have the clients either acknowledge or negative-acknowledge that the checksum is equal to the checksum of the data they have received.
-In case any client returns a negative-acknowledge (using the channel \texttt{nack}), all clients will go back to the setup and receive the anchor coordinates again until all clients send acknowledgements.
+In case any client returns a negative-acknowledge (using the channel \uppChan{nack}), all clients will go back to the setup and receive the anchor coordinates again until all clients send acknowledgements.
 
 \subsubsection{InGame}
-Finally, both the client and host will go to the \texttt{InGame} location to imply that the game is now happening.
+Finally, both the client and host will go to the \uppLoc{InGame} location to imply that the game is now happening.
 To simulate asynchronous tasks, the host will continuously take a non-deterministic choice between sending a goal position, a tag position, a goal update or ending the game.
 Meanwhile, the client only has two choices: Process Data received on the multicast or wait for the game to end.
 
 \subsubsection{Code aspect}
 Behind the model, there are a series of variables and functions to make it all work.
 In the global declarations the number of clients is specified, as well as an integer array called data, which is used as a buffer to transmit data between the host and clients, to simulate the internet connection in the real implementation.
-The array has space for 5 elements to conform to the data format specified in \autoref{subsec:data-format}, such that the first element in the array will always be the type, which allows the client to act based on that when \texttt{processData()} is called.
-The concrete implementation of \texttt{processData()} can be seen on \autoref{lst:uppaal:processData}.
+The array has space for 5 elements to conform to the data format specified in \autoref{subsec:data-format}, such that the first element in the array will always be the type, which allows the client to act based on that when \uppFunc{processData()} is called.
+The concrete implementation of \uppFunc{processData()} can be seen on \autoref{lst:uppaal:processData}.
 For the this iteration of the UPPAAL model, updating player and goal positions are not implemented, since it did not seem like a significant detail to model.
 
-\begin{lstlisting}[caption={Processing Data in UPPAAL model}, captionpos=b,language=C,label={lst:uppaal:processData}]
+\begin{uppaalcode}[caption={Processing Data in UPPAAL model}, captionpos=b,label={lst:uppaal:processData}]
 void processData(){
     int type = data[0];
     
@@ -69,7 +69,7 @@ void processData(){
         // Start game
     }
 }
-\end{lstlisting}
+\end{uppaalcode}
 \noindent
 Likewise, when the host has to send data, it will update the first element of the buffer and fill in the relevant data in the other elements.
 
@@ -78,7 +78,7 @@ For checking whether the client has the correct setup information, a checksum wi
 \\
 This checksum is simply calculated as the sum of all four anchor coordinates, as seen in \autoref{lst:uppaal:checksum}.
 
-\begin{lstlisting}[caption={Calculating checksum in UPPAAL model}, captionpos=b,language=C,label={lst:uppaal:checksum}]
+\begin{uppaalcode}[caption={Calculating checksum in UPPAAL model}, captionpos=b,label={lst:uppaal:checksum}]
     void sendChecksum(){
         int checksum = 0;
         int i;
@@ -89,7 +89,7 @@ This checksum is simply calculated as the sum of all four anchor coordinates, as
         data[0] = 5;
         data[1] = checksum;
     }
-\end{lstlisting}
+\end{uppaalcode}
 
 \subsection{Updates to the network protocol}\label{subsec:sprint3networkupdate}
 A good side-effect of generating the UPPAAL model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
@@ -97,7 +97,7 @@ This resulted in some minor refactoring of the format.
 \\
 First of all, the format for sending a field anchor position had a timestamp as a part of the package. 
 Since the anchors will only be sent once, it does not make sense to timestamp it and this has been removed.
-The updated version of the data format can be found in \todo{link til appendix med data format}.
+The updated version of the data format can be found in \autoref{app:network}
 \\
 Additionally, three new packages have been specified: Sending a player tag, sending an acknowledge or sending the signal to start the game.
 
