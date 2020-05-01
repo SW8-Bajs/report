@@ -1,5 +1,5 @@
 \section{Updating the networking protocol}
-During implementation of the networking protocol outlined in \autoref{sec:sprint3-uppaal}, some problems were encountered.
+During implementation of the networking protocol outlined in \autoref{sec:sprint3-uppaal}, problems were encountered when attempting to implement acknowledgements in the UDP based connection for game critical data.
 Section \ref{sec:sprint3-uppaal} defines the way the protocol was envisioned to work based on the choice made in \autoref{sec:sprint1-networking}, where UDP sockets were selected as the type to be used for this project.
 With the unreliability of UDP, and the importance of certain data being transmitted to players, it would be necessary to implement an acknowledgment from clients that they had received crucial data relating to the setup of the game, as defined in \autoref{sec:sprint3-uppaal}.
 During implementation of this, issues were encountered when sending the acknowledgment message from the client to the host.
@@ -36,8 +36,10 @@ While the packages are currently not large enough to where this is likely to cau
 On top of the currently described UDP approach to sending messages to ensure recent data is used for positioning while the game is played, a TCP socket connection between the host and clients could be implemented.
 As described in \autoref{sec:sprint1-networking}, TCP includes reliability.
 This reliability ensures that every message sent will be received by the client, through built in acknowledgments.
-This would remove the need for clients sending UDP acknowledgments for game crucial data.
-Because of the reliability, and needing established connections, TCP messages will be slower to transmit.
+This would remove the need for clients sending UDP acknowledgments for game crucial data, and also make the implementation of a sliding window as described in \autoref{sec:sliding-window} for UDP unnecessary.
+Because of the reliability, and needing established connections, TCP messages could potentially be slower to transmit.
+This would be the case if the TCP connection had to retransmit a message.
+Retransmitting a message involves waiting for a timeout, which incurs the larger overhead in comparison to UDP. 
 As one of the focuses for the project is creating a networking solution capable of continuously updating positional data as quickly as possible, this is not an ideal solution for transmitting the data when the game is being played.
 \begin{table}[h!]
     \begin{tabular}{|l|l|l|l|}
@@ -49,7 +51,7 @@ As one of the focuses for the project is creating a networking solution capable 
     \caption{PMI analysis of TCP and UDP}
     \label{Tab:PMI-TCP-UDP}
 \end{table}     
-We performed a PMI(Plus Minus Interesting) analysis on both protocols to outline the strenghts and weaknesses of TCP and UDP which can be seen in \autoref{Tab:PMI-TCP-UDP}.
+We performed a PMI(Plus Minus Interesting) analysis on both protocols to outline the strengths and weaknesses of TCP and UDP which can be seen in \autoref{Tab:PMI-TCP-UDP}.
 As can be seen on the table, both approaches have specific use cases where they are useful and in our case we have use cases for both TCP and UDP.
 As such, a combination is proposed - TCP for crucial data, and UDP for positional data.
 The issue described above relating to goalzones can also be remedied through a combination.
