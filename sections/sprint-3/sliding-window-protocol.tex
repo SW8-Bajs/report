@@ -10,7 +10,7 @@ Each packet or byte gets a sequence number and the acknowledgement that is sent 
 By doing this the receiver can keep track of the packets, remove duplicates, identify missing packets and know which order is the correct one.
 \\\\
 On \autoref{fig:sliding-window} there is an illustration of a sliding window, where the window size is three.
-In the first frame three packets are sent to the receiver, in the second frame the receiver has acknowledged all three packets, but the first acknowledgement fails.
+In the first frame, three packets are sent to the receiver, in the second frame the receiver has acknowledged all three packets, but the first acknowledgement fails.
 The sliding window for the receiver has moved its window, but as the sender only has received acknowledgements from the second and third packet, it is unable to move its window and instead sends the first packet again in the third frame.
 In the fourth frame the first packet has been acknowledged, and therefore the sliding window is moved for the sender and the sender is now able to send new packets.
 \begin{figure}[H]

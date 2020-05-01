@@ -2,7 +2,7 @@
 The accuracy of the representation of the players as well as the ball is important for the game to function well.
 Since these positions are sent over the network, they might not always be the most recent positions, since there could be delays or packages could be lost.
 \\\\
-Dead reckoning is a technique that is used to predict where a game object is at a given time based on its last know position, velocity and acceleration.
+Dead reckoning is a technique that is used to predict where a game object is at a given time based on its last known position, velocity and acceleration.
 It is often used for networking games where packages about the object's kinematic state are continuously being sent from the server to the clients.
 The kinematic state of an object includes its position, velocity, acceleration, orientation and angular velocity \autocite{DeadReckoning}.
 If the client misses a package or they are not being sent often enough to have a new update for each frame, the representation of the object will jerk across the screen instead of having smooth and consistent movement.
