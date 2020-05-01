@@ -14,7 +14,7 @@ Therefore dead reckoning is needed to achieve a believable representation of the
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{dead_reckoning/dead_reckoning_example_1.PNG}
-    \caption{Linear player movement}
+    \caption{Linear player movement.}
     \label{fig:dead_reckoning_example_1}
 \end{figure}
 \noindent
@@ -28,20 +28,20 @@ where $ P'_0 $ is the position, $ V'_0 $ is the velocity, $ A'_0 $ is the accele
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{dead_reckoning/dead_reckoning_example_2.PNG}
-    \caption{A new update about the player's state is received from the server}
+    \caption{A new update about the player's state is received from the server.}
     \label{fig:dead_reckoning_example_2}
 \end{figure}
 \noindent
-In \autoref{fig:dead_reckoning_example_2} we receive a new update about the player's kinematic state. 
+In \autoref{fig:dead_reckoning_example_2} a new update about the player's kinematic state is received. 
 This results in conflicting realities when compared to the dead reckoned position calculated from the previous example. 
-In the new update the player has turned right and a new dead reckoned position must be found, but this time it becomes a lot trickier since a believable curve must be created from where we thought the player would be and where we estimate the player will be based on the new information.
+In the new update the player has turned right and a new dead reckoned position must be found, but this time it becomes a lot trickier since a believable curve must be created from where the player was thought to be and where the player is estimated to be based on the new information.
 Representing the new position $P'_0$ immediately would result in the player warping across the screen which would not be ideal.
 Instead, the player is represented at $ P_0 $ where the player was thought to be, and the player should then move towards a new dead reckoned position, calculated with the information from the new update \autocite{DeadReckoning}.
 
 
 \subsection{Projective Velocity Blending}
-To calculate the curve that the player's movement needs to follow requires a good algorithm that is not too CPU intensive.
-The algorithm must work well for a segment of a curve that is passing through two points, those being the player's current position $P_0$ and the estimated future location $P'_1$.
+Calculating the curve that the player's movement needs to follow requires a good algorithm that is not too CPU intensive.
+The algorithm must work well for a segment of a curve that passes through two points, those being the player's current position $P_0$ and the estimated future location $P'_1$.
 The recommended approach for this problem is projective velocity blending \autocite{DeadReckoning}.
 \\\\
 Projections are created for the current kinematic state and the last known kinematic state and then these are blended together. 
@@ -83,7 +83,7 @@ This should reduce the oscillations in the player's movement significantly.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{dead_reckoning/dead_reckoning_example_3.PNG}
-    \caption{Shows the the curve for the dead reckoned position $Q_t$ when making use of projective velocity blending}
+    \caption{Shows the the curve for the dead reckoned position $Q_t$ when making use of projective velocity blending.}
     \label{fig:dead_reckoning_example_3}
 \end{figure}
 \noindent
