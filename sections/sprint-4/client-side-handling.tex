@@ -5,7 +5,18 @@ Having two separate clients allows them to run concurrently, so the UDP client d
 
 \subsection*{UDP client}
 Handling the datagrams on the UDP client is simple as it can currently only receive a message with type 0, which is to a message containing a position for a Pozyx tag.
-When this datagram is received, we convert the data to a byte and switch on it as seen on \autoref{lst:readingudpdatagram}.
+The datagram is received in the format \texttt{0xYYYYXXXXIISSTT} where 0x indicates hex and the rest of the identifiers are:
+\begin{itemize}
+    \item Y : Y position of the tag
+    \item X : X position of the tag
+    \item I : Id of player
+    \item S : Timestamp
+    \item T : Package type
+\end{itemize}
+
+\noindent
+When this datagram is received, we start by parsing the hexadecimal to a long datatype.
+Since one hexadecimal corresponds to four bits we can get the type of the message, which is the last two hex values of the datagram by typecasting it to a byte as seen on line 13 in \autoref{lst:readingudpdatagram}.
 
 \begin{lstlisting}[caption={Processing datagrams in UDP client}, captionpos=b,language=C,label={lst:readingudpdatagram}]
 private void DatagramHandler(string datagramMessage)
@@ -36,6 +47,7 @@ private void DatagramHandler(string datagramMessage)
 }
 \end{lstlisting}
 
+\noindent 
 The next step in processing the data is calling the appropriate function as seen in the switch, in this case we will take a look at the \texttt{UpdatePlayerData}.
 
 \begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
@@ -67,13 +79,40 @@ private void UpdatePlayerData(long data)
     
 }
 \end{lstlisting}
+\noindent 
+The next step in processing the data is to read the actual content of the message sent.
+This is done by utilizing the fact that all parts of the message have a size corresponding to a type in C\#.
+The datagram is read from right to left using the right bitshift operation.
+When a hexadecimal is right bit shifted 4 bits every decimal in the hexadecimal is moved one decimal to the right as illustrated on \autoref{fig:sprint4-bit-shift-basic}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{sprint4/bitshift-illustration.png}
+    \caption{Right bit shifting a hexadecimal by 4 bits.}
+    \label{fig:sprint4-bit-shift-basic}
+\end{figure}
+This can be utilized to read the different parts of the message that the client received.
+The first part that is read from the message is timestamp.
+In the message the decimals representing the timestamp are followed by two decimals representing the type of the message as seen earlier.
+Because one decimal corresponds to four bits, the message has to be right bit shifted by 8 bits to move the timestamp to the back of the hexadecimal as illustrated on \autoref{fig:sprint4-bitshift-timestamp}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{sprint4/bitshift-timestamp-illustration.png}
+    \caption{Right bitshifting the message by 8 bits to get the timestamp to the back.}
+    \label{fig:sprint4-bitshift-timestamp}
+\end{figure}
 
-The next step in processing the data is to read the actual content of the message sent, in this step we utilize that the fact that all messages have a size corresponding to a type in C\#.
-We continue to read the messages from right to left using the bitshift operation.
-The first part we want to read from the message is the timestamp, which we know from the network format (\autoref{app:network}) has a size of 8 bits, which corresponds to the byte type in C\#.
-After this, the data is bitshifted another 16 bit and the value is assigned to the \texttt{id} variable, which is also a byte.\\
-When all the data has been loaded into variables, the \texttt{CheckTimestamp} is called to ensure that the received package is newer than the currently loaded data, since UDP does not ensure that packages are received in the right order.
-
+The message can then be typecasted to a \texttt{byte} to extract the timestamp from the package.
+The next part that is read from the message is the player id.
+Decimals representing the player id are followed by four decimals representing the timestamp and the type of the package.
+This means that to get the player id to the back of the hexadecimal the message has to be right bit shifted by 16 bits.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{sprint4/bitshift-playerid-illustration.png}
+    \caption{Right bitshifting the message by 16 bits to get the player id to the back.}
+    \label{fig:sprint4-bitshift-playerid}
+\end{figure}
+Because the player id is represented as two decimals it can be decoded from the message by typecasting the message to the \texttt{byte} datatype in C\#.
+This is done for each part of the message where the message is right bitshifted by the combined size of the previously read parts and then typecasted to a datatype that has the same size as the part of the message that is being read.
 \subsection*{TCP client}
 The principle behind the TCP client is much like the UDP client, where the type is read as a byte and then a switch statement ensures that the data is handled by the correct function.
 However, since TCP is sent as a stream, all packages have been prefixed with a numerical values to indicate the length of each package.
