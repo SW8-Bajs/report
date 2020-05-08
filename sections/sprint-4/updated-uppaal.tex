@@ -1,12 +1,12 @@
-\section{Updated UPPAL}
+\section{Updating the \uppaal model}
 As mentioned in \autoref{sec:update-network-protocol} the approach to handling the network data has changed from being purely UDP to a combination of UDP and TCP.
-This lead to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal} being outdated and that it had to be updated to fit the new requirements.
+This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal} being outdated, and that it had to be updated to fit the new requirements.
 \\
 Additionally, the previous model focused mostly on the flow of the program and did not properly take the network part of the system into account.
 In this new model, the system will consist of four parts: The host, which is meant to represent the Python program that the game facilitator uses, an arbitrary number of clients who have connected to the game, and the UDP and TCP connection between those.
 
 \subsection{System declarations}
-\begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl}]
+\begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl},captionpos=b]
     system UDP_host, TCP_host, TCP_client, Host, Client;
 \end{uppaalcode}
 Before diving into the details of the different templates, let us first get an overview of the system:\\
@@ -19,11 +19,11 @@ In this new version of the model, the inclusion of TCP clients and hosts, and a 
 The global declarations (seen on \autoref{lst:uppaal4:globaldecl}) for the system have two purposes: Setting game and simulation specific options, such as how many clients should be instantiated, or how long the TCP client should wait for a response before declaring the connection as timeouted.
 The \uppVar{host} variable is saved as an alias to know which space in the buffers is reserved for messages from clients to the host.
 To facilitate data transfer between the templates, the model makes use of global buffers, which are defined as int arrays.
-Each place in the array corresponds to a buffer related to a client process so that \uppProc(Client(0)) will read from the 0th index of the array, \uppProc(Client(1)) will read from the second and so on.
+Each place in the array corresponds to a buffer related to a client process so that \uppProc(Client(0)) will read from index 0 of the array, \uppProc(Client(1)) will read from index 1 and so on.
 Since the \uppVar{UDP_buffer} is supposed to correspond to a multicast, it is simply saved as an integer instead, which will hold the information that any client listening to the multicast will receive. 
 Finally, a series of channels are defined, which we will go into more detail about in the following subsections.
 
-\begin{uppaalcode}[caption={Global declarations}, label={lst:uppaal4:globaldecl}]
+\begin{uppaalcode}[caption={Global declarations}, label={lst:uppaal4:globaldecl},captionpos=b]
 const int number_of_clients = 4;
 const int time_limit = 2;
 const int host = number_of_clients;
@@ -58,7 +58,7 @@ This is done through either \uppOut{TCP_send} synchronisation or \uppOut{UDP_sen
     \caption{The Host template of the \uppaal model.}
     \label{fig:sprint4-uppaal-host}
 \end{figure}
-\begin{uppaalcode}[caption={local Host declarations}, label={lst:sprint-4-host-code}]
+\begin{uppaalcode}[caption={local Host declarations}, label={lst:sprint-4-host-code},captionpos=b]
 
 int connected_clients = 0;
 int local_TCP_buffer;
@@ -84,7 +84,7 @@ This indicates that the client is now in a game, and can continuously receive in
 
 % TCP
 \subsection{TCP host and client templates}
-The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} were designed such that there will be a process of each for each client process that exists.
+The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} were designed such that there will be a single process of both respectively for each client process that exists.
 This was designed to model the socket connection that is established between the host and a client.
 Like in the \uppTemp{Client}, this happens by having an \uppVar{clientId} as a parameter for when the process is instantiated.
 As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until they receive an \uppSync{input syncronization} from either a \uppTemp{Host} or \uppTemp{Client}.
@@ -122,19 +122,19 @@ When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchron
 \subsection{Happy simulation trace}
 A happy simulation trace can be seen on \autoref{fig:sprint4-happy-trace}.
 As seen on the trace \uppTemp{Client(0)} first connects through the threeway handshake without any timeouts.
-\uppTemp{Client(1)} Then also connects through threeway handshake without any timeouts.
-Finally the after both of the clients are in \uppLoc{Lobby} the \uppTemp{Host} transitions to \uppLoc{InGame}.
+\uppTemp{Client(1)} then also connects through threeway handshake without any timeouts.
+Finally, after both of the clients are in the \uppLoc{Lobby}, the \uppTemp{Host} transitions to \uppLoc{InGame}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{sprint4/connected-trace.png}
-    \caption{Example of a trace where both Clients connect without any problems}
+    \caption{Example of a trace where both Clients connect without any problems.}
     \label{fig:sprint4-happy-trace}
 \end{figure}
 
 \subsection{Trace with a timeout}
 A trace where it times out once while connecting can be seen on \autoref{fig:sprint4-timeout-trace}.
-\uppTemp{Client(1)} connects without any issues, but \uppTemp{Client(0)} times out once while connecing.
-This can be seen on the trace of \uppTemp{TCP_client(0)}. When it sends the \uppOut{tcp_sync[0]} it timesout because it doesn't get are response from the \uppTemp{TCP_host(1)}.
+\uppTemp{Client(1)} connects without any issues, but \uppTemp{Client(0)} times out once while connecting.
+This can be seen on the trace of \uppTemp{TCP_client(0)}. When it sends the \uppOut{tcp_sync[0]} it timesout because it does not get a response from the \uppTemp{TCP_host(1)}.
 It then resends the message successfully and continues with connecting.
 \begin{figure}[h]
     \centering
