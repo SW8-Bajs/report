@@ -95,7 +95,7 @@ Like in the \uppTemp{Client}, this happens by having an \uppVar{clientId} as a p
 As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until \uppProc{TCP_client} receive an \uppIn{TCP_connect[id]} synchronization from a \uppProc{Client}.
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} will then begin to initialize a 3-way handshake to ensure that both parties are ready for transferring data between them.
 Once the handshake has been completed, the \uppTemp{TCP_Host} will send a message to the \uppTemp{Host} to inform that a new player has been connected via the \uppOut{TCP_client_connected} synchronization, and then enter an \uppLoc{Idle} location to indicate that it is ready to send messages.
-Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established with the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} Location where it is ready to receive messages.
+Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established with the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive messages.
 
 \begin{figure}[h]
     \centering
