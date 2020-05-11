@@ -13,7 +13,7 @@ The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTe
 As mentioned above, the \uppTemp{Host} and \uppTemp{Client} templates are meant to represent the interface that users interact with when using the system.
 In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTemp{TCP_host}s, and a \uppTemp{UDP_host} allows us to model the behavior of the network aspect of the system.
 
-% System declerations
+% System declarations
 \subsection{Global declarations}
 The global declarations (seen on \autoref{lst:uppaal4:globaldecl}) for the system have two purposes: Setting game and simulation specific options, such as how many clients should be instantiated, or how long the TCP client should wait for a response before declaring the connection as timed out.
 \\
@@ -125,9 +125,15 @@ When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchron
 
 % Trace example of the system
 \subsection{Perfect scenario simulation trace}
-A simulation trace where everything goes perfectly and no timeouts happen can be seen on \autoref{fig:sprint4-happy-trace}.
+In \uppaal it is possible to generate traces of simulations of the model. 
+This is useful when verifying different properties of the model or when getting an overview of how the model works.
+A simulation trace can be seen on \autoref{fig:sprint4-happy-trace}.
+At the top of the trace you see all of the processes in the system.
+You can then see the trace of each process which is the line that goes from the process and to the bottom of the diagram.
+The boxes on the trace indicate which Location the process is in at any given time.
+The red arrows between the traces symbolize synchronizations that happen between processes, and the label on the red arrow indicates which channel it happens through.
 As seen on the trace \uppTemp{Client(0)} first connects through the threeway handshake without any timeouts.
-\uppTemp{Client(1)} then also connects through three-way handshake without any timeouts.
+\uppTemp{Client(1)} then also connects through a three-way handshake without any timeouts.
 Finally, after both of the clients are in the \uppLoc{Lobby}, the \uppTemp{Host} transitions to \uppLoc{InGame}.
 \begin{figure}[h]
     \centering
