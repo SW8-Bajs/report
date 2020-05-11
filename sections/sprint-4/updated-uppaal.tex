@@ -73,8 +73,8 @@ Like the \uppTemp{Host} template, the \uppTemp{Client} has a local declaration f
 Since it is desirable to have a variable amount of instances, the template has an \uppType{id_t} parameter called \uppVar{id}, to allow instantiating multiple client processes.
 The \uppTemp{Client} has four named locations, as seen on \autoref{fig:sprint4-uppaal-client}, which correspond to the states that the actual implementation can be in.
 First off, the process starts in an \uppLoc{Initial} location, which then uses the \uppOut{TCP_connect[id]} to make the \uppTemp{TCP_client(id)} start connecting through TCP and transition to \uppLoc{Connecting}.
-The \uppProc{Client(id)} recieves \uppIn{TCP_connected[id]} synchronization when the \uppProc{TCP_client(i)} has connected and it then transitions to the \uppLoc{Lobby} location.
-Everytime it recieves a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a message.
+The \uppProc{Client(id)} receives \uppIn{TCP_connected[id]} synchronization when the \uppProc{TCP_client(i)} has connected and it then transitions to the \uppLoc{Lobby} location.
+Everytime it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a message.
 It then transitions to an in-between location and then either transition back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what message is received.
 The in-between location is a committed location.
 This is done so that the \uppProc{Client(id)} has to transition from it immediately instead of waiting.
