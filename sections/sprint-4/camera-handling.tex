@@ -1,0 +1,19 @@
+\section{Camera handling}
+This section will explain how the camera in the game is handled.
+Since the playing field can have a varying size the camera needs to be able to fit the whole playing field on the screen so that it can be rendered.
+Another problem is the usage of VR headsets that allow the player to turn the camera's view by looking in different directions.
+This causes the playing field to go out of the player's view which is a problem since they can then no longer see their position.
+\\\\
+The way this is solved is by always having the playing field and its attached game objects face in the direction of the camera.
+This is achieved by giving the playing field the same rotation as the camera.
+By doing this, the player will always see the playing field in the same position in the 3D space no matter which direction they look.
+But this solution is not enough since the playing field will not have the same position in the 3D space as the camera.
+It must be a certain distance away from the camera, based on its width and height, to allow it to be rendered. 
+Because of this, a new position must be calculated for the playing field in relation to the cameras direction. 
+\begin{lstlisting}[caption={Calculating and setting the position and rotation of the playing field}, captionpos=b,language=C,label={lst:camera_position}]
+    newPosition = playingFieldTransform.transform.position + playingFieldTransform.transform.forward * distanceFromCamera;
+    transform.position = newPosition;
+    transform.rotation = mainCamera.transform.localRotation; 
+\end{lstlisting}
+The new position is calculated by adding the playing field's initial position relative to the camera \texttt{playingFieldTransform.transform.position} with an offset vector.
+The offset vector is calculated by multiplying \texttt{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance \texttt{distanceFromCamera} that we want the field to be from the camera.
