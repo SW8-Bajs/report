@@ -1,8 +1,8 @@
-\section{Updating the networking protocol}
+\section{Updating the networking protocol}\label{sec:update-network-protocol}
 During implementation of the networking protocol outlined in \autoref{sec:sprint3-uppaal}, problems were encountered when attempting to implement acknowledgements in the UDP based connection for game critical data.
 Section \ref{sec:sprint3-uppaal} defines the way the protocol was envisioned to work based on the choice made in \autoref{sec:sprint1-networking}, where UDP sockets were selected as the type to be used for this project.
 With the unreliability of UDP, and the importance of certain data being transmitted to players, it would be necessary to implement an acknowledgment from clients that they had received crucial data relating to the setup of the game, as defined in \autoref{sec:sprint3-uppaal}.
-During implementation of this, issues were encountered when sending the acknowledgment message from the client to the host.
+During the implementation of this, issues were encountered when sending the acknowledgment message from the client to the host.
 As the sockets should make use of multicasting, as defined in \autoref{sec:sprint1-udptransmission}, it seemed as though the clients should just be able to send messages to the same multicast group, and have the host receive that message, with a type that specified that the message was an acknowledgment that could be either positive or negative, structured in the same way as described in \autoref{subsec:data-format}.
 However, the host had issues receiving the messages.
 This prompted a discussion regarding how to remedy this issue, as a new approach seemed necessary.

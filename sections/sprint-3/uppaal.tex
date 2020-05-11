@@ -1,19 +1,19 @@
-\section{UPPAAL modelling}\label{sec:sprint3-uppaal}
-To illustrate how the UDP protocol should work in detail a UPPAAL model was constructed consisting of two templates: The host and an arbitrary amount of clients.
+\section{\uppaal modelling}\label{sec:sprint3-uppaal}
+To illustrate how the UDP protocol should work in detail a \uppaal model was constructed consisting of two templates: The host and an arbitrary amount of clients.
 This first iteration of the model is not intended for heavy model checking, but rather to take a higher-level look at how the protocol is intended to work.
 The two templates can be seen on Figures \ref{fig:uppaal-client-1} and \ref{fig:uppaal-host-1}.
 
 \begin{figure}[H]
    \centering
     \includegraphics[width=1\linewidth]{/uppaal/client1.png}
-    \caption{First iteration of the UPPAAL client template.}
+    \caption{First iteration of the \uppaal client template.}
     \label{fig:uppaal-client-1}
 \end{figure}
 
 \begin{figure}[H]
    \centering
     \includegraphics[width=1\linewidth]{/uppaal/host1.png}
-    \caption{First iteration of the UPPAAL host template.}
+    \caption{First iteration of the \uppaal host template.}
     \label{fig:uppaal-host-1}
 \end{figure}
 
@@ -42,9 +42,9 @@ Behind the model, there are a series of variables and functions to make it all w
 In the global declarations the number of clients is specified, as well as an integer array called data, which is used as a buffer to transmit data between the host and clients, to simulate the internet connection in the real implementation.
 The array has space for 5 elements to conform to the data format specified in \autoref{subsec:data-format}, such that the first element in the array will always be the type, which allows the client to act based on that when \uppFunc{processData()} is called.
 The concrete implementation of \uppFunc{processData()} can be seen on \autoref{lst:uppaal:processData}.
-For this iteration of the UPPAAL model, updating player and goal positions are not implemented, since it did not seem like a significant detail to model.
+For this iteration of the \uppaal model, updating player and goal positions are not implemented, since it did not seem like a significant detail to the model.
 
-\begin{uppaalcode}[caption={Processing Data in UPPAAL model}, captionpos=b,label={lst:uppaal:processData}]
+\begin{uppaalcode}[caption={Processing Data in \uppaal model}, captionpos=b,label={lst:uppaal:processData}]
 void processData(){
     int type = data[0];
     
@@ -78,7 +78,7 @@ A checksum will be calculated on the client for checking whether or not the clie
 \\
 This checksum is simply calculated as the sum of all four anchor coordinates, as seen in \autoref{lst:uppaal:checksum}.
 
-\begin{uppaalcode}[caption={Calculating checksum in UPPAAL model}, captionpos=b,label={lst:uppaal:checksum}]
+\begin{uppaalcode}[caption={Calculating checksum in \uppaal model}, captionpos=b,label={lst:uppaal:checksum}]
     void sendChecksum(){
         int checksum = 0;
         int i;
@@ -92,7 +92,7 @@ This checksum is simply calculated as the sum of all four anchor coordinates, as
 \end{uppaalcode}
 
 \subsection{Updates to the network protocol}\label{subsec:sprint3networkupdate}
-A good side-effect of generating the UPPAAL model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
+A good side-effect of generating the \uppaal model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
 This resulted in some minor refactoring of the format.
 \\
 First of all, the format for sending a field anchor position had a timestamp as a part of the package. 
