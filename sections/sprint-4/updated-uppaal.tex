@@ -135,7 +135,7 @@ The red arrows between the traces symbolize synchronizations that happen between
 As seen on the trace \uppTemp{Client(0)} first connects through the threeway handshake without any timeouts.
 \uppTemp{Client(1)} then also connects through a three-way handshake without any timeouts.
 Finally, after both of the clients are in the \uppLoc{Lobby}, the \uppTemp{Host} transitions to \uppLoc{InGame}.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{sprint4/connected-trace.png}
     \caption{Example of a trace where both \uppProc{Client} processes connect without any problems.}
@@ -147,7 +147,7 @@ A trace where it times out once while connecting can be seen on \autoref{fig:spr
 \uppTemp{Client(1)} connects without any issues, but \uppTemp{Client(0)} times out once while connecting.
 This can be seen on the trace of \uppProc{TCP_client(0)}. When it sends the \uppOut{tcp_sync[0]} it times out because it does not get a response from the \uppProc{TCP_host(1)}.
 It then resends the message successfully and continues with connecting.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{sprint4/timeout-trace.png}
     \caption{Example of a trace where a \uppProc{TCP_host} times out while connecting.}
