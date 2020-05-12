@@ -115,7 +115,7 @@ To fix this, it is possible to use updates to update the value of the clock, as 
 
 \subsection{Invariants}
 Much like guards limit the possibility of taking a transition until some conditions have met, invariants can be used to limit when it is possible to be in a given location.
-In \autoref{fig:app:uppaal:invariant} we have added an invariant to \appLoc{B}, specifying that less than 8 \appClock{time} units must have passed before it leaves the transition.
+In \autoref{fig:app:uppaal:invariant} we have added an invariant to \uppLoc{B}, specifying that less than 8 \uppClock{time} units must have passed before it leaves the transition.
 
 If the invariant conditions are not met, the process cannot enter the location or must leave it as soon as the conditions no longer hold.
 \begin{figure}[H]
