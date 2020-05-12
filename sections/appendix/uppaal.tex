@@ -16,7 +16,7 @@ The location \uppLoc{A} has an extra ring, which indicates that it is an initial
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/applocations.png}
+    \includegraphics[]{uppaal/applocations.png}
     \caption{Locations in \uppaal.}
     \label{fig:app:uppaal:locations}
 \end{figure}
@@ -27,7 +27,7 @@ In addition to the local declarations, which are scoped to the current template,
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/apptemplates.png}
+    \includegraphics[]{uppaal/apptemplates.png}
     \caption{Content of a \uppaal project.}
     \label{fig:app:uppaal:templates}
 \end{figure}
@@ -38,14 +38,14 @@ From here, the user can choose which transition to take next in the given proces
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/appenabledtransitions.png}
+    \includegraphics[]{uppaal/appenabledtransitions.png}
     \caption{Enabled traces of a process.}
     \label{fig:app:uppaal:enabledtransitions}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/apptransitions.png}
+    \includegraphics[]{uppaal/apptransitions.png}
     \caption{The process before and after taking the transition.}
     \label{fig:app:uppaal:transitions}
 \end{figure}
@@ -57,7 +57,7 @@ If a transition between two locations has a synchronization called sync on it, a
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/appsync.png}
+    \includegraphics[]{uppaal/appsync.png}
     \caption{Model with synchronizations on transitions.}
     \label{fig:app:uppaal:sync}
 \end{figure}
@@ -96,7 +96,7 @@ We can now use this clock to, for example, limit which transitions can be taken 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/appguard.png}
+    \includegraphics[]{uppaal/appguard.png}
     \caption{Model with a guard.}
     \label{fig:app:uppaal:guard}
 \end{figure}
@@ -106,7 +106,7 @@ This quickly poses a problem for us, though, as the time will keep increasing, m
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/appselection.png}
+    \includegraphics[]{uppaal/appselection.png}
     \caption{Model with a guard and selection.}
     \label{fig:app:uppaal:selection}
 \end{figure}
@@ -120,7 +120,7 @@ In \autoref{fig:app:uppaal:invariant} we have added an invariant to \uppLoc{B}, 
 If the invariant conditions are not met, the process cannot enter the location or must leave it as soon as the conditions no longer hold.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/appinvariant.png}
+    \includegraphics[]{uppaal/appinvariant.png}
     \caption{Model with an invariant on location B.}
     \label{fig:app:uppaal:invariant}
 \end{figure}
@@ -133,7 +133,7 @@ Examples of how the syntax for these two looks like can be seen on \autoref{fig:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{uppaal/appcommittedurgent.png}
+    \includegraphics[]{uppaal/appcommittedurgent.png}
     \caption{Model with committed and urgent locations.}
     \label{fig:app:uppaal:committed}
 \end{figure}
