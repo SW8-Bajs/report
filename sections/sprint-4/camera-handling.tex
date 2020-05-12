@@ -17,3 +17,14 @@ Because of this, a new position must be calculated for the playing field in rela
 \end{lstlisting}
 The new position is calculated by adding the playing field's initial position relative to the camera \texttt{playingFieldTransform.transform.position} with an offset vector.
 The offset vector is calculated by multiplying \texttt{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance \texttt{distanceFromCamera} that we want the field to be from the camera.
+These calculations are done in the \texttt{Update} method which is called for every frame rendered in the game.
+\\\\
+For the \texttt{distanceFromCamera} calculation, the camera needs to be far enough away from the field to fit the it in its far clipping view.
+\begin{lstlisting}[caption={Calculation of the distance between the camera and field}, captionpos=b,language=C,label={lst:distanceFromCamera}]
+    distanceFromCamera = 1.2f * size * 0.5f / Mathf.Tan(mainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+\end{lstlisting}
+This is a simple trigonomotry problem where a triangle is formed between the camera, the center of the field and the top of the field.
+The height of the field and the angle of the camera's field of view are the known values, and the distance between the camera and the center of the field can be found. 
+Half of the side opposite to the camera is divided with tangent function of half of the field of view angle converted radian.
+The calculation is seen on \autoref{lst:distanceFromCamera}.
+An additional arbitrary value of \texttt{1.2f} is multiplied with the distance to allow the whole field to be seen in VR with some additional free space around the edges of the field.
