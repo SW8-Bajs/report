@@ -98,11 +98,11 @@ This resulted in some minor refactoring of the format.
 \\
 First of all, the format for sending a field anchor position had a timestamp as a part of the package.
 Since the anchors will only be sent once, it does not make sense to timestamp it so this has been removed.
-The updated version of the data format can be found in \autoref{app:network}
+The updated version of the data format can be found in \autoref{app:network}.
 \\
 \autoref{tab:goal-zone} has been updated to be 8 bit and not 16 bit.
-With 8 bit the goal zones can not be larger than 255 cm x 255 cm, but we do consider that a reasonable size.
-With 16 bit the goal zone was previous able to be 655.36 m x 655.36 m, which would give the user room for customization to have much larger goal zones, but we deemed goal zones larger than 255 cm x 255 cm unnecessary.
+With 8 bit for the goal zone offsets, goals can not be larger than 255 cm x 255 cm, but we decided that it is a reasonable size.
+Alternatively, the size could be increased to 16 bit, resulting in the goal zones having a maximum size of 655.36 m x 655.36 m, which would give the user room for customization to have much larger goal zones, but we deemed goal zones larger than 255 cm x 255 cm unnecessary for the time being.
 Additionally, three new packages have been specified: Sending a player tag, sending an acknowledgement or sending the signal to start the game.
 
 \begin{table}[H]
