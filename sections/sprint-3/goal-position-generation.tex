@@ -29,10 +29,10 @@ Because of this, each goal zone has to be split up in two triangles that togethe
 To support goal zone generation on server-side we introduced a new package that can be seen on \autoref{tab:goal-zone}.
 We need the center position of the goal zone, which is the POSY and POSX.
 We need this to be 16 bit, as 8 bit would only allow us to give a coordinate ranging from $0$ to $2^8 -1$.
-With 16 bit the playing this coordinate can range from $0$ to $2^16-1$.
+With 16 bit the playing this coordinate can range from $0$ to $2^{16}-1$.
 We choose the offset to have 8 bit instead of 16 bit.
 With 8 bit for the goal zone offsets, goals can not be larger than 255 cm x 255 cm, but we decided that it is a reasonable size.
-Alternatively, the size could be increased to 16 bit, resulting in the goal zones having a maximum size of 655.36 m x 655.36 m, which would give the user room for customization to have much larger goal zones, but we deemed goal zones larger than 255 cm x 255 cm unnecessary for the time being.
+Alternatively, the size could be increased to 16 bit, resulting in the goal zones having a maximum size of 655.36 m x 655.36 m, which could give the user room for customization to have much larger goal zones, but we deemed goal zones larger than 255 cm x 255 cm unnecessary for the time being.
 
 \begin{table}[H]
     \centering
