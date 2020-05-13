@@ -24,7 +24,7 @@ The code from \autoref{lst:package_limitation} is from the \texttt{send} functio
 This code is run each time a UDP package is sent.
 Initially the current time is stored, and the time difference between the current time and the time when the previous package was sent is converted to bytes.
 The variable \texttt{bytesAheadOfSchedule} keeps track of whether or not too many bytes are being sent per second.
-Since the size of the packages sent with UDP is always the same size, being 7 bytes, \texttt{bytesAheadOfSchedule} is incremented with 7 for each package sent.
+Since the size of the packages sent with UDP is always the same size, being 7 bytes, \texttt{bytesAheadOfSchedule} is incremented with 7 for each package sent \autoref{sec:sprint1-networking}.
 If \texttt{bytesAheadOfSchedule} is above 0, too many packages are transmitted and the server should wait a bit before sending the next package using \texttt{time.sleep()}.
 By doing this for each call to the \texttt{send} function, the number of packages sent per second can be limited to 70 per second.
 \\\\
