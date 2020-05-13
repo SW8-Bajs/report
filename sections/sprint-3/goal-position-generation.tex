@@ -1,26 +1,26 @@
-\section{Goal generation}\label{subsec:goalrefactoring}
-The first implementation of goal generation was done entirely in Unity.
-This meant that the goal generation and detection was handled on the client-side.
-The idea was to limit the amount of data that needed to be sent across the network.
-It was then decided that new goal zones should be generated in random locations after a goal had been scored, and by generating it on the client-side it could cause the game state to be different between different players.
-Issues could be caused by players not receiving all the necessary ball positions to observe a goal or by generating goal zones in different places.
-One way to solve this was by giving all clients the same seed at the start of the match to generate random positions so that the goal zones would be in the same positions across all clients.
-The concern about this solution was that the goal detection could still have issues if some of the positional data for the ball would not arrive at the same time or at all.
-In the end, it was decided to move all the goal zone generation and goal detection to the server-side and utilizing TCP so that the data would be consistent across all clients.
-
-\subsection{Server-side}
-On the server-side, the size of the goal is calculated based on a percentage of the shortest edge of the playing field.
-This size is used to calculate where the center points of the goal zones can be placed as the corners of the goal zones should not exceed the playing field edges.
-The goal zone will always be a square where all edge lengths are of equal length and the playing field should always closely resemble a rectangle.
-The first goal zones are always set at a certain point on the playing field, after which the goal zone positions are randomly generated.
-The randomly generated goal zones will always mirror each other and will not spawn too close to the middle of the playing field.
-The goal zones will also never change sides so if a goal zone is initially generated on the left of the center of the playing field it will stay on that side for the duration of the game.
-Whenever a goal is scored, new center points are generated for both goal zones and then sent from the server to all connected clients.
-
-\subsection{Client-side}
-On the client-side, the new center points are received along with the goal size.
-Based on this data, the corners of the goal zones can be calculated.
-The corners are calculated in clockwise order.
-This is done to make it easier to apply the mesh which is the visual component in Unity that renders the goal zone so that the players can actually see it.
-The mesh can only be rendered in triangles and the mesh is only visible from one direction, meaning if you see the mesh from the back it will be invisible.
-Because of this, each goal zone has to be split up in two triangles that together create a square, and the corners of the triangles need to be in the correct order or the goal zone can not be seen from the players' perspective.
+\section{Sliding window protocol}\label{sec:sliding-window}
+In \autoref{subsec:data-format} it was decided that the format of timestamps would be an integer from 0-255, where 0 to 20 would be considered as newer timestamps than 235 to 255.
+However, if all the timestamps from 0 to 20 were lost, there would not be any updates until it has iterated through all other timestamps and back to 0.
+To find a better solution to this problem the sliding window protocol was researched.
+\\\\
+Sliding window protocols are often used where reliable data is required, which means making sure that all data points are received.
+This protocol uses window-sized buffer space, where the window is a fixed number and the sender will send this number of the packets or bytes to the receiver \cite{design-and-validation-of-computer-protocols}.
+Whenever the sender has sent the same number of packets or bytes as the size of the window, it waits for acknowledgments that the receiver has received the packets or bytes before sending additional ones.
+Each packet or byte gets a sequence number and the acknowledgment that is sent back also contains the sequence number.
+By doing this the receiver can keep track of the packets, remove duplicates, identify missing packets and know which order is the correct one.
+\\\\
+On \autoref{fig:sliding-window} there is an illustration of a sliding window, where the window size is three.
+In the first frame, three packets are sent to the receiver, in the second frame the receiver has acknowledged all three packets, but the first acknowledgment fails.
+The sliding window for the receiver has moved its window, but as the sender only has received acknowledgments from the second and third packets, it is unable to move its window and instead sends the first packet again in the third frame.
+In the fourth frame, the first packet has been acknowledged, and therefore the sliding window is moved for the sender and the sender is now able to send new packets.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{sliding-window-illustration.png}
+    \caption{Sliding window protocol illustration where the top is the sender and the bottom is the receiver.}
+    \label{fig:sliding-window}
+\end{figure}
+\noindent
+Reliable data in the format of goal zones and goal score is important for this project, however, the reliability of player positions are not important.
+The reasoning for this is explained in \autoref{subsubsec:choosing-between-udp-or-tcp}.
+With the \texttt{Sliding Window} protocol a player position would be retransmitted if it previously failed, and this position would now be outdated because the player might have moved since then.
+This means that a sliding window protocol could be used for the game critical aspects transmitted over a UDP connection, such as the format of goal zones and goal scores.
