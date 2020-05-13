@@ -1,11 +1,11 @@
 \section{Limiting the amount of UDP transmissions}
-As the game was being tested we encountered a problem with the amount UDP packages that were being transmitted.
+As the game was being tested we encountered a problem with the amount of UDP packages that were being transmitted.
 Initially there were no limitations to the number of packages sent, and the server would transmit as many as it possibly could.
 This would overburden the internet and could cause it to crash.
 A limit had to be set for how many packages were able to be transmitted per second.
-Since Pozyx can send updates on tags at a rate of approximately 60 per second, it would be preferable to have the limit at about the same as that.
-The limit could even be a bit higher than 60, since the updates are being transitted with UDP which means that there is no assurance that each package arrives.
-Eventually a limit of 70 packages per second was chosen.
+Since Pozyx can send updates on tags at a rate of approximately 60 per second, it would be preferable to have the limit at close to that amount.
+The limit could even be a bit higher than 60, since the updates are being transmitted with UDP which means that there is no assurance that each package arrives.
+Eventually, a limit of 70 packages per second was chosen based on the Pozyx limit and the chance of packages not arriving.
 \\\\
 \begin{lstlisting}[caption={Implementaion of the limit on the amount of packages that can be sent per second}, captionpos=b,language=C,label={lst:package_limitation}]
     self.time_now = time.time()
@@ -21,11 +21,12 @@ Eventually a limit of 70 packages per second was chosen.
     self.sendto(message, self.multicast_group)
 \end{lstlisting}
 The code from \autoref{lst:package_limitation} is from the send method of the UDP socket.
-This is code is run each time a UDP package is sent.
+This code is run each time a UDP package is sent.
 Initially the current time is stored, and the time difference between the current time and the time when the previous package was sent is converted to bytes.
-The variable \texttt{bytesAheadOfSchedule} keeps track of if too many bytes are being sent per second.
+The variable \texttt{bytesAheadOfSchedule} keeps track of whether or not too many bytes are being sent per second.
 Since the size of the packages sent with UDP is always the same size, being 7 bytes, \texttt{bytesAheadOfSchedule} is incremented with 7 for each package sent.
-If \texttt{bytesAheadOfSchedule} is above 0, too many packages are transmitted and the server should wait a bit before sending the next package using \texttt{time.sleep()}. By doing this for each call to the \texttt{send} function, the number of packages sent per second can be limited to 70 per second.
+If \texttt{bytesAheadOfSchedule} is above 0, too many packages are transmitted and the server should wait a bit before sending the next package using \texttt{time.sleep()}.
+By doing this for each call to the \texttt{send} function, the number of packages sent per second can be limited to 70 per second.
 \\\\
 \begin{lstlisting}[caption={function for converting seconds to bytes and bytes to seconds}, captionpos=b,language=C,label={lst:conversion_functions}]
     def ConvertSecondsToBytes(self, numSeconds):
@@ -34,4 +35,5 @@ If \texttt{bytesAheadOfSchedule} is above 0, too many packages are transmitted a
     def ConvertBytesToSeconds(self, numBytes):
         return float(numBytes)/self.maxSendRateBytesPerSecond
 \end{lstlisting}
+\noindent
 The conversion functions between bytes and seconds are seen in \autoref{lst:conversion_functions}.
