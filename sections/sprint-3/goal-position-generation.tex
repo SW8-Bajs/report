@@ -24,3 +24,23 @@ The corners are calculated in clockwise order.
 This is done to make it easier to apply the mesh which is the visual component in Unity that renders the goal zone so that the players can actually see it.
 The mesh can only be rendered in triangles and the mesh is only visible from one direction, meaning if you see the mesh from the back it will be invisible.
 Because of this, each goal zone has to be split up in two triangles that together create a square, and the corners of the triangles need to be in the correct order or the goal zone can not be seen from the players' perspective.
+
+\subsection{Goal zone package}
+To support goal zone generation on server-side we introduced a new package that can be seen on \autoref{tab:goal-zone}.
+We need the center position of the goal zone, which is the POSY and POSX.
+We need this to be 16 bit, as 8 bit would only allow us to give a coordinate ranging from $0$ to $2^8 -1$.
+With 16 bit the playing this coordinate can range from $0$ to $2^16-1$.
+We choose the offset to have 8 bit instead of 16 bit.
+With 8 bit for the goal zone offsets, goals can not be larger than 255 cm x 255 cm, but we decided that it is a reasonable size.
+Alternatively, the size could be increased to 16 bit, resulting in the goal zones having a maximum size of 655.36 m x 655.36 m, which would give the user room for customization to have much larger goal zones, but we deemed goal zones larger than 255 cm x 255 cm unnecessary for the time being.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        Offset (o) & POSY (y) & POSX (x) & TEAM\_ID (i) & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 5\end{tabular}} \\ \hline
+        8 bit      & 16 bit   & 16 bit   & 8 bit        & 8 bit                                          \\ \hline
+    \end{tabular}
+    \caption{Format for goal zones.}
+    \label{tab:goal-zone}
+\end{table}
