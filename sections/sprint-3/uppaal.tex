@@ -5,14 +5,14 @@ This first iteration of the model is not intended for heavy model checking, but 
 The two templates can be seen on Figures \ref{fig:uppaal-client-1} and \ref{fig:uppaal-host-1}.
 
 \begin{figure}[H]
-   \centering
+    \centering
     \includegraphics[width=1\linewidth]{/uppaal/client1.png}
     \caption{First iteration of the \uppaal client template.}
     \label{fig:uppaal-client-1}
 \end{figure}
 
 \begin{figure}[H]
-   \centering
+    \centering
     \includegraphics[width=1\linewidth]{/uppaal/host1.png}
     \caption{First iteration of the \uppaal host template.}
     \label{fig:uppaal-host-1}
@@ -23,7 +23,7 @@ The model for the client is fairly straight forward, it starts in an \uppLoc{ini
 The connection happens on the edge from the initial location to the \uppLoc{connecting} location.
 In the model, this is represented with the client utilizing the channel \uppChan{connect}, and waiting for the host to synchronize by listening to the same channel.
 When the synchronization happens, the host will execute the \uppFunc{setDataToTag()} function, which updates the data it is transmitting, and uses the channel \uppChan{connectPlayer} to inform the client that connection is now ready.
-The client will call a function \uppFunc{processData()} to read the content of the buffer and react accordingly. 
+The client will call a function \uppFunc{processData()} to read the content of the buffer and react accordingly.
 These steps will happen until the amount of \uppVar{tagsSent} is equal to the number of clients specified in the configuration.
 
 \subsubsection{Setup}
@@ -48,7 +48,6 @@ For this iteration of the \uppaal model, updating player and goal positions are 
 \begin{uppaalcode}[caption={Processing Data in \uppaal model}, captionpos=b,label={lst:uppaal:processData},numbers=left]
 void processData(){
     int type = data[0];
-    
     if(type == 0){
         int anchorId = data[1];
         anchorsX[anchorId] = data[2];
@@ -79,7 +78,7 @@ A checksum will be calculated on the client for checking whether or not the clie
 \\
 This checksum is simply calculated as the sum of all four anchor coordinates, as seen in \autoref{lst:uppaal:checksum}.
 
-\begin{uppaalcode}[caption={Calculating checksum in \uppaal model}, captionpos=b,label={lst:uppaal:checksum},numbers=left]
+\begin{uppaalcode}[caption={Calculating checksum in \uppaal model}, captionpos=b,label={lst:uppaal:checksum}]
 void sendChecksum(){
     int checksum = 0;
     int i;
@@ -96,18 +95,18 @@ void sendChecksum(){
 A good side-effect of generating the \uppaal model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
 This resulted in some minor refactoring of the format.
 \\
-First of all, the format for sending a field anchor position had a timestamp as a part of the package. 
+First of all, the format for sending a field anchor position had a timestamp as a part of the package.
 Since the anchors will only be sent once, it does not make sense to timestamp it so this has been removed.
-The updated version of the data format can be found in \autoref{app:network}
+The updated version of the data format can be found in \autoref{app:network}.
 \\
 Additionally, three new packages have been specified: Sending a player tag, sending an acknowledgment, or sending the signal to start the game.
 
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|l|l|}
-    \hline
-    \begin{tabular}[c]{@{}l@{}}PLAYER\_ID (p)\\ (1-4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TAG\_ID (i)\\ (0-65.535)\end{tabular} & TYPE (t) \\ \hline
-    8 bits                                                         & 16 bits                                                          & 8 bits   \\ \hline
+        \hline
+        \begin{tabular}[c]{@{}l@{}}PLAYER\_ID (p)\\ (1-4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}TAG\_ID (i)\\ (0-65.535)\end{tabular} & TYPE (t) \\ \hline
+        8 bit                     & 16 bit                    & 8 bit    \\ \hline
     \end{tabular}
     \caption{Format sending player tag.}
     \label{tab:player-tag}
@@ -116,9 +115,9 @@ Additionally, three new packages have been specified: Sending a player tag, send
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|}
-    \hline
-    \begin{tabular}[c]{@{}l@{}}ACK (a)\\ (0-1)\end{tabular} \\ \hline
-    8 bits                                                  \\ \hline
+        \hline
+        \begin{tabular}[c]{@{}l@{}}ACK (a)\\ (0-1)\end{tabular} \\ \hline
+        8 bit                     \\ \hline
     \end{tabular}
     \caption{Acknowledge or negative-acknowledge.}
     \label{tab:acknowledge}
@@ -127,9 +126,9 @@ Additionally, three new packages have been specified: Sending a player tag, send
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|}
-    \hline
-    \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 6\end{tabular} \\ \hline
-    8 bits                                               \\ \hline
+        \hline
+        \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 6\end{tabular} \\ \hline
+        8 bit                     \\ \hline
     \end{tabular}
     \caption{Game start.}
     \label{tab:gamestart}
