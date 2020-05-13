@@ -3,7 +3,7 @@ As the game was being tested we encountered a problem with the amount of UDP pac
 Initially there were no limitations to the number of packages sent, and the server would transmit as many as it possibly could.
 This would overburden the internet and could cause it to crash.
 A limit had to be set for how many packages were able to be transmitted per second.
-Since Pozyx can send updates on tags at a rate of approximately 60 per second, it would be preferable to have the limit at close to that amount \autocite{pozyx-Performance}.
+Since Pozyx can send updates on tags at a rate of approximately 60 per second, it would be preferable to have the limit at close to that amount \cite{pozyx-Performance}.
 The limit could even be a bit higher than 60, since the updates are being transmitted with UDP which means that there is no assurance that each package arrives.
 Eventually, a limit of 70 packages per second was chosen based on the Pozyx limit and the chance of packages not arriving.
 \\\\
