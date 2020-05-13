@@ -47,28 +47,28 @@ For this iteration of the \uppaal model, updating player and goal positions are 
 
 \begin{uppaalcode}[caption={Processing Data in \uppaal model}, captionpos=b,label={lst:uppaal:processData}]
 void processData(){
-        int type = data[0];
-        if(type == 0){
-                int anchorId = data[1];
-                anchorsX[anchorId] = data[2];
-                anchorsY[anchorId] = data[3];
-                anchorsReceived++;
-            } else if(type == 1){
-                // Player position
-            } else if(type == 2){
-                // Goal position
-            } else if(type == 3){
-                // Score update
-            } else if(type == 4){
-                // Tag received
-                tag = data[1];
-                playerId = data[2];
-            } else if(type == 5){
-                // Setup checksum
-            } else if(type == 6){
-                // Start game
-            }
-    }
+    int type = data[0];
+    if(type == 0){
+        int anchorId = data[1];
+        anchorsX[anchorId] = data[2];
+        anchorsY[anchorId] = data[3];
+        anchorsReceived++;
+    } else if(type == 1){
+        // Player position
+     } else if(type == 2){
+        // Goal position
+     } else if(type == 3){
+        // Score update
+     } else if(type == 4){
+        // Tag received
+        tag = data[1];
+        playerId = data[2];
+     } else if(type == 5){
+        // Setup checksum
+     } else if(type == 6){
+        // Start game
+     }
+ }
 \end{uppaalcode}
 \noindent
 Likewise, when the host has to send data, it will update the first element of the buffer and fill in the relevant data in the other elements.
@@ -80,15 +80,15 @@ This checksum is simply calculated as the sum of all four anchor coordinates, as
 
 \begin{uppaalcode}[caption={Calculating checksum in \uppaal model}, captionpos=b,label={lst:uppaal:checksum}]
 void sendChecksum(){
-        int checksum = 0;
-        int i;
-        for(i = 0; i < 4; i++){
-                checksum += anchorsX[i];
-                checksum += anchorsY[i];
-            }
-        data[0] = 5;
-        data[1] = checksum;
+    int checksum = 0;
+    int i;
+    for(i = 0; i < 4; i++){
+        checksum += anchorsX[i];
+        checksum += anchorsY[i];
     }
+    data[0] = 5;
+    data[1] = checksum;
+}
 \end{uppaalcode}
 
 \subsection{Updates to the network protocol}\label{subsec:sprint3networkupdate}
