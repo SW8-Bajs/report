@@ -55,20 +55,20 @@ void processData(){
         anchorsReceived++;
     } else if(type == 1){
         // Player position
-     } else if(type == 2){
+    } else if(type == 2){
         // Goal position
-     } else if(type == 3){
+    } else if(type == 3){
         // Score update
-     } else if(type == 4){
+    } else if(type == 4){
         // Tag received
         tag = data[1];
         playerId = data[2];
-     } else if(type == 5){
+    } else if(type == 5){
         // Setup checksum
-     } else if(type == 6){
+    } else if(type == 6){
         // Start game
-     }
- }
+    }
+}
 \end{uppaalcode}
 \noindent
 Likewise, when the host has to send data, it will update the first element of the buffer and fill in the relevant data in the other elements.
