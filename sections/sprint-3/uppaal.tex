@@ -1,6 +1,6 @@
 \section{\uppaal modelling}\label{sec:sprint3-uppaal}
-To illustrate how the UDP protocol should work in detail a \uppaal model was constructed consisting of two templates: The host and an arbitrary amount of clients.
-If you are not familiar with \uppaal, please refer to \autoref{app:uppaal} as a quick start guide on how to read the models.
+To illustrate how the UDP protocol should work in detail a \uppaal model was constructed consisting of two templates: The host and an arbitrary amount of clients.\\
+If you are not familiar with \uppaal, please refer to \autoref{app:uppaal} as a quick start guide on how to read the models.\\\\
 This first iteration of the model is not intended for heavy model checking, but rather to take a higher-level look at how the protocol is intended to work.
 The two templates can be seen on Figures \ref{fig:uppaal-client-1} and \ref{fig:uppaal-host-1}.
 
@@ -31,11 +31,11 @@ The next location for both the host and client is \uppLoc{Setup}, which is the p
 The host will attempt to send the anchors one at a time with the \uppFunc{sendAnchor()} function until it has sent all 4 anchors to the clients.
 Unlike the \uppChan{connect} and \uppChan{connectPlayer} channels, this happens on a broadcast channel, which allows multiple clients to receive the data at once to simulate the use of multicasting.
 Since there is a chance that not all clients have received the four anchor coordinates correctly, the host will broadcast a checksum and have the clients either acknowledge or negative-acknowledge that the checksum is equal to the checksum of the data they have received.
-In case any client returns a negative-acknowledge (using the channel \uppChan{nack}), all clients will go back to the setup and receive the anchor coordinates again until all clients send acknowledgements.
+In case any client returns a negative-acknowledge (using the channel \uppChan{nack}), all clients will go back to the setup and receive the anchor coordinates again until all clients send acknowledgments.
 
 \subsubsection{InGame}
 Finally, both the client and host will go to the \uppLoc{InGame} location to imply that the game is now happening.
-To simulate asynchronous tasks, the host will continuously take a non-deterministic choice between sending a goal position, a tag position, a goal update or ending the game.
+To simulate asynchronous tasks, the host will continuously take a non-deterministic choice between sending a goal position, a tag position, a goal update, or ending the game.
 Meanwhile, the client only has two choices: Process data received on the multicast or wait for the game to end.
 
 \subsubsection{Code aspect}
@@ -45,7 +45,7 @@ The array has space for 5 elements to conform to the data format specified in \a
 The concrete implementation of \uppFunc{processData()} can be seen on \autoref{lst:uppaal:processData}.
 For this iteration of the \uppaal model, updating player and goal positions are not implemented, since it did not seem like a significant detail to the model.
 
-\begin{uppaalcode}[caption={Processing Data in \uppaal model}, captionpos=b,label={lst:uppaal:processData}]
+\begin{uppaalcode}[caption={Processing Data in \uppaal model}, captionpos=b,label={lst:uppaal:processData},numbers=left]
 void processData(){
     int type = data[0];
     if(type == 0){
@@ -99,7 +99,7 @@ First of all, the format for sending a field anchor position had a timestamp as 
 Since the anchors will only be sent once, it does not make sense to timestamp it so this has been removed.
 The updated version of the data format can be found in \autoref{app:network}.
 \\
-Additionally, three new packages have been specified: Sending a player tag, sending an acknowledgement or sending the signal to start the game.
+Additionally, three new packages have been specified: Sending a player tag, sending an acknowledgment, or sending the signal to start the game.
 
 \begin{table}[h!]
     \centering

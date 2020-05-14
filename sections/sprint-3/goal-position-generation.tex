@@ -1,6 +1,6 @@
 \section{Goal generation}\label{subsec:goalrefactoring}
 The first implementation of goal generation was done entirely in Unity.
-This meant that the goal generation and detection was handled on the client-side.
+This meant that the goal generation and detection were handled on the client-side.
 The idea was to limit the amount of data that needed to be sent across the network.
 It was then decided that new goal zones should be generated in random locations after a goal had been scored, and by generating it on the client-side it could cause the game state to be different between different players.
 Issues could be caused by players not receiving all the necessary ball positions to observe a goal or by generating goal zones in different places.
@@ -20,26 +20,7 @@ Whenever a goal is scored, new center points are generated for both goal zones a
 \subsection{Client-side}
 On the client-side, the new center points are received along with the goal size.
 Based on this data, the corners of the goal zones can be calculated.
-The corners are calculated in clockwise order.
+The corners are calculated in the clockwise order.
 This is done to make it easier to apply the mesh which is the visual component in Unity that renders the goal zone so that the players can actually see it.
 The mesh can only be rendered in triangles and the mesh is only visible from one direction, meaning if you see the mesh from the back it will be invisible.
 Because of this, each goal zone has to be split up in two triangles that together create a square, and the corners of the triangles need to be in the correct order or the goal zone can not be seen from the players' perspective.
-
-\subsection{Goal zone package}
-To support goal zone generation on server-side we introduced a new package that can be seen on \autoref{tab:goal-zone}.
-To create the goal zone on the client side the center position is needed, which is the \texttt{POSY} and \texttt{POSX}.
-We need this to be 16 bit, as 8 bit would only allow us to give a coordinate ranging from $0$ to $2^8 -1$, whereas 16 bit will increase the range to $0$ to $2^{16}-1$.
-The offset has been chosen to be 8 bit instead of 16 bit.
-With 8 bit for the goal zone offsets, goals can not be larger than 255 cm x 255 cm, but we decided that it is a reasonable size.
-Alternatively, the size could be increased to 16 bit, resulting in the goal zones having a maximum size of 655.36 m x 655.36 m, which could give the user room for customization to have much larger goal zones, but we deemed goal zones larger than 255 cm x 255 cm unnecessary for the time being.
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|l|l|l|l|l|}
-        \hline
-        Offset (o) & POSY (y) & POSX (x) & TEAM\_ID (i) & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 5\end{tabular}} \\ \hline
-        8 bit      & 16 bit   & 16 bit   & 8 bit        & 8 bit                                          \\ \hline
-    \end{tabular}
-    \caption{Format for goal zones.}
-    \label{tab:goal-zone}
-\end{table}
