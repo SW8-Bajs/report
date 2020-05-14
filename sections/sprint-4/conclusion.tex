@@ -2,7 +2,7 @@
 This section concludes sprint 4 and will summarize the progress that has been made on the game and discuss the retrospective meeting conducted at the end of sprint 4.
 
 \subsection{Current product}
-In \autoref{fig:sprint-4-state-of-game} the two current states of the game can be seen.
+The two current states of the game can be seen in \autoref{fig:sprint-4-state-of-game} .
 We are currently able to connect to the host in the lobby, as seen on \autoref{fig:sprint-4-lobby}, which will lead to \autoref{fig:sprint-4-game} when the host has started the game.
 \begin{figure}[H]
     \centering
@@ -25,30 +25,32 @@ We are currently able to connect to the host in the lobby, as seen on \autoref{f
 \subsubsection{Pozyx}
 There are not a lot of tasks missing with Pozyx, but there are several tasks that needs to be completed in the next sprint to make it work.
 \\\\
-During the initial test of the program describe in \autoref{sec:initial-test} several exception occurred, which was because that the input data was not correctly formatted.
-This should be easy to fix.
-In the initial test there were also discovered problems with the firmware, where Pozyx would not send positional data to the host, but only send coordinates of 0.0.
+During the initial test of the program described in \autoref{sec:initial-test} several exceptions occurred, which were caused by the input data not being correctly formatted.
+This should be fixed in the following sprint.
+Problems with the firmware were also discovered in the initial test, where Pozyx would not send positional data to the host, but only coordinates of $0.0$.
 
 \subsubsection{Game}
 If the problems with Pozyx gets fixed, the game should be working fine.
-But in the current iteration of the game, you are unable to win the game.
+However, in the current iteration of the game, the teams are unable to win the game.
 This is a highly prioritized task on Unity, which we intend to implement in the last sprint.
 
 \subsubsection{Networking}
-To be able to win the game, it is necessary for the host signal winning the game to the clients and therefore a package needs to be specified.
+To be able to win the game, it is necessary for the host to be able to send a message that the game has ended to the clients.
+Therefore a package needs to be specified for this purpose to be implemented along with the ability to win a game.
 
 \subsection{Retrospective on the process}
-This subsection will elaborate the retrospective meeting that was held on the May 12th.
+This subsection will elaborate on the retrospective meeting that was held on the May 12th.
 
 \subsubsection*{How does the process with Jira work?}
 The process with Jira will change with the last sprint.
-For previous sprints there were a \textit{Suggested} column and \textit{Discussed} column, but in the upcoming sprint the \textit{Discussed} column will no longer be used.
-It will either be moved to \textit{Chosen for development} or a \textit{Future work} column that was added.
+For previous sprints there was a \textit{Suggested} column and a \textit{Discussed} column, but in the upcoming final sprint the \textit{Discussed} column will no longer be used.
+Tasks will either be moved to \textit{Chosen for development} or a \textit{Future work} column that was added, rather than go through the \textit{Discussed] column.
 This sprint will be the last, and therefore we find it less important to prioritize the tasks.
 Either the task has to be completed, or it has to be documented in \textit{Future work}.
 
 \subsubsection*{How has pair programming been working?}
-Pair programming works well, but there are some challenges with online pair programming in Unity, as it is required to compile to an android device, which is more difficult to share with the other programmer.
+Pair programming works well, but there are some challenges with online pair programming in Unity.
+The main challenges is that, when testing, it is required that the game is compiled to an android device, which is more difficult to share with the other programmer, unless they both compile the game.
 
 \subsubsection*{How is the daily stand-up working?}
 When the members of the group does not have a task, the daily stand up seems pointless, as they do not have much to say.
@@ -65,4 +67,3 @@ The group members are more aware of doing the reviews, so reviews often gets don
 
 \subsubsection*{Closing comments}
 At the end of the sprint retrospective we went through the tasks that was completed in the sprint to see what was interesting to describe in the report.
-
