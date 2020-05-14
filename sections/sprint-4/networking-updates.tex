@@ -1,10 +1,10 @@
 \section{Updating the networking protocol}\label{sec:update-network-protocol}
-During implementation of the networking protocol outlined in \autoref{sec:sprint3-uppaal}, problems were encountered when attempting to implement acknowledgements in the UDP based connection for game critical data.
+During implementation of the networking protocol outlined in \autoref{sec:sprint3-uppaal}, problems related to the implementation of acknowledgements in the UDP based connection for game critical data were encountered.
 Section \ref{sec:sprint3-uppaal} defines the way the protocol was envisioned to work based on the choice made in \autoref{sec:sprint1-networking}, where UDP sockets were selected as the type to be used for this project.
-With the unreliability of UDP, and the importance of certain data being transmitted to players, it would be necessary to implement an acknowledgment from clients that they had received crucial data relating to the setup of the game, as defined in \autoref{sec:sprint3-uppaal}.
+With the inherent unreliability of UDP due to the lack of reliable package delivery, and the importance of certain data being transmitted to players, it would be necessary to implement an acknowledgment from clients that they had received crucial data relating to the setup of the game, as defined in \autoref{sec:sprint3-uppaal}.
 During the implementation of this, issues were encountered when sending the acknowledgment message from the client to the host.
-As the sockets should make use of multicasting, as defined in \autoref{sec:sprint1-udptransmission}, it seemed as though the clients should just be able to send messages to the same multicast group, and have the host receive that message, with a type that specified that the message was an acknowledgment that could be either positive or negative, structured in the same way as described in \autoref{subsec:data-format}.
-However, the host had issues receiving the messages.
+As the sockets should make use of multicasting, as defined in \autoref{sec:sprint1-udptransmission}, our theory was that the clients should just be able to send messages to the same multicast group, and have the host receive that message, with a type that specified that the message was an acknowledgment that could be either positive or negative, structured in the same way as described in \autoref{subsec:data-format}.
+However, the host had issues receiving the messages, where the message would be sent to the multicast IP, but never received by the host.
 This prompted a discussion regarding how to remedy this issue, as a new approach seemed necessary.
 Three main alternatives were considered:
 \begin{itemize}
@@ -17,30 +17,29 @@ Three main alternatives were considered:
 This approach aims to create a clear delineation between the crucial data that requires acknowledgment from clients and the data for which acknowledgments are unnecessary.
 This was roughly the original approach, as shown on \autoref{fig:uppaal-host-1}, which illustrates how the host would wait in a setup state until acknowledgments had been received from all clients, and then the game would start.
 This presents issues in terms of the multicast grouping, in which the host was unable to read messages sent through the group.
-This could be remedied by having a separate multicast group in which clients could send acknowledgments, to avoid issues related to multicasting.
+This could be remedied by having a separate multicast group in which clients could send acknowledgments, to avoid further problems related to multicasting.
 While the host was sending out the information, a client could check if it had received the correct information, and if not send out a negative acknowledgment for a while before timing out, to attempt to receive the information again.
 Eventually all the clients would be sending positive acknowledgments.
 \\\\
-However, an issue exists with this approach.
-When scoring a goal, the goalzones should be moved.
-This would take place during the phase when the game is played, and receiving the information about the location of the new goalzone is crucial, such that all payers know where to score.
+However, a limitation exists with this approach: when scoring a goal, it is crucial that the goalzones are moved.
+This change of goal position would take place during the in-game phase, and receiving the information about the location of the new goalzone is crucial, such that all payers know where to score.
 As such, the phase split loses some of its purpose, as an acknowledgment would need to be sent from clients during the playing phase.
 
 \subsubsection{Expanding messages}
 In addition to the data defined in \autoref{app:network}, crucial data could be appended to all messages sent during play.
-This would mean that whenever any message was received, it would include to required information, and no acknowledgment would be necessary as the clients are guaranteed to receive some messages if they are continuously sent.
+This would mean that whenever any message was received, it would include to required information, and no acknowledgment would be necessary as the clients normall will receive some messages if they are continuously sent.
 This would have the detriment of increasing the size of each individual package.
 While the packages are currently not large enough to where this is likely to cause a problem, creating minimal packages is still a worthwhile goal in order to increase the speed of transmission and decoding.
 
 \subsubsection{Introducing TCP}
 On top of the currently described UDP approach to sending messages to ensure recent data is used for positioning while the game is played, a TCP socket connection between the host and clients could be implemented.
 As described in \autoref{sec:sprint1-networking}, TCP includes reliability.
-This reliability ensures that every message sent will be received by the client, through built in acknowledgments.
+This reliability ensures that every message sent will be received by the client, through built in acknowledgments and retransmissions.
 This would remove the need for clients sending UDP acknowledgments for game crucial data, and also make the implementation of a sliding window as described in \autoref{sec:sliding-window} for UDP unnecessary.
 Because of the reliability, and needing established connections, TCP messages could potentially be slower to transmit.
 This would be the case if the TCP connection had to retransmit a message.
 Retransmitting a message involves waiting for a timeout, which incurs the larger overhead in comparison to UDP. 
-As one of the focuses for the project is creating a networking solution capable of continuously updating positional data as quickly as possible, this is not an ideal solution for transmitting the data when the game is being played.
+As one of the focuses for the project is creating a networking solution capable of continuously updating positional data at a rate that makes the in-game positioning feel like real time, this is not an ideal solution for transmitting the data when the game is being played.
 \begin{table}[h!]
     \begin{tabular}{|l|l|l|l|}
         \hline

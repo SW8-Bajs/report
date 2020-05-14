@@ -90,7 +90,7 @@ This indicates that the client is now in a game, and can continuously receive in
 % TCP
 \subsection{TCP host and client templates}
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} were designed such that there will be a single process of both respectively for each client process that exists.
-This was designed to model the socket connection that is established between the host and a client.
+This was designed to model the connection that is established between the host and a client.
 Like in the \uppTemp{Client}, this happens by having an \uppVar{clientId} as a parameter for when the process is instantiated.
 As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until \uppProc{TCP_client} receive an \uppIn{TCP_connect[id]} synchronization from a \uppProc{Client}.
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} will then begin to initialize a 3-way handshake to ensure that both parties are ready for transferring data between them.
