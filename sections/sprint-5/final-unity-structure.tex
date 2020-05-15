@@ -33,8 +33,15 @@ These can be seen on \autoref{fig:main-game-objects}.
 The \texttt{CLIENT} contains the script \texttt{UDPClient}, which instantiates the UDP client and receives player and ball positions.
 This script is previously described in \autoref{sec:receiving-the-information}.
 \\
-The \texttt{PlayingFieldContainer} contains two gameobjects, the \texttt{PlayingField} and \texttt{Goalscore-UI}.
-The \texttt{PlayingField} is used to generate the playing field and make sure that it is not larger than the
+The \texttt{PlayingFieldContainer} only contains \texttt{PlayingField}.
+The \texttt{PlayingField} has two children, where one of them is the GoalZoneController, which is used to generate the playing field and make sure that the entire field is visible with the camera.
+The other is the \texttt{Goalscore-UI}, which is used to display the current score of the game.
+It has two script attached to the gane object \texttt{FieldGenerator} and \texttt{PlayingFieldOffset}.
+\texttt{FieldGenerator} creates the playing field from the coordinates coordinates in the \texttt{GameStateHandler}, which was instantiated in the lobby.
+\texttt{PlayingFieldOffset} is used to change the center coordinate of the field, so that it has the same $x$ and $y$ position as the camera.
+
+
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\linewidth]{figures/unity-main-gameobjects.PNG}
