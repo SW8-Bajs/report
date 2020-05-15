@@ -24,6 +24,7 @@ int local_TCP_buffer;</declaration>
 			<name x="-51" y="-127">Lobby</name>
 		</location>
 		<location id="id2" x="-68" y="0">
+			<name x="-127" y="-25">InGame</name>
 		</location>
 		<location id="id3" x="-238" y="-170">
 			<name x="-221" y="-187">Connecting</name>
@@ -75,7 +76,7 @@ int local_TCP_buffer;</declaration>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="synchronisation" x="-68" y="-85">TCP_start_game?</label>
+			<label kind="synchronisation" x="-59" y="-76">TCP_start_game?</label>
 		</transition>
 		<transition>
 			<source ref="id0"/>
@@ -89,6 +90,7 @@ int local_TCP_buffer;</declaration>
 		<declaration>int connected_players = 0;
 int messages_sent = 0;</declaration>
 		<location id="id5" x="-476" y="-102">
+			<name x="-569" y="-119">Connecting</name>
 		</location>
 		<location id="id6" x="-340" y="-102">
 			<name x="-331" y="-136">Lobby</name>
@@ -97,6 +99,7 @@ int messages_sent = 0;</declaration>
 			<name x="-51" y="-85">InGame</name>
 		</location>
 		<location id="id8" x="-476" y="-204">
+			<name x="-561" y="-229">Connected</name>
 		</location>
 		<location id="id9" x="204" y="-102">
 		</location>
