@@ -1,5 +1,5 @@
 \section{Receiving the information}
-With the networking protocol in place, let us take a look at how the data is received on the mobile clients.
+With the networking protocol in place, we will define how the data is received on the mobile clients.
 The \texttt{in-game} scene in Unity has an \texttt{empty object} which handles receiving data from the UDP and TCP clients.
 Having two separate clients allows them to run concurrently, so the UDP client does not block the TCP client or vice-versa.
 
@@ -53,7 +53,7 @@ The next step in processing the data is calling the appropriate function as seen
 \begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
 private void UpdatePlayerData(long data)
 {
-    // bitshifting the hex string and typecasting to byte to get the values.
+    // bitshifting the hex value and typecasting to byte to get the values.
     // see network format in the report for more detail
     byte time = (byte)(data >> 8);
     byte id = (byte)(data >> 16);
@@ -93,7 +93,7 @@ When a hexadecimal is right bit shifted 4 bits every decimal in the hexadecimal 
 This can be utilized to read the different parts of the message that the client received.
 The first part that is read from the message is timestamp.
 In the message the decimals representing the timestamp are followed by two decimals representing the type of the message as seen earlier.
-Because one decimal corresponds to four bits, the message has to be right bit shifted by 8 bits to move the timestamp to the back of the hexadecimal as illustrated on \autoref{fig:sprint4-bitshift-timestamp}.
+Because one digit corresponds to four bits, the message has to be right bit shifted by 8 bits to move the timestamp to the back of the hexadecimal as illustrated on \autoref{fig:sprint4-bitshift-timestamp}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{sprint4/bitshift-timestamp-illustration.png}
