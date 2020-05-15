@@ -1,0 +1,31 @@
+\section{Discussion}
+
+\subsection{Reflections}
+
+\subsubsection{UDP and TCP for the protocol}
+when the socket type to be used for the program was initially chosen in \autoref{sec:sprint1-networking}, a large emphasis was put on the rate at which we could send messages.
+The sending rate also affected a lot of the other decisions made for the networking protocol, such as keeping messages as short as possible.
+The goal was to facilitate sending as many messages as possible.
+However, once testing began, it became obvious that this might not have been the fully correct approach.
+While running the host with mock data, it was possible to more or less crash our connections.
+\\\\
+In order to fix this, we implemented some message throttling, described in \autoref{sec:sprint5-transmissionlimit}, based on the maximum amount of updates from the available Pozyx system.
+Keeping this limiting of messages in mind, the aspect of sending messages rapidly loses some of its importance, leading to some of our earlier considerations not being optimal.
+This might have led us to implement a TCP aspect earlier in the project, avoiding having to spend some of the time attempting to implement UDP acknowledgments. 
+
+\subsubsection{Testing the system}
+The first full scale test of the system and all its components took play on May 7th, as described in \autoref{sec:sprint4-initialtest}.
+This was late in the overall process of the semester, and showed certain flaws with the system that should have been caught earlier, as development was being done on the different parts of this system.
+The overall purpose of this test was initially to document flaws with the usage of the program, but it turned into a test to ensure the components worked together.
+This obviously delayed the testing of the actual running of the program.
+\\\\
+This was not ideal.
+The preparation for the test was not sufficient, and it led to wasting the time of some of the developers that could have been spent performing other tasks while the components were tested together.
+An obvious solution to this problem would be to do more integration testing as the project was progressing and new components became ready for testing.
+A complication with this is that this system uses Pozyx for positional data, and due to the corona outbreak, the group members were prohibited from meeting physically.
+One person still had access to the required Pozyx components however, and could have performed the integration tests.
+\\\\
+The person with access to the Pozyx system did test the system a few times, however, due to a miscommunication this was mainly done with mock data, rather than actual data for a setup used to play the game.
+This was the main reason we thought it would be possible to test the running of the program on May 7th, as we thought the program was ready.
+The communication should have been more clear, and more care should have been put into continuous testing of the system.
+
