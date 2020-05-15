@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+const int number_of_players = 4;
+typedef int[0, number_of_players - 1] id_t;
+int TCP_buffer;
+const int GOAL_SCORED = 4;
+const int GOAL_POSITION = 5; 
+
+chan TCP_connect, TCP_ack, TCP_timeout, TCP_config, TCP_send[number_of_players];
+broadcast chan UDP_tag_position, TCP_start_game, TCP_end_game;</declaration>
+	<template>
+		<name x="5" y="5">Client</name>
+		<parameter>const id_t id</parameter>
+		<declaration>// Place local declarations here.
+int TIMEOUT = 2;
+clock timeout_clock;
+int local_TCP_buffer;</declaration>
+		<location id="id0" x="-238" y="-68">
+			<name x="-221" y="-85">Initial</name>
+		</location>
+		<location id="id1" x="-68" y="-102">
+			<name x="-51" y="-127">Lobby</name>
+		</location>
+		<location id="id2" x="-68" y="0">
+		</location>
+		<location id="id3" x="-238" y="-170">
+			<name x="-221" y="-187">Connecting</name>
+		</location>
+		<location id="id4" x="-204" y="-238">
+			<name x="-229" y="-272">Setup</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-153" y="-263">TCP_config?</label>
+			<nail x="-68" y="-238"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-442" y="-144">timeout_clock &gt;= TIMEOUT</label>
+			<label kind="synchronisation" x="-365" y="-127">TCP_timeout!</label>
+			<nail x="-306" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-391" y="-229">timeout_clock &lt;= TIMEOUT</label>
+			<label kind="synchronisation" x="-297" y="-212">TCP_ack?</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-238" y="0">TCP_end_game?</label>
+			<nail x="-238" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-144" y="68">UDP_tag_position?</label>
+			<nail x="-102" y="68"/>
+			<nail x="-68" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="8" y="-34">TCP_send[id]?</label>
+			<label kind="assignment" x="8" y="-17">local_TCP_buffer = TCP_buffer</label>
+			<nail x="0" y="-34"/>
+			<nail x="0" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-68" y="-85">TCP_start_game?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-229" y="-136">TCP_connect!</label>
+			<label kind="assignment" x="-229" y="-119">timeout_clock = 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Host</name>
+		<declaration>int connected_players = 0;
+int messages_sent = 0;</declaration>
+		<location id="id5" x="-476" y="-102">
+		</location>
+		<location id="id6" x="-340" y="-102">
+			<name x="-331" y="-136">Lobby</name>
+		</location>
+		<location id="id7" x="-34" y="-102">
+			<name x="-51" y="-85">InGame</name>
+		</location>
+		<location id="id8" x="-476" y="-204">
+		</location>
+		<location id="id9" x="204" y="-102">
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="guard" x="25" y="-68">messages_sent == number_of_players</label>
+			<label kind="assignment" x="85" y="-51">messages_sent = 0</label>
+			<nail x="204" y="-68"/>
+			<nail x="34" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id9"/>
+			<label kind="guard" x="280" y="-170">messages_sent &lt; number_of_players</label>
+			<label kind="synchronisation" x="280" y="-153">TCP_send[messages_sent]!</label>
+			<label kind="assignment" x="280" y="-136">messages_sent++</label>
+			<nail x="272" y="-170"/>
+			<nail x="272" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-161" y="-229">UDP_tag_position!</label>
+			<nail x="-68" y="-204"/>
+			<nail x="-136" y="-204"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="assignment" x="-17" y="-161">TCP_buffer=GOAL_POSITION</label>
+			<nail x="-34" y="-136"/>
+			<nail x="204" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="assignment" x="-17" y="-127">TCP_buffer = GOAL_SCORED</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-416" y="-229">TCP_config!</label>
+			<nail x="-340" y="-204"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-544" y="-170">TCP_ack!</label>
+			<label kind="assignment" x="-612" y="-153">connected_players++</label>
+			<nail x="-476" y="-170"/>
+			<nail x="-476" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-467" y="-34">TCP_timeout?</label>
+			<nail x="-476" y="-34"/>
+			<nail x="-374" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-459" y="-127">TCP_connect?</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-246" y="-34">TCP_end_game!</label>
+			<label kind="assignment" x="-255" y="-17">connected_players = 0</label>
+			<nail x="-68" y="-68"/>
+			<nail x="-68" y="-34"/>
+			<nail x="-340" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-323" y="-102">connected_players == number_of_players</label>
+			<label kind="synchronisation" x="-246" y="-85">TCP_start_game!</label>
+		</transition>
+	</template>
+	<system>system Host, Client;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
