@@ -1,0 +1,37 @@
+\section{Future work}
+This section will discuss the aspects of the project that were not implemented, but were deemed to improve the system as a whole if implemented.
+
+\subsubsection{Dead Reckoning}
+
+\subsubsection{Zeroconf}
+Zeroconf was briefly discussed as a zero configuration management protocol in \autoref{sec:accessonnetwork} as an alternative to having players enter the IP of the host they wanted to connect to.
+Manually typing the IP of the host is not a viable solution for a deployed game in use in diverse locations.
+As such, introducing a lobby system through the use of Zeroconf would enhance the usability of the game for players.
+During the course of the project, some developers attempted to implement a lobby system using this technology.
+A working implementation on an android application was made, however, certain incompatibility issues were encountered when attempting to integrate this with Unity.
+After attempting to correct these without luck, it was decided that the time spent on this aspect was not worth it for the creation of the MVP.
+Ultimately, this functionality is needed for future versions of the game, and should be pursued.
+
+\subsubsection{Replay functionality}
+While discussing the scope of the project, a replay functionality was considered but quickly deferred until later as a non-essential aspect of the game.
+This replay functionality would be able to showcase highlights of a game when a game had completed, such as showing goals or certain interesting moments.
+This would be an interesting feature for the players of the game, and could help make playing the game more fun.
+As such, it would be an interesting feature to add in a possible future work scenario.
+
+\subsubsection{More aspects to the game}
+Several other aspects to make the game more interesting were also discussed in the same vein as the replay functionality.
+An example of this could be certain power-ups spawning on the field.
+The first player to interact with the power-up would receive some sort of benefit for a certain amount of time.
+However, this was also not deemed an essential part of the MVP, and has been deferred as possible future work.
+
+\subsubsection{Supporting non-rectangular playing fields}
+Currently, the generation of playing fields in unity make use meshes, which are triangles.
+The triangles combine to form the square playing field.
+Goalzones get generated based on this assumption that the playing field is a square, which could be improved to facilitate fields of different shapes, such as if the users were to input a field in the shape of, for example, a trapezoid.
+Including such field shapes was deemed to be not of utmost importance for this project, but it is a possible improvement to 
+
+\subsubsection{Show the direction the player is facing}
+Currently players are represented as either a rhino or a bird in the game.
+The player controls one of these characters, and the one the player is in control of is slightly colored to give an indication that it is the one the player should focus on.
+Outside of the positional updates that occur as the game is being played, there is no indication of where the player is facing, or which direction the player is going.
+An improvement to the game would be to have a small arrow, or another indicator, for each player showing the current direction that player is moving, to give a better sense of where they are moving.
