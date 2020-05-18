@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations her
+const int numberOfClients = 4;
+typedef int[0, numberOfClients - 1] id_t;
+
+int clientId;
+int data[5];
+
+chan connectPlayer, connect, ack, nack;
+broadcast chan multicastSend, retry, setupDone, endGame;
+
+</declaration>
+	<template>
+		<name x="5" y="5">Host</name>
+		<declaration>const int tags[numberOfClients + 1] = {0, 11, 22, 33, 44}; 
+int tagsSent = 0, anchorsSent = 0;
+int playerTag [numberOfClients];
+int anchorsX[4] = {0, 0, 100, 100}, anchorsY[4] = {0, 100, 100, 0}; 
+int acksReceived = 0;
+
+void reset(){
+    tagsSent = 0;
+    acksReceived = 0;
+    anchorsSent = 0;
+}
+
+void recieveAck(){
+    acksReceived++;
+}
+
+void setDataToTag(){
+    tagsSent++;
+    data[0] = 4;
+    data[1] = tags[tagsSent];
+    data[2] = tagsSent;
+}
+
+void sendAnchor(){
+    data[0] = 0;
+    data[1] = anchorsSent;
+    data[2] = anchorsX[anchorsSent];
+    data[3] = anchorsY[anchorsSent];
+    anchorsSent++;
+}
+
+void sendChecksum(){
+    int checksum = 0;
+    int i;
+    for(i = 0; i &lt; 4; i++){
+        checksum += anchorsX[i];
+        checksum += anchorsY[i];
+    }
+    data[0] = 5;
+    data[1] = checksum;
+}
+
+void startGame(){
+    data[0] = 6;
+}
+
+void sendTagPosition(){
+    data[0] = 1;
+    data[1] = 1; // Id of the player, 0 for ball
+    data[2] = 100; // PosX of player
+    data[3] = 100; // PosY of player
+}
+
+void sendGoalPosition(){
+    data[0] = 2;
+    data[1] = 100; // timestamp
+    data[2] = 1; // team ID
+    data[3] = 100; // PosX of goal center
+    data[4] = 100; // PosY of goal center
+}
+
+void sendGoalScore(){
+    data[0] = 3;
+    data[1] = 100; // timestamp
+    data[2] = 10; // Team0Score
+    data[3] = 9; // Team1Score
+}</declaration>
+		<location id="id0" x="-1054" y="-850">
+			<name x="-1071" y="-892">Initial</name>
+		</location>
+		<location id="id1" x="-816" y="-850">
+			<name x="-833" y="-892">Lobby</name>
+		</location>
+		<location id="id2" x="-238" y="-850">
+			<name x="-263" y="-892">awaitAck</name>
+		</location>
+		<location id="id3" x="0" y="-850">
+			<name x="93" y="-875">InGame</name>
+		</location>
+		<location id="id4" x="-816" y="-748">
+		</location>
+		<location id="id5" x="-578" y="-850">
+			<name x="-588" y="-884">Setup</name>
+		</location>
+		<location id="id6" x="-238" y="-748">
+		</location>
+		<location id="id7" x="-408" y="-748">
+		</location>
+		<location id="id8" x="0" y="-1020">
+			<name x="-10" y="-1054">GameOver</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-136" y="-909">multicastSend!</label>
+			<label kind="assignment" x="-161" y="-892">sendGoalPosition()</label>
+			<nail x="-34" y="-918"/>
+			<nail x="-34" y="-858"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="42" y="-833">multicastSend!</label>
+			<label kind="assignment" x="42" y="-816">sendGoalScore()</label>
+			<nail x="34" y="-782"/>
+			<nail x="34" y="-841"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="42" y="-909">multicastSend!</label>
+			<label kind="assignment" x="42" y="-892">sendTagPosition()</label>
+			<nail x="34" y="-918"/>
+			<nail x="34" y="-858"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="8" y="-969">endGame!</label>
+			<label kind="assignment" x="8" y="-960">reset()</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-510" y="-841">retry!</label>
+			<label kind="assignment" x="-476" y="-824">anchorsSent = 0,
+acksReceived = 0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-357" y="-790">nack?</label>
+			<nail x="-391" y="-748"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-255" y="-680">ack?</label>
+			<label kind="assignment" x="-280" y="-663">acksReceived++</label>
+			<nail x="-272" y="-714"/>
+			<nail x="-272" y="-680"/>
+			<nail x="-204" y="-680"/>
+			<nail x="-204" y="-714"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-229" y="-816">multicastSend!</label>
+			<label kind="assignment" x="-229" y="-799">sendChecksum()</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-620" y="-782">anchorsSent &lt; 4</label>
+			<label kind="synchronisation" x="-620" y="-765">multicastSend!</label>
+			<label kind="assignment" x="-620" y="-748">sendAnchor()</label>
+			<nail x="-612" y="-816"/>
+			<nail x="-612" y="-782"/>
+			<nail x="-544" y="-782"/>
+			<nail x="-544" y="-816"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-467" y="-892">anchorsSent == 4</label>
+			<label kind="synchronisation" x="-459" y="-875">setupDone!</label>
+			<nail x="-255" y="-850"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-748" y="-807">connectPlayer!</label>
+			<nail x="-748" y="-799"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-969" y="-824">connect?</label>
+			<label kind="assignment" x="-986" y="-799">setDataToTag()</label>
+			<nail x="-884" y="-799"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-790" y="-884">tagsSent == numberOfClients</label>
+			<nail x="-612" y="-850"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-187" y="-748">acksReceived == numberOfClients</label>
+			<label kind="synchronisation" x="-128" y="-731">multicastSend!</label>
+			<label kind="assignment" x="-119" y="-714">startGame()</label>
+			<nail x="0" y="-748"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+		</transition>
+	</template>
+	<template>
+		<name>Client</name>
+		<parameter>const id_t id</parameter>
+		<declaration>int tag;
+int playersX[numberOfClients], playersY[numberOfClients];
+int ballX, ballY;
+int anchorsX[4], anchorsY[4];
+int playerId;
+int anchorsReceived = 0;
+bool checksumValid;
+bool hasFailed = false;
+void processData(){
+    int type = data[0];
+    
+    if(type == 0){
+        int anchorId = data[1];
+        anchorsX[anchorId] = data[2];
+        anchorsY[anchorId] = data[3];
+        anchorsReceived++;
+    } else if(type == 1){
+        // Player position
+    } else if(type == 2){
+        // Goal position
+    } else if(type == 3){
+        // Score update
+    } else if(type == 4){
+        // Tag received
+        tag = data[1];
+        playerId = data[2];
+    } else if(type == 5){
+        // Setup checksum
+    } else if(type == 6){
+        // Start game
+    }
+}
+
+void validateChecksum(){
+    int checksum = 0;
+    int i;
+    if(playerId == 1 &amp;&amp; !hasFailed){
+        checksum = 100;
+        hasFailed = true;
+    }
+    for(i = 0; i &lt; 4; i++){
+        checksum += anchorsX[i];
+        checksum += anchorsY[i];
+    }
+    checksumValid = checksum == data[1];
+}</declaration>
+		<location id="id9" x="-4624" y="-4012">
+			<name x="-4641" y="-4046">Initial</name>
+		</location>
+		<location id="id10" x="-4420" y="-4012">
+			<name x="-4454" y="-4046">Connecting</name>
+		</location>
+		<location id="id11" x="-4216" y="-4012">
+			<name x="-4233" y="-4046">Setup</name>
+		</location>
+		<location id="id12" x="-4012" y="-3842">
+		</location>
+		<location id="id13" x="-4012" y="-4012">
+		</location>
+		<location id="id14" x="-4012" y="-3910">
+		</location>
+		<location id="id15" x="-3842" y="-4012">
+			<name x="-3910" y="-4029">InGame</name>
+		</location>
+		<location id="id16" x="-3842" y="-4216">
+			<name x="-3852" y="-4250">GameOver</name>
+		</location>
+		<init ref="id9"/>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-3825" y="-4139">endGame?</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-3731" y="-4037">multicastSend?</label>
+			<label kind="assignment" x="-3731" y="-4020">processData()</label>
+			<nail x="-3740" y="-4080"/>
+			<nail x="-3740" y="-3944"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-3833" y="-3876">multicastSend?</label>
+			<label kind="assignment" x="-3833" y="-3859">processData()</label>
+			<nail x="-3842" y="-3842"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-4139" y="-3867">retry?</label>
+			<nail x="-4046" y="-3842"/>
+			<nail x="-4250" y="-3842"/>
+			<nail x="-4250" y="-3978"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-4139" y="-3867">retry?</label>
+			<nail x="-4250" y="-3842"/>
+			<nail x="-4250" y="-3978"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-4182" y="-3952">!checksumValid</label>
+			<label kind="synchronisation" x="-4148" y="-3935">nack!</label>
+			<nail x="-4216" y="-3910"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-4003" y="-3901">checksumValid</label>
+			<label kind="synchronisation" x="-4003" y="-3884">ack!</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-4003" y="-3986">multicastSend?</label>
+			<label kind="assignment" x="-4003" y="-3969">validateChecksum()</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-4148" y="-4029">setupDone?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-4267" y="-4148">multicastSend?</label>
+			<label kind="assignment" x="-4258" y="-4131">processData()</label>
+			<nail x="-4284" y="-4046"/>
+			<nail x="-4216" y="-4114"/>
+			<nail x="-4148" y="-4046"/>
+			<nail x="-4199" y="-4012"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-4377" y="-4012">connectPlayer?</label>
+			<label kind="assignment" x="-4377" y="-3995">processData()</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-4564" y="-4012">connect!</label>
+		</transition>
+	</template>
+	<system>// List one or more processes to be composed into a system.
+system Host, Client;
+    </system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; Host.InGame and exists(i : id_t) not Client(i).InGame</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; deadlock and not Host.GameOver</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
