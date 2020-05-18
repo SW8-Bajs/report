@@ -1,8 +1,31 @@
 \section{Discussion}
 
-\subsection{Reflections}
+\subsection{Reflecting on the process}
+The process used during development of this project was described in \autoref{sprint1:ourprocess}, blending elements of Scrum and Essence.
+Development was segregated into five sprints, defining the different iterations of the system.
+These sprints served as a guideline for when to have sprint retrospectives and enact changes in the process.
+Each retrospective would cause slight alterations to the process.
+\\\\
+Initially, tasks were estimated based on planning poker.
+However, we found it difficult to properly estimate a lot of the tasks, as this project concerned itself with an area of expertise we were not familiar with.
+This led to the inclusion of an Essence based version of estimating in sprint 1.
+This version of estimation was also scrapped, as described in \autoref{sec:sprint2-conclusion}, due to it seeming biased towards shorter tasks and estimation not being accurate.
+This led to the method of simply having a group-based discussion about the DoD of a task, and ensuring everyone understood it.
+This DoD based task assignment worked well for the final sprints.
+It avoided spending unnecessary time on planning poker on top of discussing tasks, and made the developers more productive.
+\\\\
+Another aspect improved by the retrospectives was the daily stand-up meetings.
+In the beginning of the project these tended to be unfocused and not provide the necessary information.
+This led to the introduction of a certain set of questions, defined in \autoref{sec:sprint2-conclusion}, which helped to ensure the developers stayed focused and provided the necessary information to facilitate prodcutivity.
 
-\subsubsection{UDP and TCP for the protocol}
+
+
+\subsection{Reflecting on mobility}
+
+\subsection{The design}
+no lobby, bad
+
+\subsection{UDP and TCP for the protocol}
 when the socket type to be used for the program was initially chosen in \autoref{sec:sprint1-networking}, a large emphasis was put on the rate at which we could send messages.
 The sending rate also affected a lot of the other decisions made for the networking protocol, such as keeping messages as short as possible.
 The goal was to facilitate sending as many messages as possible.
@@ -13,7 +36,7 @@ In order to fix this, we implemented some message throttling, described in \auto
 Keeping this limiting of messages in mind, the aspect of sending messages rapidly loses some of its importance, leading to some of our earlier considerations not being optimal.
 This might have led us to implement a TCP aspect earlier in the project, avoiding having to spend some of the time attempting to implement UDP acknowledgments. 
 
-\subsubsection{Testing the system}
+\subsection{Testing the system}
 The first full scale test of the system and all its components took play on May 7th, as described in \autoref{sec:sprint4-initialtest}.
 This was late in the overall process of the semester, and showed certain flaws with the system that should have been caught earlier, as development was being done on the different parts of this system.
 The overall purpose of this test was initially to document flaws with the usage of the program, but it turned into a test to ensure the components worked together.
