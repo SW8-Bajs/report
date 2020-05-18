@@ -1,4 +1,4 @@
-\section{Initial test on May 7th}
+\section{Initial test on May 7th}\label{sec:initial-test}
 On May 7th the group met up to perform the first real test of the system, aiming to try out the full experience of the game, using the VR goggles to view the game and using the Pozyx system to generate positional data based on the movement of the players.
 This test was conducted with the goal of exposing issues with the state of the system, as well as simply test whether or not it would be playable, meaning the player characters would move in a regular fashion without jerking around the screen.
 A testing area was constructed in order to conduct the test.
@@ -50,4 +50,4 @@ Finally, once four players were able to connect and receive configuration data f
 Further research into this bug revealed that it was another problem with the Pozyx system, where it would repeatedly report $(0,0,0)$ positions with actual positioning data in between.\\
 Most of these Pozyx issues had not previously been identified since we, up until this point, had been using mocked data, and had not set up the Pozyx since conducting the experiments in \autoref{sprint1:experiment}.
 For the VR part of the system, there was an issue where the blue goal zone would flicker when the player moved their head, while the red zone did not, even though they are implemented in the same way.\\
-As such, while the test did not achieve the original goal, it still exposed certain bugs that are essential to fix for the upcoming sprint. 
+As such, while the test did not achieve the original goal, it still exposed certain bugs that are essential to fix for the upcoming sprint.
