@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+const int number_of_clients = 2;
+const int time_limit = 2;
+const int host = number_of_clients;
+
+typedef int[0, number_of_clients - 1] id_t;
+
+//each tcp instance has their own entry in the tcp buffer. The clients have the entry at index = their id and the host has the last index.
+int TCP_buffer[number_of_clients + 1];
+int UDP_buffer;
+broadcast chan read_UDP_buffer;
+chan tcp_sync[number_of_clients], ack_sync[number_of_clients], ack[number_of_clients], send_message[number_of_clients], timeout[number_of_clients];
+
+chan TCP_send[number_of_clients], TCP_connect[number_of_clients], TCP_connected[number_of_clients], TCP_client_connected, read_TCP_buffer[number_of_clients];
+
+chan UDP_start, UDP_send;</declaration>
+	<template>
+		<name x="5" y="5">UDP_host</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-2312" y="-1428">
+		</location>
+		<location id="id1" x="-2312" y="-1496">
+		</location>
+		<location id="id2" x="-2312" y="-1360">
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-2269" y="-1402">read_UDP_buffer!</label>
+			<nail x="-2278" y="-1360"/>
+			<nail x="-2278" y="-1428"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-2303" y="-1479">UDP_start?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-2422" y="-1402">UDP_send?</label>
+			<nail x="-2346" y="-1428"/>
+			<nail x="-2346" y="-1360"/>
+		</transition>
+	</template>
+	<template>
+		<name>TCP_host</name>
+		<parameter>const id_t clientId</parameter>
+		<declaration>clock wait_time;</declaration>
+		<location id="id3" x="-3502" y="-2720">
+			<name x="-3553" y="-2737">Start</name>
+		</location>
+		<location id="id4" x="-3332" y="-2720">
+		</location>
+		<location id="id5" x="-3128" y="-2720">
+			<label kind="invariant" x="-3196" y="-2711">wait_time &lt;= time_limit</label>
+		</location>
+		<location id="id6" x="-2779" y="-2584">
+			<committed/>
+		</location>
+		<location id="id7" x="-2550" y="-2584">
+			<name x="-2533" y="-2609">Waiting</name>
+			<label kind="invariant" x="-2533" y="-2584">wait_time &lt;= time_limit</label>
+		</location>
+		<location id="id8" x="-2737" y="-2720">
+			<name x="-2779" y="-2754">TimeOut</name>
+		</location>
+		<location id="id9" x="-2958" y="-2584">
+			<name x="-3009" y="-2601">Idle</name>
+		</location>
+		<location id="id10" x="-2958" y="-2720">
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-3111" y="-2677">TCP_client_connected!</label>
+			<label kind="assignment" x="-3128" y="-2660">TCP_buffer[host] = clientId</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-2932" y="-2584">TCP_send[clientId]?</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-3383" y="-2830">wait_time &gt;= time_limit</label>
+			<label kind="synchronisation" x="-3366" y="-2813">timeout[clientId]!</label>
+			<nail x="-3128" y="-2788"/>
+			<nail x="-3502" y="-2788"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-3468" y="-2677">timeout[clientId]?</label>
+			<nail x="-3332" y="-2652"/>
+			<nail x="-3502" y="-2652"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-2856" y="-2694">send_message[clientId]!</label>
+			<label kind="assignment" x="-2762" y="-2677">wait_time = 0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-2686" y="-2762">wait_time &gt;= time_limit</label>
+			<label kind="synchronisation" x="-2669" y="-2745">timeout[clientId]!</label>
+			<nail x="-2550" y="-2720"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-2813" y="-2516">ack[clientId]?</label>
+			<nail x="-2550" y="-2516"/>
+			<nail x="-2788" y="-2516"/>
+			<nail x="-2958" y="-2516"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-2745" y="-2584">send_message[clientId]!</label>
+			<label kind="assignment" x="-2711" y="-2567">wait_time = 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-3085" y="-2745">ack[clientId]?</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-3298" y="-2762">ack_sync[clientId]!</label>
+			<label kind="assignment" x="-3281" y="-2745">wait_time = 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-3476" y="-2745">tcp_sync[clientId]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>TCP_client</name>
+		<parameter>const id_t clientId</parameter>
+		<declaration>clock wait_time;</declaration>
+		<location id="id11" x="-2618" y="-1394">
+		</location>
+		<location id="id12" x="-2788" y="-1394">
+			<label kind="invariant" x="-2847" y="-1462">wait_time &lt;= time_limit</label>
+		</location>
+		<location id="id13" x="-2958" y="-1394">
+		</location>
+		<location id="id14" x="-2210" y="-1258">
+		</location>
+		<location id="id15" x="-2380" y="-1258">
+			<name x="-2414" y="-1292">Idle</name>
+		</location>
+		<location id="id16" x="-3128" y="-1394">
+		</location>
+		<location id="id17" x="-2618" y="-1258">
+			<committed/>
+		</location>
+		<location id="id18" x="-2380" y="-1190">
+			<committed/>
+		</location>
+		<init ref="id16"/>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-2550" y="-1232">read_TCP_buffer[clientId]!</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-2601" y="-1292">TCP_connected[clientId]!</label>
+			<label kind="assignment" x="-2601" y="-1275">TCP_buffer[host] = clientId</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-3119" y="-1419">TCP_connect[clientId]?</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-2949" y="-1326">wait_time &gt;= time_limit</label>
+			<label kind="synchronisation" x="-2932" y="-1309">timeout[clientId]!</label>
+			<nail x="-2788" y="-1326"/>
+			<nail x="-2958" y="-1326"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-2703" y="-1351">ack[clientId]!</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-2762" y="-1419">ack_sync[clientId]?</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-2941" y="-1428">tcp_sync[clientId]!</label>
+			<label kind="assignment" x="-2924" y="-1411">wait_time = 0</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-2354" y="-1351">timeout[clientId]?</label>
+			<nail x="-2210" y="-1326"/>
+			<nail x="-2380" y="-1326"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-2329" y="-1215">ack[clientId]!</label>
+			<nail x="-2210" y="-1190"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-2371" y="-1283">send_message[clientId]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Client</name>
+		<parameter>const id_t id</parameter>
+		<declaration>int local_TCP_buffer;
+int local_UDP_buffer;</declaration>
+		<location id="id19" x="-1623" y="-170">
+			<name x="-1640" y="-204">Initial</name>
+		</location>
+		<location id="id20" x="-1445" y="-170">
+			<name x="-1479" y="-204">Connecting</name>
+		</location>
+		<location id="id21" x="-1224" y="-170">
+			<name x="-1241" y="-204">Lobby</name>
+		</location>
+		<location id="id22" x="-986" y="-34">
+			<name x="-977" y="-59">InGame</name>
+		</location>
+		<location id="id23" x="-986" y="-170">
+			<committed/>
+		</location>
+		<init ref="id19"/>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-1181" y="-25">read_UDP_buffer?</label>
+			<label kind="assignment" x="-1258" y="-8">local_UDP_buffer = UDP_buffer</label>
+			<nail x="-1054" y="-34"/>
+			<nail x="-1054" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-909" y="-25">read_TCP_buffer[id]?</label>
+			<label kind="assignment" x="-909" y="-8">local_TCP_buffer = TCP_buffer[id],
+TCP_buffer[id] = 0</label>
+			<nail x="-918" y="-34"/>
+			<nail x="-918" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id21"/>
+			<label kind="guard" x="-1275" y="-102">local_TCP_buffer != 3</label>
+			<nail x="-1224" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id22"/>
+			<label kind="guard" x="-977" y="-153">local_TCP_buffer == 3</label>
+			<label kind="assignment" x="-977" y="-136">local_TCP_buffer = 0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-1190" y="-229">read_TCP_buffer[id]?</label>
+			<label kind="assignment" x="-1190" y="-212">local_TCP_buffer=TCP_buffer[id],
+TCP_buffer[id] = 0</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-1402" y="-195">TCP_connected[id]?</label>
+			<nail x="-1275" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-1598" y="-195">TCP_connect[id]!</label>
+		</transition>
+	</template>
+	<template>
+		<name>Host</name>
+		<declaration>int connected_clients = 0;
+int local_TCP_buffer;
+int i = 0;</declaration>
+		<location id="id24" x="-1836" y="-544">
+			<name x="-1887" y="-569">Lobby</name>
+		</location>
+		<location id="id25" x="-1564" y="-544">
+			<name x="-1555" y="-569">Connecting</name>
+		</location>
+		<location id="id26" x="-1564" y="-408">
+			<committed/>
+		</location>
+		<location id="id27" x="-1258" y="-408">
+			<name x="-1241" y="-416">StartGame</name>
+		</location>
+		<location id="id28" x="-1258" y="-306">
+			<name x="-1317" y="-340">InGame</name>
+		</location>
+		<location id="id29" x="-1428" y="-306">
+			<name x="-1445" y="-340">Sending</name>
+		</location>
+		<init ref="id24"/>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id29"/>
+			<label kind="guard" x="-1666" y="-323">i &lt; number_of_clients</label>
+			<label kind="synchronisation" x="-1666" y="-306">TCP_send[i]!</label>
+			<label kind="assignment" x="-1666" y="-289">TCP_buffer[i] = 4,
+i++</label>
+			<nail x="-1530" y="-340"/>
+			<nail x="-1530" y="-238"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id28"/>
+			<label kind="guard" x="-1411" y="-263">i == number_of_clients</label>
+			<nail x="-1428" y="-272"/>
+			<nail x="-1258" y="-272"/>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="assignment" x="-1360" y="-323">i = 0</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="-1113" y="-306">UDP_send!</label>
+			<label kind="assignment" x="-1113" y="-289">UDP_buffer++</label>
+			<nail x="-1122" y="-306"/>
+			<nail x="-1122" y="-238"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="guard" x="-1249" y="-382">i == number_of_clients</label>
+			<label kind="synchronisation" x="-1241" y="-365">UDP_start!</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id27"/>
+			<label kind="guard" x="-1249" y="-552">i&lt;number_of_clients</label>
+			<label kind="synchronisation" x="-1249" y="-535">TCP_send[i]!</label>
+			<label kind="assignment" x="-1249" y="-518">TCP_buffer[i] = 3,
+i++</label>
+			<nail x="-1156" y="-476"/>
+			<nail x="-1258" y="-476"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="guard" x="-1547" y="-433">connected_clients == number_of_clients</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id24"/>
+			<label kind="guard" x="-1938" y="-476">connected_clients &lt; number_of_clients</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-1555" y="-493">TCP_send[local_TCP_buffer]!</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-1819" y="-603">TCP_client_connected?</label>
+			<label kind="assignment" x="-1819" y="-586">connected_clients++,
+local_TCP_buffer = TCP_buffer[host]</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+// List one or more processes to be composed into a system.
+system UDP_host, TCP_host, TCP_client, Host, Client;
+    </system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; Host.MessagesSent and exists(i:id_t) Client(i).Lobby</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Host.StartGame and forall(i:id_t) Client(i).Lobby</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; exists(i:id_t) Client(i).InGame and Client(i).local_TCP_buffer == 3</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
