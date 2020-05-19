@@ -29,7 +29,9 @@
 \pdfbookmark[0]{Contents}{label:contents}
 \pagestyle{fancy} %enable headers and footers again
 \tableofcontents
-\input{sections/resources.tex}
+\listoffigures
+\listoftables
+\lstlistoflistings
 \input{sections/abbreviations.tex}
 \cleardoublepage
 %mainmatter
@@ -37,7 +39,5 @@
 \input{sections/rapportstructure}
 \printbibliography[heading=bibintoc]
 \label{bib:mybiblio}
-\listoffigures
-\listoftables
-\lstlistoflistings
+\input{sections/resources.tex}
 \end{document}
