@@ -51,7 +51,7 @@ The min and max values were noted, as they may be useful for future analysis.
 The $z$ values were very inconsistent throughout the entire test, and due to this and the $z$-axis being largely irrelevant to the game, we will not focus on analyzing them.
 Because of this, it was decided to only calculate the deviance between the actual position and the measured position in the $xy$-plane.
 
-\subsubsection{Precision with 1 tag} 
+\subsubsection{Precision with 1 tag}
 When testing with only one tag the average of all deviations was 15.20 cm.
 \begin{figure}[H]
     \centering
@@ -60,7 +60,7 @@ When testing with only one tag the average of all deviations was 15.20 cm.
     \label{fig:1tagdiagram}
 \end{figure}
 \noindent
-As can be seen on \autoref{fig:1tagdiagram}, some measurements can be quite far off the actual position. 
+As can be seen on \autoref{fig:1tagdiagram}, some measurements can be quite far off the actual position.
 On the $x$-axis you can see the actual position of the tag in mm compared to the playing field.
 The $y$-axis shows the amount that the measurements were off the actual position in mm.
 Each measurement set has its own box and whiskers.
@@ -74,11 +74,11 @@ The measurement with the highest deviance was recorded when the tag was in posit
 The average deviance of all the measurements from that position was only 36.5 cm, however.
 The highest average deviance of all the positions was 39.5 cm in position \texttt{(0,6000)}.
 When running with one tag the average amount of measurements were 12.368 per second.
- 
+
 
 \subsubsection{Precision with 3 tag}
-For this part of the experiment, the accuracy was tested with three tags. 
-The tags were positioned at three different x-coordinates. 
+For this part of the experiment, the accuracy was tested with three tags.
+The tags were positioned at three different x-coordinates.
 1400, 1800 and 2200 were chosen as the $x$ coordinates and the $y$ coordinate was moved up by 300 mm each time starting from 0 and going up to 1200.
 The average amount of updates from all the tags per second were 1.83, less than 10 percent of the amount of updates when only one tag was used.
 The amount of updates were very different between the different tags, as the one with the highest update rate had an average of 3.4 per second and the lowest only 0.92.
@@ -97,27 +97,27 @@ This was done to see if they would affect the precision of each other.
 Based on the data it seems they might have a small effect on each other but not enough for it to be a problem.
 The biggest deviance in the test was only 46 cm off compared to 1.3 meters in the 1 tag test which seemed interesting, but could be because the measurements in the 3 tag experiment were made in the middle of the playing field compared to at the edge in the 1 tag experiment.
 
-\paragraph{Tag 26467}
+\paragraph{Tag 0x6763}
 This tag was positioned 1400 mm along the $x$-axis.
 The overall average deviation for this tag was 11.9 cm and it made 1.16 measurements per second.
 No measurements were further away than 26.3 cm from the actual position and the biggest average deviance for a set of measurements was only 22.26 cm.
 
 
-\paragraph{Tag 26895}
+\paragraph{Tag 0x690F}
 This tag was positioned 1800 mm along the $x$-axis.
 This tag was only 9.2 cm off on average and had by far the highest average update rate at 3.4 Hz.
 Like the previous tag it also did not have any measurements with large deviances.
 The furthest measurement was 22.1 cm off and the worst average deviance for a set was 15.09 cm.
 This was by far the best performing tag in this experiment regarding both precision and update rate.
 
-\paragraph{Tag 24622}
+\paragraph{Tag 0x602E}
 This tag was positioned 2200 mm along the $x$-axis.
 The overall average deviation for this tag was 14.48 cm and an update rate at 0.92 hz.
 For the first three points the results seemed fairly accurate, however, the grid \texttt{(2200, 900)} had a large deviation of 22.43 cm.
 That set also had the measurement with highest deviance with 46.0 cm.
 
 \subsubsection{Precision with 5 tag}
-The tags were positioned at five different x-coordinates. 
+The tags were positioned at five different x-coordinates.
 1400, 1600, 1800, 2000 and 2200 were chosen as the $x$ coordinates and the $y$ coordinate was moved up by 200 mm each time starting from 0 to 1200 mm.
 \begin{figure}[H]
     \centering
@@ -130,29 +130,29 @@ Like the experiment with 3 tags, seen on \autoref{fig:3tagdiagram}, there were n
 But two instances were still seen as further off than the average.
 
 
-\paragraph{Tag 24622}
+\paragraph{Tag 0x602E}
 This tag was positioned 1800 mm along the $x$-axis.
 The average deviation for this tag was 12.99 cm and the average update rate was 0.83 Hz.
 This was the tag that had the worst measurement on coordinates \texttt{(1800, 0)} which was off by 65.1 cm and the worst average deviance of a measurement set with 31.7 cm.
 Besides that the other sets were among the most accurate.
 
-\paragraph{Tag 26467}
+\paragraph{Tag 0x6763}
 This tag was positioned 1400 mm along the $x$-axis.
 For this tag, the average deviation was 12.75 cm and the average amount of data points per second was 0.6.
 At \texttt{1400, 200} the tag only returned one measurement and at \texttt{(1400, 600)} there were only two measurements completed during the 5 second period the tag was in that position.
 The tag was overall very precise with all measurements within 23.6 cm of the actual position.
 
-\paragraph{Tag 26895}
+\paragraph{Tag 0x690F}
 This tag was positioned 1600 mm along the $x$-axis.
-Tag 26895 had an average deviation of 12.39 cm and an update rate at 2.11 Hz. 
-This update rate was much higher than tag 24622, 26467 and 27001, and equal to 26901 even though they all had the same settings.
+Tag 0x690F had an average deviation of 12.39 cm and an update rate at 2.11 Hz.
+This update rate was much higher than tag 0x602E, 0x6763 and 0x6979, and equal to 0x6915 even though they all had the same settings.
 
-\paragraph{Tag 26901}
+\paragraph{Tag 0x6915}
 This tag was positioned 2200 mm along the $x$-axis.
-The average deviation of tag 26901 was 14.74 cm, and it had an update rate of 2.11 Hz aswell.
+The average deviation of tag 0x6915 was 14.74 cm, and it had an update rate of 2.11 Hz aswell.
 This tag had a few spikes when measuring on coordinate \texttt{(2200, 200)}, where the average deviance was 20.99 cm and the worst measurement was 54.6 cm off.
 
-\paragraph{Tag 27001}
+\paragraph{Tag 0x6979}
 This tag was positioned 2000 mm along the $x$-axis.
 The average deviation of this tag was 10.46 cm and the average update rate was 1.23 Hz.
 This tag was pretty average with no big deviations.
@@ -160,16 +160,16 @@ Its worst measurement set had an average deviation of 18.34 cm.
 
 
 \subsection{Possible influences on the test}\label{subsec:influence-on-the-test}
-One thing that could have affected the tags is that a whiteboard was used as a measure for positions. 
+One thing that could have affected the tags is that a whiteboard was used as a measure for positions.
 As there is metal in the whiteboard this could have affected the precision of the tags.
 Metals are conductors, which can lead to the signal having less power and reduced range, and the signal might spend extra time trying to get through the metal.
-Since Pozyx positioning relies on calculating the time of flight, having the signal spend extra time traveling reduces accuracy \cite{pozyx-UWBObstacles}. 
+Since Pozyx positioning relies on calculating the time of flight, having the signal spend extra time traveling reduces accuracy \cite{pozyx-UWBObstacles}.
 \\\\
-If we look at the $z$ coordinate in the test experiment data, it can be seen that $z$ fluctuates a lot more than the $x$ and $y$ coordinates. 
+If we look at the $z$ coordinate in the test experiment data, it can be seen that $z$ fluctuates a lot more than the $x$ and $y$ coordinates.
 The max $z$ coordinate for multiple experiments is often more than 3 meters and the average $z$ coordinate is also often 1 meter higher than the actual coordinate.
 This could be due to the height difference between the anchors not being sufficiently large which can affect Pozyx' ability to measure the height of the tags.
 \\\\
-During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall. 
+During the test with 1 tag, the 0 value of the $x$ coordinate coincided with the wall.
 This could have been an influence on the positioning result in that it could increase uncertainty, as it was difficult to center the tag over the x coordinate since the coordinate collided with the wall.
 Also, the wall could have created interference with the signal and there might have been metal or wires going through it which could have affected the signal.
 \\\\
@@ -186,11 +186,11 @@ Our conclusion of this experiment is that the precision is satisfactory, but the
 We also need to consider the spikes in the coordinates, such that the user does not jump around on the screen, even though the user might not be moving.
 A good solution would be to use an algorithm to correct the data.
 \\\\
-The results of this experiment shows that a three dimensional game is not viable with the errors that we had on the $z$ coordinate. 
+The results of this experiment shows that a three dimensional game is not viable with the errors that we had on the $z$ coordinate.
 This is most likely due to the height difference between the anchors only being 20 cm.
 If we, later on, choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different, larger height differences, but as it currently is only a two-dimensional game it is not necessary.
 \\\\
 It also seemed like some tags were not able to send as many measurements as others.
-Consistently throughout the experiments tag 26895 was the best tag regarding update rate, sometimes having an update rate almost 3 times faster than the other tags.
+Consistently throughout the experiments tag 0x690F was the best tag regarding update rate, sometimes having an update rate almost 3 times faster than the other tags.
 This was caused in part due to some tags seemingly having a slower update rate, but also because some of them would report errors instead of measurements randomly.
 This is something that will be investigated.
