@@ -1,15 +1,14 @@
-\section{Understanding a \uppaal model}\label{app:uppaal}
-
+\chapter{Understanding a \uppaal model}\label{app:uppaal}
 The goal of this appendix is not to give an extensive guide on how to use \uppaal, but rather to serve as a short introduction on how to read the models described in this report.
 For a more in-depth description of how \uppaal works, we recommend the official tutorial for \uppaal 4.0 by Gerd Behrmann, Alexandre David and Kim G. Larsen \cite{uppaaltutorial}.
 
-\subsection{What is \uppaal?}
+\section*{What is \uppaal?}
 \uppaal is an integrated tool environment for modeling and verification of timed automata.
 It is mainly used for simulating and verifying models of real-time systems \cite{uppaalintro} by means of property checking, where it can automatically generate a diagnostic trace to explain why a given property is, or is not, satisfied by the modeled system.\\
 This property checking is done using a reachability analysis, meaning that it will search through the state space of the system to find a state where a given property is true.
 Using property checking it is then possible to check for properties like whether or not the system can end up in a deadlock - or in the context of this system, it would be possible to check whether or not it is possible that one client is still in the lobby while the other clients are receiving in-game information such as positional data.
 
-\subsection{Format of a system in \uppaal}
+\section*{Format of a system in \uppaal}
 A very basic model in \uppaal consists of a set of locations and edges as seen on \autoref{fig:app:uppaal:locations}.
 In this basic model, we have two locations: \uppLoc{A} and \uppLoc{B} and two transitions: From \uppLoc{A} to \uppLoc{B}, and from \uppLoc{B} to \uppLoc{A}.
 The location \uppLoc{A} has an extra ring, which indicates that it is an initial location, meaning that this is where the system will start when initialized.
@@ -50,7 +49,7 @@ From here, the user can choose which transition to take next in the given proces
     \label{fig:app:uppaal:transitions}
 \end{figure}
 
-\subsection{Synchronizations}
+\section*{Synchronizations}
 As a \uppaal system can consist of multiple processes, it is often useful to allow the different processes to communicate.
 One way of communicating is via the use of \uppSync{synchronizations}.
 If a transition between two locations has a synchronization called sync on it, as seen in \autoref{fig:app:uppaal:sync}, it can wait for another process to communicate with it before taking the transition.
@@ -85,7 +84,7 @@ broadcast chan multi_sync;
 Having the channel defined as a broadcast means that any process that is ready to synchronize when a synchronization output is transmitted must do so.
 
 
-\subsection{Clocks, guards, and selections}
+\section*{Clocks, guards, and selections}
 As mentioned previously, \uppaal works with timed automata - so let us add some time to our sample model.
 To do this, we can add a \uppClock{clock} to the local declarations of our template using the clock type:
 \begin{uppaalcode}
@@ -114,7 +113,7 @@ This quickly poses a problem for us, though, as the time will keep increasing, m
 \noindent
 To fix this, it is possible to use updates to update the value of the clock, as seen in \autoref{fig:app:uppaal:selection} where we reset the \uppClock{time} to 0 when taking the transition from \uppLoc{B} to \uppLoc{A}.
 
-\subsection{Invariants}
+\section*{Invariants}
 Much like guards limit the possibility of taking a transition until some conditions have met, invariants can be used to limit when it is possible to be in a given location.
 In \autoref{fig:app:uppaal:invariant} we have added an invariant to \uppLoc{B}, specifying that less than 8 \uppClock{time} units must have passed before it leaves the transition.
 
@@ -126,7 +125,7 @@ If the invariant conditions are not met, the process cannot enter the location o
     \label{fig:app:uppaal:invariant}
 \end{figure}
 
-\subsection{Committed and urgent locations}
+\section*{Committed and urgent locations}
 Urgent locations are locations where time is not able to pass.
 This means that if any of the processes are currently in an urgent location, all clocks in the system are paused until the process transitions out of that location.
 Just like in urgent locations, time cannot pass in committed locations.
