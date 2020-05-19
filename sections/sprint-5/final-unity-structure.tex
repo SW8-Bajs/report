@@ -3,6 +3,14 @@ Two scenes have been created in Unity: \textit{StartMenu} and \textit{Main}.
 This section will give an overview of these two scenes, and show the game objects that have been used in this project.
 
 \subsection{Start menu}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{figures/startmenu.PNG}
+    \caption{The game objects in the start menu.}
+    \label{fig:startmenu-game-objects}
+\end{figure}
+
 The start menu is the lobby and the game objects within the scene can be seen on \autoref{fig:startmenu-game-objects}.
 The five main game objects are the \texttt{GameStateHandler}, \texttt{ConnectionHandler}, \texttt{EventSystem}, \texttt{Menu}, and the standard \texttt{Main Camera}.
 \\
@@ -13,19 +21,19 @@ It also contains another script called \texttt{DontDestroy}, which ensures that 
 The \texttt{TCPClient} receives the information from the host and adds the information received to the \texttt{GameState}.
 \\
 \texttt{Menu} has multiple game objects as children, which are used to specify how the UI should look.
-Menu has also a script, which disables virtual reality in this scene.
+Menu also has a script which disables virtual reality in this scene.
+The menu is not intended to be in virtual reality, as the IP address has to be inputted.
 The \texttt{ConnectButton} and \texttt{CancelConnection} buttons use an \texttt{OnClick} feature in Unity, where it call a function to either connect or cancel the connection, which also changes the UI to reflect this.
 \\
 The \texttt{EventSystem} supports sending events to objects based on input as clicks on buttons or typing in the text field.
 
+\subsection{Main scene}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\linewidth]{figures/startmenu.PNG}
-    \caption{The game objects in the start menu.}
-    \label{fig:startmenu-game-objects}
+    \includegraphics[width=0.4\linewidth]{figures/unity-main-gameobjects.PNG}
+    \caption{The game objects in the main game scene. The grey game objects are not active and the blue are prefabs.}
+    \label{fig:main-game-objects}
 \end{figure}
-
-\subsection{Main scene}
 The main scene is the game scene with the playing field.
 The primary objects in the main scene is \texttt{CLIENT}, \texttt{PlayingFieldContainer}, \texttt{Camera Rig} and \texttt{GvrEventSystem}.
 These can be seen on \autoref{fig:main-game-objects}.
@@ -43,10 +51,3 @@ The playing field has two scripts attached, \texttt{FieldGenerator} and \texttt{
 This is a requirement because of the way meshes are rendered in Unity.
 Rather than being aligned by their center, they are aligned by default by their bottom left corner.
 As such, to keep the playing field in view, it must have this offset.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\linewidth]{figures/unity-main-gameobjects.PNG}
-    \caption{The game objects in the main game scene.}
-    \label{fig:main-game-objects}
-\end{figure}
