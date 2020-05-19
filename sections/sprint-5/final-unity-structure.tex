@@ -9,14 +9,14 @@ The five main game objects are the \texttt{GameStateHandler}, \texttt{Connection
 The \texttt{GameState} contains a simple script with GameState information such as Anchor positions, player positions and other different variables used when the game start.
 It also contains another script \texttt{DontDestroy}, which ensures that the game object does not get destroyed when changing scene.
 \\
-\texttt{ConnectionHandler} contains the scripts \texttt{DontDestroy} \texttt{TCPClient}.
+\texttt{ConnectionHandler} contains the scripts \texttt{DontDestroy} and \texttt{TCPClient}.
 The \texttt{TCPClient} receives the information from the host and adds the information received to the \texttt{GameState}.
 \\
-\texttt{Menu} has multiple gameobjects as children, which are used to specify how the UI should look.
+\texttt{Menu} has multiple game objects as children, which are used to specify how the UI should look.
+Menu has also a script, which disables virtual reality in this scene.
 The \texttt{ConnectButton} and \texttt{CancelConnection} uses an \texttt{OnClick} feature in unity, where it call as function to either connect or cancel the connection.
 \\
 The \texttt{EventSystem} supports sending events to objects based on input as clicks on button or typing in the text field.
-
 
 \begin{figure}[H]
     \centering
@@ -36,7 +36,7 @@ This script is previously described in \autoref{sec:receiving-the-information}.
 The \texttt{PlayingFieldContainer} only contains \texttt{PlayingField}.
 The \texttt{PlayingField} has two children, where one of them is the GoalZoneController, which is used to generate the playing field and make sure that the entire field is visible with the camera.
 The other is the \texttt{Goalscore-UI}, which is used to display the current score of the game.
-It has two script attached to the gane object \texttt{FieldGenerator} and \texttt{PlayingFieldOffset}.
+It has two script attached to the game object \texttt{FieldGenerator} and \texttt{PlayingFieldOffset}.
 \texttt{FieldGenerator} creates the playing field from the coordinates coordinates in the \texttt{GameStateHandler}, which was instantiated in the lobby.
 \texttt{PlayingFieldOffset} is used to change the center coordinate of the field, so that it has the same $x$ and $y$ position as the camera.
 
