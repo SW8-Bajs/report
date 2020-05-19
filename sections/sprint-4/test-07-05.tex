@@ -47,7 +47,8 @@ The first, and most time consuming, was caused by some firmware issues with the 
 When this was fixed, a new bug was encountered when trying to send the host configuration data to the players, where some type conversions were missing that transformed the user input from strings to the appropriate format for calling the Pozyx library.
 From the host program, there was also a minor usability issue where there was no specific information regarding the unit which should be used when inputting information about anchor positions, so the user would not know whether to use centimeters, millimeters or meters, which could cause some confusion.
 Finally, once four players were able to connect and receive configuration data from the host, the game launched for the players, but they were immobile, not moving on the field based on the Pozyx data.
+\\\\
 Further research into this bug revealed that it was another problem with the Pozyx system, where it would repeatedly report $(0,0,0)$ positions with actual positioning data in between.\\
-Most of these Pozyx issues had not previously been identified since we, up until this point, had been using mocked data, and had not set up the Pozyx since conducting the experiments in \autoref{sprint1:experiment}.
+Most of these Pozyx issues had not previously been identified since we, up until this point, had been using mock data, and had not set up the Pozyx since conducting the experiments in \autoref{sprint1:experiment}.
 For the VR part of the system, there was an issue where the blue goal zone would flicker when the player moved their head, while the red zone did not, even though they are implemented in the same way.\\
 As such, while the test did not achieve the original goal, it still exposed certain bugs that are essential to fix for the upcoming sprint.
