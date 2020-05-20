@@ -4,6 +4,6 @@ Because of the lockdown, it became difficult to do testing with the Pozyx hardwa
 The solution was to create some mock data that could be used to get the field, the players, and the ball to be rendered on the screen.
 The mock data is stored on the host side and then sent to the clients to test the formatting of messages and the overall flow of the game.
 When using mock data, a small function was created to get a new random position for each of the players and the ball to allow for simulation of movement.
-The function returned the the players' or ball's current position plus some random step size in any random direction.
-By doing this it was possible to check if data received from the host were correct and for example test that the goal score was incremented when a goal was scored as well as new goal zones being created and sent.
-The use of mock data allowed the group to continue development without having access to the Pozyx hardware, but while still being able to test the new implementations which proved to be very beneficial.
+The function returned the the players' or ball's current position plus a step of random size in a random direction.
+By doing this it was possible to check if data received from the host was correct and, for example, test that the goal score was incremented when a goal was scored as well as new goal zones being created and sent.
+The use of mock data allowed the group to continue development without having access to the Pozyx hardware, while still being able to test the new implementations of tasks which proved to be very beneficial.
