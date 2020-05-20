@@ -5,6 +5,7 @@ This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal}
 Additionally, the previous model focused mostly on the flow of the program and did not properly take the network part of the system into account.
 In this new model, the system will consist of four parts: The host, which is meant to represent the Python program that the game facilitator uses, an arbitrary number of clients who have connected to the game, and the UDP and TCP connection between those.
 We created a simplified model to get an overview of the system and a more extensive model that also models the TCP communication between the host and the client.
+\\\\
 The simplified model will be described first in order to get a general overview of the flow of the system.
 There are two templates in the simplified model which are \uppTemp{Host} and \uppTemp{Client}.
 
@@ -47,7 +48,7 @@ The more extensive \uppaal model will now be discussed and the templates in it w
 \begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl},captionpos=b]
     system UDP_host, TCP_host, TCP_client, Host, Client;
 \end{uppaalcode}
-The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host}.
+The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host} seen in \autoref{lst:uppaal4:systemdecl}.
 As mentioned above, the \uppTemp{Host} and \uppTemp{Client} templates are meant to represent the interface that users interact with when using the system.
 In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTemp{TCP_host}s, and a \uppTemp{UDP_host} allows us to model the behavior of the network aspect of the system.
 
