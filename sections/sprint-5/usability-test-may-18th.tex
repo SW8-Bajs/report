@@ -72,23 +72,23 @@ Once this rule had been implemented, the game could be played as intended.
 In the outdoor test only three tags were used, the two player tags and the ball tag.
 The field was constructed by placing the anchors on top of chairs placed in a rectangular shape, as can be seen on \autoref{fig:test2-anchor-setup}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{usability/outdooranchorsetup.png}
-    \caption{The setup of an anchor in the outdoor test.}
-    \label{fig:test2-anchor-setup}
-\end{figure}
-\noindent
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.5\linewidth]{usability/outdooranchorsetup.png}
+%    \caption{The setup of an anchor in the outdoor test.}
+%    \label{fig:test2-anchor-setup}
+%\end{figure}
+%\noindent
 These anchors were connected to laptops or power banks to ensure no components would run out of power during play.
 The game worked fine overall during the outside test, but the testers experienced that the tags sometimes stopped updating for several seconds.
 The updates of the players' positions would also not update as frequently some times and this could cause the movement of the players to appear quite janky, and resulted in less positional accuracy compared to the indoor test.
 A picture of the gameplay outdoors can be seen on \autoref{fig:outdoor-gameplay}
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=0.6\linewidth]{usability/outdoorusabilitytest.png}
-%    \caption{Game in progress in the outdoors setup environment.}
-%    \label{fig:outdoor-gameplay}
-%\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{usability/outdoorusabilitytest.png}
+    \caption{Game in progress in the outdoors setup environment.}
+    \label{fig:outdoor-gameplay}
+\end{figure}
 
 \subsection{Would this meet the users' requirements}
 As we were unable to test on more than one person due to safety concerns related to COVID-19, it is limited how much information was gained from external users.
@@ -112,12 +112,12 @@ To let the players know which goal is theirs, the player avatars could be colore
 Letting the players see which direction they are facing could be solved by getting their tag orientation from Pozyx.
 To ensure that the tag is always facing the same way as the user, the tag can be mounted on top of the VR headset as seen on \autoref{fig:tag-on-vr-headset}.
 
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=0.4\linewidth]{usability/tagonvrheadset.png}
-%    \caption{Possible placement of Pozyx in future versions.}
-%    \label{fig:tag-on-vr-headset}
-%\end{figure}
-%\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{usability/tagonvrheadset.png}
+    \caption{Possible placement of Pozyx in future versions.}
+    \label{fig:tag-on-vr-headset}
+\end{figure}
+\noindent
 Finally, the problem with the update rate being slow is hard to fix, since it is a hardware limitation of Pozyx. However, it would be possible to implement dead reckoning to improve this.
 To make the players move more smoothly from one position to another, linear interpolation can be used for rendering the move.
