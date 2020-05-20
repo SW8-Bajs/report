@@ -1,4 +1,4 @@
-\section{Initial test on May 7th}\label{sec:sprint4-initialtest}
+\section{Initial test on May 7th}\label{sec:initial-test}
 On May 7th the group met up to perform the first real test of the system, aiming to try out the full experience of the game, using the VR goggles to view the game and using the Pozyx system to generate positional data based on the movement of the players.
 This test was conducted with the goal of exposing issues with the state of the system, as well as simply test whether or not it would be playable, meaning the player characters would move in a regular fashion without jerking around the screen.
 A testing area was constructed in order to conduct the test.
@@ -39,16 +39,16 @@ The overall goal of this test was to play the game in a two versus two fashion.
 This test, however, did not quite accomplish that goal.
 Leading up to the test, members of the group had communicated regarding a smaller scale test, only involving a single person, that would test that the Pozyx system generated data and passed it along to Unity.
 This seemed to work, so the actual test was carried out with more people.
-There had been a miscommunication however, the smaller scale test was carried out on test data, making use of predefined data that had been used during development.
+There had been a miscommunication however, as the smaller scale test was carried out on test data, making use of predefined data that had been used during development.
 When the day of the test came, it turned out this would be the first test with real data based on an actual game setup.
 This led to the encountering of several bugs.
 \\\\
-The first, and most time consuming, was caused by some firmware issues with the Pozyx anchors, delaying the test until they had been updated.
-Then issues were encountered when trying to send the host configuration data to the players.
-This was caused by some unintended type conversions in the Python code.
-Another issue related to the input from the host.
-There was no specific information regarding the unit which should be used when inputting information, such as centimeters, millimeters or meters, and this caused some confusion.
+The first, and most time consuming, was caused by some firmware issues with the Pozyx anchors which lead to the computers not being able to communicate with the Pozyx anchors and tags using the USB connection, delaying the test until they had been updated.
+When this was fixed, a new bug was encountered when trying to send the host configuration data to the players, where some type conversions were missing that transformed the user input from strings to the appropriate format for calling the Pozyx library.
+From the host program, there was also a minor usability issue where there was no specific information regarding the unit which should be used when inputting information about anchor positions, so the user would not know whether to use centimeters, millimeters or meters, which could cause some confusion.
 Finally, once four players were able to connect and receive configuration data from the host, the game launched for the players, but they were immobile, not moving on the field based on the Pozyx data.
-Another issue encountered during testing was related to the blue goal zone.
-This goal zone specifically could flicker when the player moved his head, which the red zone did not.
-As such, while the test did not achieve the original goal, it still exposed certain issues to fix for the upcoming sprint. 
+\\\\
+Further research into this bug revealed that it was another problem with the Pozyx system, where it would repeatedly report $(0,0,0)$ positions with actual positioning data in between.\\
+Most of these Pozyx issues had not previously been identified since we, up until this point, had been using mock data, and had not set up the Pozyx since conducting the experiments in \autoref{sprint1:experiment}.
+For the VR part of the system, there was an issue where the blue goal zone would flicker when the player moved their head, while the red zone did not, even though they are implemented in the same way.\\
+As such, while the test did not achieve the original goal, it still exposed certain bugs that are essential to fix for the upcoming sprint.

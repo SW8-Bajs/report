@@ -1,4 +1,4 @@
-\section{Network packets}\label{app:network}
+\chapter{Network packets}\label{app:network}
 
 The final format of the network packages are described in this appendix.
 For all packages, it is assumed that the TCP messages are treated as unicast to a single recipient, and UDP messages are treated as multicast.
@@ -8,7 +8,7 @@ Additionally, each TCP package will be prefixed with a number indicating the len
 This ensures that the receiver knows when to stop reading the current packet and be ready to process the next one.
 
 
-\subsection*{0: Send tag position (UDP)}
+\section*{0: Send tag position (UDP)}
 \begin{table}[H]
 \begin{tabular}{|l|l|l|l|l|}
 \hline
@@ -23,7 +23,7 @@ The ID (i) \texttt{0} is reserved for the ball tag, and all other tags are consi
 For a game with 4 players, each would have a unique ID ranging from 1-4.
 
 
-\subsection*{1: Send anchor position (TCP)}
+\section*{1: Send anchor position (TCP)}
 \begin{table}[H]
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -35,7 +35,7 @@ For a game with 4 players, each would have a unique ID ranging from 1-4.
 Purpose: Used as a part of the setup phase, where the host sends the position of one of the four anchors to the player.
 This packet will be sent multiple times to each client, but with various anchor IDs (i) until all clients have received the four positions.
 
-\subsection*{2: Send player tag (TCP)}
+\section*{2: Send player tag (TCP)}
 \begin{table}[H]
 \begin{tabular}{|l|l|l|}
 \hline
@@ -46,7 +46,7 @@ This packet will be sent multiple times to each client, but with various anchor 
 Purpose: Used as a part of the setup phase, where the host sends the related tag ID to the player, such that they can find the physical tag related to their client instance.
 This packet will be sent once to each client, but with various tag IDs (i) until all clients have received their tag ID.
 
-\subsection*{3: Signal game start (TCP)}
+\section*{3: Signal game start (TCP)}
 \begin{table}[H]
 \begin{tabular}{|l|}
 \hline
@@ -57,7 +57,7 @@ This packet will be sent once to each client, but with various tag IDs (i) until
 
 Purpose: Used to signal to the players that the game has been started.
 
-\subsection*{4: Send goal scored (TCP)}
+\section*{4: Send goal scored (TCP)}
 \begin{table}[H]
 \begin{tabular}{|l|l|l|}
 \hline
@@ -69,7 +69,7 @@ Purpose: Used to signal to the players that the game has been started.
 Purpose: Used to signal the clients that a goal has been scored, and the scoreboard should be updated on their GUI.
 This triggers the host to generate new goal positions.
 
-\subsection*{5: Send new goal position (TCP)}
+\section*{5: Send new goal position (TCP)}
 \begin{table}[H]
 \begin{tabular}{|l|l|l|l|l|}
 \hline
@@ -82,3 +82,25 @@ Purpose: Sends a new goal position to the clients.
 This message will be sent twice to each team when a goal is scored, such that they receive new positions for both teams' goals.
 The positions are the X and Y coordinates of the center of the goal as they have a pre-defined size based on the shortest edge of the playing field.
 It also contains the offset of goal zones (o), which is the distance from the center of the goal to the sides of the goal.
+
+\section*{6: Send player and goal amounts (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{PLAYERNUMBER (n)} & \textbf{GOALNUMBER (n)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 6\end{tabular}}} \\ \hline
+8 bit                   & 8 bit                   & 8 bit                                                                              \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: Sends the host defined information relating to number of players and goals needed to win.
+
+\section*{7: Signal game end (TCP)}
+\begin{table}[H]
+\begin{tabular}{|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 7\end{tabular}}} \\ \hline
+8 bit                                                                               \\ \hline
+\end{tabular}
+\end{table}
+
+Purpose: Used to signal to the players that the game has ended.
