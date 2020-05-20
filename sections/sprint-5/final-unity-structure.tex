@@ -23,7 +23,7 @@ The \texttt{TCPClient} receives the information from the host and adds the infor
 \texttt{Menu} has multiple game objects as children, which are used to specify how the UI should look.
 Menu also has a script which disables virtual reality in this scene.
 The menu is not intended to be in virtual reality, as the IP address has to be inputted.
-The \texttt{ConnectButton} and \texttt{CancelConnection} buttons use an \texttt{OnClick} feature in Unity, where it call a function to either connect or cancel the connection, which also changes the UI to reflect this.
+The \texttt{ConnectButton} and \texttt{CancelConnection} buttons use an \texttt{OnClick} feature in Unity, where it calls a function to either connect or cancel the connection, which also changes the UI to reflect this.
 \\
 The \texttt{EventSystem} supports sending events to objects based on input as clicks on buttons or typing in the text field.
 
@@ -35,7 +35,7 @@ The \texttt{EventSystem} supports sending events to objects based on input as cl
     \label{fig:main-game-objects}
 \end{figure}
 The main scene is the game scene with the playing field.
-The primary objects in the main scene is \texttt{CLIENT}, \texttt{PlayingFieldContainer}, \texttt{Camera Rig} and \texttt{GvrEventSystem}.
+The primary objects in the main scene are \texttt{CLIENT}, \texttt{PlayingFieldContainer}, \texttt{Camera Rig} and \texttt{GvrEventSystem}.
 These can be seen on \autoref{fig:main-game-objects}.
 \\\\
 The \texttt{CLIENT} contains the script \texttt{UDPClient}, which instantiates the UDP client and receives player and ball positions.
