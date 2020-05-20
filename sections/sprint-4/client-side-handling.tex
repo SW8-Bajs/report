@@ -37,7 +37,9 @@ private void DatagramHandler(string datagramMessage)
             case 0:
                 UpdatePlayerData(data);
                 break;
-
+            default:
+                Debug.LogError("This type of message is not handled on UDP");
+                break;
         }
     }
     else
@@ -48,7 +50,8 @@ private void DatagramHandler(string datagramMessage)
 \end{lstlisting}
 
 \noindent 
-The next step in processing the data is calling the appropriate function as seen in the switch, in this case we will take a look at the \texttt{UpdatePlayerData}.
+The next step in processing the data is calling the appropriate function as seen in the switch. 
+In this case we will take a look at the \texttt{UpdatePlayerData}, which is seen in \autoref{lst:updateplayerdata}.
 
 \begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
 private void UpdatePlayerData(long data)
@@ -104,7 +107,7 @@ Because one digit corresponds to four bits, the message has to be right bit shif
 The message can then be typecasted to a \texttt{byte} to extract the timestamp from the package.
 The next part that is read from the message is the player id.
 Decimals representing the player id are followed by four decimals representing the timestamp and the type of the package.
-This means that to get the player id to the back of the hexadecimal the message has to be right bit shifted by 16 bits.
+This means that to get the player id to the back of the hexadecimal the message has to be right bit shifted by 16 bits, which is seen on \autoref{fig:sprint4-bitshift-playerid}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{sprint4/bitshift-playerid-illustration.png}

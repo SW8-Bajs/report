@@ -4,9 +4,9 @@ This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal}
 \\
 Additionally, the previous model focused mostly on the flow of the program and did not properly take the network part of the system into account.
 In this new model, the system will consist of four parts: The host, which is meant to represent the Python program that the game facilitator uses, an arbitrary number of clients who have connected to the game, and the UDP and TCP connection between those.
-
+\\\\
 We created a simplified model to get an overview of the system and a more extensive model that also models the TCP communication between the host and the client.
-
+\\
 The simplified model will be described first in order to get a general overview of the flow of the system.
 There are two templates in the simplified model which are \uppTemp{Host} and \uppTemp{Client}.
 
@@ -49,7 +49,7 @@ The more extensive \uppaal model will now be discussed and the templates in it w
 \begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl},captionpos=b]
     system UDP_host, TCP_host, TCP_client, Host, Client;
 \end{uppaalcode}
-The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host}.
+The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host} seen in \autoref{lst:uppaal4:systemdecl}.
 As mentioned above, the \uppTemp{Host} and \uppTemp{Client} templates are meant to represent the interface that users interact with when using the system.
 In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTemp{TCP_host}s, and a \uppTemp{UDP_host} allows us to model the behavior of the network aspect of the system.
 
@@ -89,9 +89,9 @@ The \uppTemp{Host} has three variables that are declared in \autoref{lst:sprint-
 The template seen in \autoref{fig:sprint4-uppaal-host} can be divided into three sections.
 In the first section the host waits for the clients to connect through TCP.
 Every time a \uppTemp{Client} has connected the \uppTemp{Host} receives a \uppIn{TCP_client_connected} synchronization and \uppVar{connected_client} is incremented.
-When all of the clients have connected the \uppTemp{Host} moves on the next section.
+When all of the clients have connected the \uppTemp{Host} moves on to the next section.
 In this section the \uppTemp{Host} uses the \uppOut{TCP_send} synchronization to notify each \uppTemp{Client} that the game is starting through TCP.
-Finally the \uppTemp{Host} is in-game and continuously sends messages to the clients.
+Finally the \uppTemp{Host} is \uppLoc{InGame} and continuously sends messages to the clients.
 This is done through either \uppOut{TCP_send} or \uppOut{UDP_send} which are the TCP and UDP channels respectively.
 \begin{figure}[h]
     \centering
@@ -99,8 +99,8 @@ This is done through either \uppOut{TCP_send} or \uppOut{UDP_send} which are the
     \caption{The Host template of the \uppaal model.}
     \label{fig:sprint4-uppaal-host}
 \end{figure}
-\begin{uppaalcode}[caption={local Host declarations}, label={lst:sprint-4-host-code},captionpos=b]
 
+\begin{uppaalcode}[caption={local Host declarations}, label={lst:sprint-4-host-code},captionpos=b]
 int connected_clients = 0;
 int local_TCP_buffer;
 int i = 0;
@@ -135,7 +135,7 @@ Like in the \uppTemp{Client}, this happens by having an \uppVar{clientId} as a p
 As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until \uppProc{TCP_client} receive an \uppIn{TCP_connect[id]} synchronization from a \uppProc{Client}.
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} will then begin to initialize a 3-way handshake to ensure that both parties are ready for transferring data between them.
 Once the handshake has been completed, the \uppTemp{TCP_Host} will send a message to the \uppTemp{Host} to inform that a new player has been connected via the \uppOut{TCP_client_connected} synchronization, and then enter an \uppLoc{Idle} location to indicate that it is ready to send messages.
-Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established with the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive messages.
+Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established through the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive messages.
 
 \begin{figure}[h]
     \centering

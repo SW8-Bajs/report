@@ -18,7 +18,7 @@ This approach aims to create a clear delineation between the crucial data that r
 This was roughly the original approach, as shown on \autoref{fig:uppaal-host-1}, which illustrates how the host would wait in a setup state until acknowledgments had been received from all clients, and then the game would start.
 This presents issues in terms of the multicast grouping, in which the host was unable to read messages sent through the group.
 This could be remedied by having a separate multicast group in which clients could send acknowledgments, to avoid further problems related to multicasting.
-While the host was sending out the information, a client could check if it had received the correct information, and if not send out a negative acknowledgment for a while before timing out, to attempt to receive the information again.
+While the host was sending out the information, a client could check if it had received the correct information, and if not send out a negative acknowledgment before timing out, to attempt to receive the information again.
 Eventually all the clients would be sending positive acknowledgments.
 \\\\
 However, a limitation exists with this approach: when scoring a goal, it is crucial that the goalzones are moved.
