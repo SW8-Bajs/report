@@ -1,10 +1,10 @@
 \section{Improving the movement of objects in the game}
 The evaluation test of the game in \autoref{sec:evaluatin_test} revealed a problem connected to the slow update of the players' and the ball's positions.
-The slow update rate made the movement of game objects jerky, meaning it was difficult for the players that were testing to have a real time feeling of their position.
+The slow update rate made the movement of game objects jerky, meaning it was difficult for the players who were testing to have a real-time feeling of their position.
 As discussed in \autoref{sec:dead-reckoning}, dead reckoning could be a possible solution to this kind of problem.
-A requirement for dead reckoning is to have information about acceleration and velocity of the different game objects.
+A requirement for dead reckoning is to have information about the acceleration and velocity of the different game objects.
 Since the host was not able to provide this information to the clients, and due to time limitations, another solution had to be implemented.
-Instead the Unity function \textit{Lerping} was used, which finds the linear interpolates between two points.
+Instead, the Unity function \texttt{lerping} was used, which finds the linear interpolation between two points.
 By doing this, the movement of game objects can be animated between two positional points.
 To achieve this the time when a new positional update is received needs to be stored for each of the game objects.
 \begin{lstlisting}[caption={Calculating the position of the ball}, captionpos=b,language=C,label={lst:ball_position}]
@@ -18,11 +18,11 @@ To achieve this the time when a new positional update is received needs to be st
     // Set our position as a fraction of the distance between the markers.
     var vector2CoordinatesBall = Vector2.Lerp(gameStateHandler.prevBallPosition, gameStateHandler.newBallPosition, fractionOfJourneyBall);
 \end{lstlisting}
-Lerping is calculated on the client side and the code in \autoref{lst:ball_position} calculates the position of the ball for each frame.
+Lerping is calculated on the client-side and the code in \autoref{lst:ball_position} calculates the position of the ball for each frame.
 For each frame, the time since the last update was received is calculated in seconds.
 This value is multiplied with the speed of the ball to get the distance that the ball has covered between the last position and the new position.
 Then the fraction of the journey is calculated by dividing the distance covered with the total journey length.
 This value is then provided to the \texttt{Vector2.Lerp()} function as well as the old and new position which then calculates the current position of the ball.
 The speed of the ball is dynamic in the way that it is calculated using the length between an old and new position and dividing that with the time it took between receiving the last two updates.
 \\\\
-Through testing with mock data, it shows that calculating linear interpolates for each frame results in much smoother movement for each object in the game, which creates a more pleasant view for the players, as well as creating a more real time feeling to the game.
+Through testing with mock data, it shows that calculating linear interpolates for each frame results in a much smoother movement for each object in the game, which creates a more pleasant view for the players, as well as creating a more immersive and real-time feeling to the game.
