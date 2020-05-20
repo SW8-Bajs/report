@@ -15,8 +15,8 @@ Because of this, a new position must be calculated for the playing field in rela
     transform.position = newPosition;
     transform.rotation = mainCamera.transform.localRotation; 
 \end{lstlisting}
-As seen on \autoref{lst:camera_position} the new position is calculated by adding the playing field's initial position relative to the camera, which is the \texttt{playingFieldTransform.transform.position} variable, with an offset vector.
-The offset vector is calculated by multiplying \texttt{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable, which is how far the field should be from the camera.
+As seen on \autoref{lst:camera_position} the new position is calculated by adding the playing field's initial position relative to the camera, which is the \longvar{playingFieldTransform.transform.position} variable, with an offset vector.
+The offset vector is calculated by multiplying \longvar{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable, which is how far the field should be from the camera.
 These calculations are done in the \texttt{Update} method which is called for every frame rendered in the game.
 \\\\
 For the \texttt{distanceFromCamera} calculation, the camera needs to be far enough away from the field to fit it in its far clipping view.
