@@ -15,7 +15,7 @@ As the main goal of the experiment was to test the accuracy these settings were 
 The settings can be changed at a later point to try to increase the update rate to a level where the latency for the users is acceptable.\\
 The experiment was set up as shown on \autoref{fig:experiment-setup}.
 The experiment was conducted indoors on our campus in the building Novi 9.
-The anchors \texttt{0x632b} and \texttt{0x676e} were mounted on a wall 240 centimeters apart, and the remaining anchors \texttt{0x6738} and \texttt{0x676c} were mounted on a bulletin board.\\
+The anchors \texttt{0x676e} (anchor 1) and \texttt{0x6e2b} (anchor 2) were mounted on a wall 240 centimeters apart, and the remaining anchors \texttt{0x6738} (anchor 3) and \texttt{0x676c} (anchor 4) were mounted on a bulletin board.\\
 The number of centimeters accompanying the hexadecimal number of each anchor is the height at which the anchor was mounted during the experiment.
 Different heights were chosen as Pozyx documentation suggests that not all anchors should have the same height \cite{pozyx-AnchorHeights}.
 The reason for this is the principle of geometric dilution of precision (GDOP), which can cause the error on range measurements to be amplified.
@@ -149,7 +149,7 @@ This update rate was much higher than tag 0x602E, 0x6763 and 0x6979, and equal t
 
 \paragraph{Tag 0x6915}
 This tag was positioned 2200 mm along the $x$-axis.
-The average deviation of tag 0x6915 was 14.74 cm, and it had an update rate of 2.11 Hz aswell.
+The average deviation of tag 0x6915 was 14.74 cm, and it had an update rate of 2.11 Hz as well.
 This tag had a few spikes when measuring on coordinate \texttt{(2200, 200)}, where the average deviance was 20.99 cm and the worst measurement was 54.6 cm off.
 
 \paragraph{Tag 0x6979}
@@ -186,7 +186,7 @@ Our conclusion of this experiment is that the precision is satisfactory, but the
 We also need to consider the spikes in the coordinates, such that the user does not jump around on the screen, even though the user might not be moving.
 A good solution would be to use an algorithm to correct the data.
 \\\\
-The results of this experiment shows that a three dimensional game is not viable with the errors that we had on the $z$ coordinate.
+The results of this experiment shows that a three-dimensional game is not viable with the errors that we had on the $z$ coordinate.
 This is most likely due to the height difference between the anchors only being 20 cm.
 If we, later on, choose to make use of the $z$ coordinate, then it is necessary to conduct another experiment with the Pozyx with different, larger height differences, but as it currently is only a two-dimensional game it is not necessary.
 \\\\
