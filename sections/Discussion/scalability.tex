@@ -1,0 +1,8 @@
+\section{Scalability}
+During the semester, the game was mainly tested with mock data due to the lockdown.
+In the actual tests of the system, as described in \autoref{sec:evaluatin_test}, two of the Pozyx tags stopped working after a firmware update and could not be used for getting positional data.
+This also means that the game has only been tested with two and four players.
+However, the game should easily be able to scale up to an arbitrary amount of players given that the hardware is available.
+The biggest problem with scalability is in terms of larger fields since the anchors only have a range of up to approximately 20 meters. To have a field larger than this, the game will need to support placing anchors along the edge of the playing field, rather than just in the corners.
+This is currently not supported and will require some refactoring of the system since the field is currently generating the field based on the four anchors, which would need to be changed to a system where it is told where the four corner anchors are.
+Additionally, this may lead to some increasingly irregularly shaped playing fields, which may require another algorithm to generate the goal positions.

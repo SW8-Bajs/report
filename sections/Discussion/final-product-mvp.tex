@@ -1,0 +1,31 @@
+\section{Comparing the final product to the MVP}
+In \autoref{sec:mvp} an MVP was defined for a viable game solution, split into functional and non-functional requirements.
+
+\subsection{Functional requirements}
+The functional requirements defined the core features of the game.
+The first three requirements are defined as starting the game, connecting clients and the server, and users viewing their position.
+All of this is accomplished through the network protocol defined in \autoref{app:network}, specifically TCP message 3 for game start and UDP message 0 to update player positions.
+Connecting players is done through the lobby screen based on IP.
+The next few requirements deal with actually playing the game, requiring the player to be able to view a playing field, goals, the players, the ball, and current score, as well as being able to win a game based on their current score.
+This has all been accomplished in the Unity game, as shown in\todo{ref til sprint 5 conclusion en gang.}.
+Finally, the game should be dynamic, allowing for an arbitrary number of players and goals to win as well as different sizes of playing fields.
+This is partly accomplished.
+The game supports an arbitrary number of goals to win, however, in terms of players there is currently a maximum capacity of four players in a single game.
+This is communicated by the host to the clients through TCP message 6 in \autoref{app:network}.
+The playing field scales based on the user input, meaning that requirement is supported, but fields have to be shaped like a rectangle or a square in order to support the current implementation of generating new goal zones.
+
+\subsection{Non-functional requirements}
+The non-functional requirements would ideally be evaluated through a usability test.
+Such a test could not be conducted properly due to the circumstances.
+Instead, a more unstructured test was conducted in \autoref{sec:evaluatin_test} with the group.
+However, the non-functional requirements state that the game should be pleasant to look at and not cause discomfort for players, and there should be enough updates to represent the real positions of the players.
+None of the testers experienced nausea or discomfort during the playing of the game, indicating that the first requirement was likely achieved.
+There were only six testers however, which is likely not enough testers to determine this completely.
+The testers could have been outliers, or there could be possible outliers who would find the playing of the game uncomfortable.
+As explained in \autoref{sec:evaluatin_test}, there were some slight issues in terms of updates when playing the game outside.
+Occasionally, updates would stop being sent for a period of several seconds.
+This caused the game to be interrupted.
+\todo{Den her sætning herunder. Er det godt nok sådan her? Eller er det at vi blamer tags?}
+The reason for this issue has not been pinpointed, and it could have been caused by an unstable connection to the mobile network.
+Another reason for this could be players turning the tag upside down since Pozyx works the best when it is turned properly\cite{pozyx-AnchorHeights}, or simply the signal being obscured if the tag is kept in the pocket of a player.
+In order to combat these issues, we implemented linear interpolation as described in \autoref{sec:lerping}.
