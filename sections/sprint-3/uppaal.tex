@@ -95,11 +95,12 @@ void sendChecksum(){
 A good side-effect of generating the \uppaal model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
 This resulted in some minor refactoring of the format.
 \\
-First of all, the format for sending a field anchor position had a timestamp as a part of the package.
+First of all, the format for sending a field anchor position had a timestamp as a part of the packet.
 Since the anchors will only be sent once, it does not make sense to timestamp it so this has been removed.
 The updated version of the data format can be found in \autoref{app:network}.
 \\
-Additionally, three new packages, seen in \autoref{tab:player-tag}, \autoref{tab:acknowledge}, \autoref{tab:gamestart}, have been specified: Sending a player tag, sending an acknowledgment, or sending the signal to start the game.
+Additionally, three new packets, seen in \autoref{tab:player-tag}, \autoref{tab:acknowledge}, \autoref{tab:gamestart}, have been specified: Sending a player tag, sending an acknowledgment, or sending the signal to start the game.
+
 
 \begin{table}[h!]
     \centering
@@ -134,4 +135,4 @@ Additionally, three new packages, seen in \autoref{tab:player-tag}, \autoref{tab
     \label{tab:gamestart}
 \end{table}
 \noindent
-The reason that \autoref{tab:acknowledge} does not have a type is that it is the only package that will be sent from the client to the host, so it will only need to contain a signal for the host to know whether the checksum is correct or not.
+The reason that \autoref{tab:acknowledge} does not have a type is that it is the only packet that will be sent from the client to the host, so it will only need to contain a signal for the host to know whether the checksum is correct or not.
