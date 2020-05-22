@@ -7,6 +7,7 @@ typedef int[0, number_of_players - 1] id_t;
 int TCP_buffer;
 const int GOAL_SCORED = 4;
 const int GOAL_POSITION = 5; 
+const int TIMEOUT = 2;
 
 chan TCP_connect, TCP_ack, TCP_timeout, TCP_config, TCP_send[number_of_players];
 broadcast chan UDP_tag_position, TCP_start_game, TCP_end_game;</declaration>
@@ -14,7 +15,7 @@ broadcast chan UDP_tag_position, TCP_start_game, TCP_end_game;</declaration>
 		<name x="5" y="5">Client</name>
 		<parameter>const id_t id</parameter>
 		<declaration>// Place local declarations here.
-int TIMEOUT = 2;
+
 clock timeout_clock;
 int local_TCP_buffer;</declaration>
 		<location id="id0" x="-238" y="-68">
@@ -43,13 +44,12 @@ int local_TCP_buffer;</declaration>
 			<source ref="id3"/>
 			<target ref="id0"/>
 			<label kind="guard" x="-442" y="-144">timeout_clock &gt;= TIMEOUT</label>
-			<label kind="synchronisation" x="-365" y="-127">TCP_timeout!</label>
 			<nail x="-306" y="-68"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id4"/>
-			<label kind="guard" x="-391" y="-229">timeout_clock &lt;= TIMEOUT</label>
+			<label kind="guard" x="-391" y="-229">timeout_clock &lt; TIMEOUT</label>
 			<label kind="synchronisation" x="-297" y="-212">TCP_ack?</label>
 		</transition>
 		<transition>
@@ -88,105 +88,112 @@ int local_TCP_buffer;</declaration>
 	<template>
 		<name>Host</name>
 		<declaration>int connected_players = 0;
-int messages_sent = 0;</declaration>
-		<location id="id5" x="-476" y="-102">
-			<name x="-569" y="-119">Connecting</name>
+int client_id = 0;
+clock timeout_clock;</declaration>
+		<location id="id5" x="-578" y="-110">
+			<name x="-671" y="-127">Connecting</name>
 		</location>
-		<location id="id6" x="-340" y="-102">
-			<name x="-331" y="-136">Lobby</name>
+		<location id="id6" x="-425" y="-110">
+			<name x="-416" y="-144">Lobby</name>
 		</location>
-		<location id="id7" x="-34" y="-102">
-			<name x="-51" y="-85">InGame</name>
+		<location id="id7" x="-119" y="-110">
+			<name x="-136" y="-93">InGame</name>
 		</location>
-		<location id="id8" x="-476" y="-204">
-			<name x="-561" y="-229">Connected</name>
+		<location id="id8" x="-578" y="-229">
+			<name x="-663" y="-254">Connected</name>
 		</location>
-		<location id="id9" x="204" y="-102">
+		<location id="id9" x="119" y="-110">
 		</location>
 		<init ref="id6"/>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id7"/>
-			<label kind="guard" x="25" y="-68">messages_sent == number_of_players</label>
-			<label kind="assignment" x="85" y="-51">messages_sent = 0</label>
-			<nail x="204" y="-68"/>
-			<nail x="34" y="-68"/>
+			<label kind="guard" x="-60" y="-76">client_id == number_of_players</label>
+			<label kind="assignment" x="0" y="-59">client_id = 0</label>
+			<nail x="119" y="-76"/>
+			<nail x="-51" y="-76"/>
 		</transition>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id9"/>
-			<label kind="guard" x="280" y="-170">messages_sent &lt; number_of_players</label>
-			<label kind="synchronisation" x="280" y="-153">TCP_send[messages_sent]!</label>
-			<label kind="assignment" x="280" y="-136">messages_sent++</label>
-			<nail x="272" y="-170"/>
-			<nail x="272" y="-102"/>
+			<label kind="guard" x="195" y="-178">client_id &lt; number_of_players</label>
+			<label kind="synchronisation" x="195" y="-161">TCP_send[client_id]!</label>
+			<label kind="assignment" x="195" y="-144">client_id++</label>
+			<nail x="187" y="-178"/>
+			<nail x="187" y="-110"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id7"/>
-			<label kind="synchronisation" x="-161" y="-229">UDP_tag_position!</label>
-			<nail x="-68" y="-204"/>
-			<nail x="-136" y="-204"/>
+			<label kind="synchronisation" x="-246" y="-237">UDP_tag_position!</label>
+			<nail x="-153" y="-212"/>
+			<nail x="-221" y="-212"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id9"/>
-			<label kind="assignment" x="-17" y="-161">TCP_buffer=GOAL_POSITION</label>
-			<nail x="-34" y="-136"/>
-			<nail x="204" y="-136"/>
+			<label kind="assignment" x="-102" y="-169">TCP_buffer=GOAL_POSITION</label>
+			<nail x="-119" y="-144"/>
+			<nail x="119" y="-144"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id9"/>
-			<label kind="assignment" x="-17" y="-127">TCP_buffer = GOAL_SCORED</label>
+			<label kind="assignment" x="-102" y="-135">TCP_buffer = GOAL_SCORED</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id6"/>
-			<label kind="synchronisation" x="-416" y="-229">TCP_config!</label>
-			<nail x="-340" y="-204"/>
+			<label kind="synchronisation" x="-510" y="-255">TCP_config!</label>
+			<nail x="-425" y="-229"/>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id8"/>
-			<label kind="synchronisation" x="-544" y="-170">TCP_ack!</label>
-			<label kind="assignment" x="-612" y="-153">connected_players++</label>
-			<nail x="-476" y="-170"/>
-			<nail x="-476" y="-187"/>
+			<label kind="guard" x="-748" y="-204">timeout_clock &lt; TIMEOUT</label>
+			<label kind="synchronisation" x="-646" y="-187">TCP_ack!</label>
+			<label kind="assignment" x="-722" y="-170">connected_players++</label>
+			<nail x="-578" y="-178"/>
+			<nail x="-578" y="-195"/>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id6"/>
-			<label kind="synchronisation" x="-467" y="-34">TCP_timeout?</label>
-			<nail x="-476" y="-34"/>
-			<nail x="-374" y="-34"/>
+			<label kind="guard" x="-756" y="-84">timeout_clock &gt;= TIMEOUT</label>
+			<nail x="-578" y="-42"/>
+			<nail x="-459" y="-42"/>
 		</transition>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id5"/>
-			<label kind="synchronisation" x="-459" y="-127">TCP_connect?</label>
+			<label kind="synchronisation" x="-544" y="-152">TCP_connect?</label>
+			<label kind="assignment" x="-552" y="-135">timeout_clock = 0</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id6"/>
-			<label kind="synchronisation" x="-246" y="-34">TCP_end_game!</label>
-			<label kind="assignment" x="-255" y="-17">connected_players = 0</label>
-			<nail x="-68" y="-68"/>
-			<nail x="-68" y="-34"/>
-			<nail x="-340" y="-34"/>
+			<label kind="synchronisation" x="-331" y="-42">TCP_end_game!</label>
+			<label kind="assignment" x="-340" y="-25">connected_players = 0</label>
+			<nail x="-153" y="-76"/>
+			<nail x="-153" y="-42"/>
+			<nail x="-425" y="-42"/>
 		</transition>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id7"/>
-			<label kind="guard" x="-323" y="-102">connected_players == number_of_players</label>
-			<label kind="synchronisation" x="-246" y="-85">TCP_start_game!</label>
+			<label kind="guard" x="-408" y="-110">connected_players == number_of_players</label>
+			<label kind="synchronisation" x="-331" y="-93">TCP_start_game!</label>
 		</transition>
 	</template>
 	<system>system Host, Client;
     </system>
 	<queries>
 		<query>
-			<formula></formula>
+			<formula>E&lt;&gt; Host.InGame and forall(i:id_t) Client(i).InGame</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
 			<comment></comment>
 		</query>
 	</queries>
