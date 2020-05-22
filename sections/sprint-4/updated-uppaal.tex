@@ -164,32 +164,46 @@ When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchron
 \end{figure}
 
 % Trace example of the system
-\subsection*{Perfect scenario simulation trace}
-In \uppaal it is possible to generate traces of simulations of the model. 
-This is useful when verifying different properties of the model or when getting an overview of how the model works.
-A simulation trace can be seen on \autoref{fig:sprint4-happy-trace}.
-At the top of the trace you see all of the processes in the system.
-You can then see the trace of each process which is the line that goes from the process to the bottom of the diagram.
-The boxes on the trace indicate which \uppLoc{Location} the process is in at any given time.
-The red arrows between the traces symbolize synchronizations that happen between processes, and the label on the red arrow indicates which channel it happens through.
-As seen on the trace \uppTemp{Client(0)} first connects through the threeway handshake without any timeouts.
-\uppTemp{Client(1)} then also connects through a three-way handshake without any timeouts.
-Finally, after both of the clients are in the \uppLoc{Lobby}, the \uppTemp{Host} transitions to \uppLoc{InGame}.
+\subsection{Verification of the models}
+In \uppaal it is also possible to perform verifications on the model to ensure that some properties hold true for the model.
+This is done by creating a query that the \uppaal engine can then verify on the model.
+It is then possible to get a trace of that query that either proves or disproves the query.
+To demonstrate this a query was verified on the application-level model and the full model.
+The property that was verified was \uppEF{Host.InGame and forall(i:id_t) Client(i).InGame}.
+This query checks if there exists a trace where at some point the property holds true that the host is in the \uppLoc{InGame} location and all of the clients are in the \uppLoc{InGame} locations.
+The traces that we get from the verification is the shortest trace that satisfies the properties defined.
+
+\subsubsection{Verification of the application-level model}
+The property held true for the model an the trace that was produced can be seen on \autoref{fig:sprint4-verification-application-level}.
+As can be seen on the trace, all of the clients go through the process of connecting without timing out.
+When all of the clients have connected, the \uppProc{Host} starts the game through the \uppSync{TCP_start_game} synchronization and the host and all of the clients transition to the \uppLoc{InGame} location.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{sprint4/connected-trace.png}
-    \caption{Example of a trace where both \uppProc{Client} processes connect without any problems.}
-    \label{fig:sprint4-happy-trace}
+    \includegraphics[width=0.8\linewidth]{sprint4/application-level-verification.png}
+    \caption{Verification trace of the application-level model.}
+    \label{fig:sprint4-verification-application-level}
 \end{figure}
 
-\subsection*{Trace with a timeout}
-A trace where it times out once while connecting can be seen on \autoref{fig:sprint4-timeout-trace}.
-\uppTemp{Client(1)} connects without any issues, but \uppTemp{Client(0)} times out once while connecting.
-This can be seen on the trace of \uppProc{TCP_client(0)}. When it sends the \uppOut{tcp_sync[0]} it times out because it does not get a response from the \uppProc{TCP_host(1)}.
-It then resends the packet successfully and continues with connecting.
+\subsubsection{Verification of the Full model}
+The property also held true for the full model and the trace can be seen on \autoref{fig:sprint4-verification-full-model}.
+As can be seen in the trace all of the clients connect through the three-way handshake.
+All of the clients successfully transition to \uppLoc{Lobby} without any timeouts.
+When all of the clients have connected the host makes all of the clients transition to \uppLoc{InGame} through TCP.
+After all of the clients have transitioned to the \uppLoc{InGame} location the host also transitions to \uppLoc{InGame} and the game starts.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{sprint4/timeout-trace.png}
-    \caption{Example of a trace where a \uppProc{TCP_host} times out while connecting.}
-    \label{fig:sprint4-timeout-trace}
+    \includegraphics[width=0.8\linewidth]{sprint4/full-model-verification.png}
+    \caption{Verification trace of the full model.}
+    \label{fig:sprint4-verification-full-model}
 \end{figure}
+
+Both of the traces end in the same state, but there is a difference in how they get there.
+While the application-level model has simplified communication between the host and the client the full model trace also expresses some of steps that are done in the TCP communication.
+It models how the three-way handshake works and how TCP messages are sent between the host and the clients to ensure that the clients and the host receive the messages sent.
+This allows us to verify if some TCP specific mistakes happen in the system.
+
+\subsection{Conclusion}
+The models introduced in this section were mostly used to create an overview of the network protocol and the flow of the game.
+All the verifications done on the models were done to verify that the models were behaving as expected and not to test the actual system.
+It might have been useful to use to models to verify the actual implementation of the network protocol and the flow of the application, but this was deemed to not be a priority for the project.
+So the models were only created to function as a visual representation of the application and the network protocol and to ensure that we had a unified understanding of how the flow of the system should be.
