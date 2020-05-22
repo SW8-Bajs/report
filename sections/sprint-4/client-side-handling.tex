@@ -49,14 +49,14 @@ private void DatagramHandler(string datagramMessage)
 }
 \end{lstlisting}
 
-\noindent 
-The next step in processing the data is calling the appropriate function as seen in the switch. 
+\noindent
+The next step in processing the data is calling the appropriate function as seen in the switch.
 In this case we will take a look at the \texttt{UpdatePlayerData}, which is seen in \autoref{lst:updateplayerdata}.
 
 \begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
 private void UpdatePlayerData(long data)
 {
-    // bitshifting the hex value and typecasting to byte to get the values.
+    // bit shifting the hex value and typecasting to byte to get the values.
     // see network format in the report for more detail
     byte time = (byte)(data >> 8);
     byte id = (byte)(data >> 16);
@@ -79,13 +79,12 @@ private void UpdatePlayerData(long data)
             gameStateHandler.playerPositions[id].y = y;
         }
     }
-    
 }
 \end{lstlisting}
-\noindent 
+\noindent
 The next step in processing the data is to read the actual content of the message sent.
 This is done by utilizing the fact that all parts of the message have a size corresponding to a type in C\#.
-The datagram is read from right to left using the right bitshift operation.
+The datagram is read from right to left using the right bit shift operation.
 When a hexadecimal is right bit shifted 4 bits every decimal in the hexadecimal is moved one decimal to the right as illustrated on \autoref{fig:sprint4-bit-shift-basic}.
 \begin{figure}[H]
     \centering
@@ -100,7 +99,7 @@ Because one digit corresponds to four bits, the message has to be right bit shif
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{sprint4/bitshift-timestamp-illustration.png}
-    \caption{Right bitshifting the message by 8 bits to get the timestamp to the back.}
+    \caption{Right bit shifting the message by 8 bits to get the timestamp to the back.}
     \label{fig:sprint4-bitshift-timestamp}
 \end{figure}
 
@@ -111,11 +110,11 @@ This means that to get the player id to the back of the hexadecimal the message 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{sprint4/bitshift-playerid-illustration.png}
-    \caption{Right bitshifting the message by 16 bits to get the player id to the back.}
+    \caption{Right bit shifting the message by 16 bits to get the player id to the back.}
     \label{fig:sprint4-bitshift-playerid}
 \end{figure}
 Because the player id is represented as two decimals it can be decoded from the message by typecasting the message to the \texttt{byte} datatype in C\#.
-This is done for each part of the message where the message is right bitshifted by the combined size of the previously read parts and then typecasted to a datatype that has the same size as the part of the message that is being read.
+This is done for each part of the message where the message is right bit shifted by the combined size of the previously read parts and then typecasted to a datatype that has the same size as the part of the message that is being read.
 \subsection*{TCP client}
 The principle behind the TCP client is much like the UDP client, where the type is read as a byte and then a switch statement ensures that the data is handled by the correct function.
 However, since TCP is sent as a stream, all packages have been prefixed with a numerical values to indicate the length of each package.
