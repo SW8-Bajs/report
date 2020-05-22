@@ -1,7 +1,7 @@
 \section{Camera handling}
 There were some complications with handling the camera in Unity.
 Since the playing field can have a varying size the camera needs to be able to fit the whole playing field on the screen such that it can be rendered.
-Another problem is the usage of VR headsets that allow the player to manipulate the camera's view by looking in different directions.
+Another problem is the usage of VR goggles that allow the player to manipulate the camera's view by looking in different directions.
 This can cause the playing field to go out of the player's view, which is a problem since they can then no longer see their position.
 \\\\
 The way this is solved is by always having the playing field and its attached game objects face the direction of the camera.
@@ -15,17 +15,17 @@ Because of this, a new position must be calculated for the playing field in rela
     transform.position = newPosition;
     transform.rotation = mainCamera.transform.localRotation; 
 \end{lstlisting}
-As seen on \autoref{lst:camera_position} the new position is calculated by adding the playing field's initial position relative to the camera, which is the \texttt{playingFieldTransform.transform.position} variable, with an offset vector.
-The offset vector is calculated by multiplying \texttt{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable, which is how far the field should be from the camera.
+As seen on \autoref{lst:camera_position} the new position is calculated by adding the playing field's initial position relative to the camera, which is the \longvar{playingFieldTransform.transform.position} variable, with an offset vector.
+The offset vector is calculated by multiplying \longvar{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable, which is how far the field should be from the camera.
 These calculations are done in the \texttt{Update} method which is called for every frame rendered in the game.
 \\\\
 For the \texttt{distanceFromCamera} calculation, the camera needs to be far enough away from the field to fit it in its far clipping view.
 The far clipping view is the maximum distance from the camera that 3D objects will be rendered.
-\begin{lstlisting}[caption={Calculation of the distance between the camera and field}, captionpos=b,language=C,label={lst:distanceFromCamera}]
+\begin{lstlisting}[caption={Calculation of the distance between the camera and field.}, captionpos=b,language=C,label={lst:distanceFromCamera}]
     distanceFromCamera = 1.2f * size * 0.5f / Mathf.Tan(mainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
 \end{lstlisting}
 This is a simple trigonometry problem where a triangle is formed between the camera, the center of the field and the top of the field.
 The height of the field and the angle of the camera's field of view are the known values, and the distance between the camera and the center of the field can be found. 
 Half of the side opposite to the camera is divided with the tangent function of half of the field of view angle converted to radians.
-The calculation is seen on \autoref{lst:distanceFromCamera}.
+The calculation is seen in \autoref{lst:distanceFromCamera}.
 An additional arbitrary value of \texttt{1.2f} is multiplied with the distance to allow the whole field to be seen in VR with some additional free space around the edges of the field.
