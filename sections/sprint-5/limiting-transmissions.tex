@@ -20,7 +20,7 @@ Eventually, a limit of 70 packets per second was chosen based on the Pozyx limit
     # Send message to all clients listening on the multicast_group
     self.sendto(message, self.multicast_group)
 \end{lstlisting}
-The code from \autoref{lst:package_limitation} is from the \texttt{send} function of the UDP socket.
+The code in \autoref{lst:package_limitation} is from the \texttt{send} function of the UDP socket.
 This code is run each time a UDP packet is sent.
 Initially the current time is stored, and the time difference between the current time and the time when the previous packet was sent is converted to bytes.
 The variable \texttt{bytesAheadOfSchedule} keeps track of whether or not too many bytes are being sent per second.

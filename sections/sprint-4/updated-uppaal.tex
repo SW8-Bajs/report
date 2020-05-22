@@ -1,12 +1,11 @@
 \section{Updating the \uppaal model}
 As mentioned in \autoref{sec:update-network-protocol} the approach to handling the network data has changed from being purely UDP to a combination of UDP and TCP.
-This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal} being outdated, and that it had to be updated to fit the new requirements.
+This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal} being outdated, and having to be updated to fit the new requirements.
 \\
 Additionally, the previous model focused mostly on the flow of the program and did not properly take the network part of the system into account.
 In this new model, the system will consist of four parts: The host, which is meant to represent the Python program that the game facilitator uses, an arbitrary number of clients who have connected to the game, and the UDP and TCP connection between those.
-
 We created a simplified model to get an overview of the system and a more extensive model that also models the TCP communication between the host and the client.
-
+\\\\
 The simplified model will be described first in order to get a general overview of the flow of the system.
 There are two templates in the simplified model which are \uppTemp{Host} and \uppTemp{Client}.
 
@@ -15,7 +14,7 @@ The simplified host can be seen on \autoref{fig:sprint4-uppaal-simplified-host}.
 The \uppProc{Host} starts in the \uppLoc{Lobby} and waits for all clients to connect.
 Everytime a \uppProc{Client} connects the \uppProc{Host} transitions to  \uppLoc{Connecting}.
 It then either acknowledges the connection or waits for the  \uppProc{Client} to timeout.
-When the connection is acknowledged it transitions to \uppLoc{Connected}, sends configurations to the \uppProc{Client} and transitions back to the lobby.
+When the connection is acknowledged it transitions to \uppLoc{Connected}, sends configuration data to the \uppProc{Client} and transitions back to the lobby.
 When all clients have connected the \uppProc{Host} transitions to \uppLoc{InGame} and signals to all of the connected clients that the game is starting through \uppOut{TCP_start_game}.
 While \uppLoc{InGame} the \uppProc{Host} can either send tag position through UDP, send goal position and goal scored through TCP or end the game through TCP and transition back to \uppLoc{Lobby}.
 \begin{figure}[h]
@@ -25,7 +24,7 @@ While \uppLoc{InGame} the \uppProc{Host} can either send tag position through UD
     \label{fig:sprint4-uppaal-simplified-host}
 \end{figure}
 
-\subsection*{Simplified Client}
+\subsection*{Simplified client}
 The simplified client can be seen on  \autoref{fig:sprint4-uppaal-simplified-client}.
 The \uppProc{Client} starts in the \uppLoc{Initial} location, it then tries to connect and transitions to \uppLoc{Connecting}.
 While in \uppLoc{Connecting} it waits for an acknowledgement from the \uppProc{Host}.
@@ -49,7 +48,7 @@ The more extensive \uppaal model will now be discussed and the templates in it w
 \begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl},captionpos=b]
     system UDP_host, TCP_host, TCP_client, Host, Client;
 \end{uppaalcode}
-The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host}.
+The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host} seen in \autoref{lst:uppaal4:systemdecl}.
 As mentioned above, the \uppTemp{Host} and \uppTemp{Client} templates are meant to represent the interface that users interact with when using the system.
 In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTemp{TCP_host}s, and a \uppTemp{UDP_host} allows us to model the behavior of the network aspect of the system.
 
@@ -85,13 +84,13 @@ chan UDP_start, UDP_send;
 % Host
 \subsection{Host template}
 The \uppTemp{Host} has three variables that are declared in \autoref{lst:sprint-4-host-code} which are:
-\uppVar{connected_clients} which it uses to keep track of how many clients have connected, \uppVar{local_TCP_buffer} which is where the contents of the global TCP buffer is copied into and \uppVar{i} which it uses to keep track of how many packets it has sent. 
+\uppVar{connected_clients} which it uses to keep track of how many clients have connected, \uppVar{local_TCP_buffer} which is where the content of the global TCP buffer is copied into and \uppVar{i} which it uses to keep track of how many packets it has sent. 
 The template seen in \autoref{fig:sprint4-uppaal-host} can be divided into three sections.
 In the first section the host waits for the clients to connect through TCP.
 Every time a \uppTemp{Client} has connected the \uppTemp{Host} receives a \uppIn{TCP_client_connected} synchronization and \uppVar{connected_client} is incremented.
-When all of the clients have connected the \uppTemp{Host} moves on the next section.
+When all of the clients have connected the \uppTemp{Host} moves on to the next section.
 In this section the \uppTemp{Host} uses the \uppOut{TCP_send} synchronization to notify each \uppTemp{Client} that the game is starting through TCP.
-Finally the \uppTemp{Host} is in-game and continuously sends packets to the clients.
+Finally the \uppTemp{Host} is \uppLoc{InGame} and continuously sends packets to the clients.
 This is done through either \uppOut{TCP_send} or \uppOut{UDP_send} which are the TCP and UDP channels respectively.
 \begin{figure}[h]
     \centering
@@ -99,8 +98,8 @@ This is done through either \uppOut{TCP_send} or \uppOut{UDP_send} which are the
     \caption{The Host template of the \uppaal model.}
     \label{fig:sprint4-uppaal-host}
 \end{figure}
-\begin{uppaalcode}[caption={local Host declarations}, label={lst:sprint-4-host-code},captionpos=b]
 
+\begin{uppaalcode}[caption={local Host declarations}, label={lst:sprint-4-host-code},captionpos=b]
 int connected_clients = 0;
 int local_TCP_buffer;
 int i = 0;
@@ -115,7 +114,7 @@ The \uppTemp{Client} has four named locations, as seen on \autoref{fig:sprint4-u
 First off, the process starts in an \uppLoc{Initial} location, which then uses the \uppOut{TCP_connect[id]} to make the \uppTemp{TCP_client(id)} start connecting through TCP and transition to \uppLoc{Connecting}.
 The \uppProc{Client(id)} receives \uppIn{TCP_connected[id]} synchronization when the \uppProc{TCP_client(i)} has connected and it then transitions to the \uppLoc{Lobby} location.
 Everytime it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a packet.
-It then transitions to an in-between location and then either transition back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what packet is received.
+It then transitions to an in-between location and then either transitions back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what packet is received.
 The in-between location is a committed location.
 This is done so that the \uppProc{Client(id)} has to transition from it immediately instead of waiting.
 Finally, there is the \uppLoc{InGame} location, which is where the client will be located most of the time during the simulation. 
@@ -131,11 +130,11 @@ This indicates that the client is now in a game, and can continuously receive in
 \subsection{TCP host and client templates}
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} were designed such that there will be a single process of both respectively for each client process that exists.
 This was designed to model the connection that is established between the host and a client.
-Like in the \uppTemp{Client}, this happens by having an \uppVar{clientId} as a parameter for when the process is instantiated.
-As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until \uppProc{TCP_client} receive an \uppIn{TCP_connect[id]} synchronization from a \uppProc{Client}.
+Like in the \uppTemp{Client}, this happens by having a \uppVar{clientId} as a parameter for when the process is instantiated.
+As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until \uppProc{TCP_client} receives an \uppIn{TCP_connect[id]} synchronization from a \uppProc{Client}.
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} will then begin to initialize a 3-way handshake to ensure that both parties are ready for transferring data between them.
 Once the handshake has been completed, the \uppTemp{TCP_Host} will send a packet to the \uppTemp{Host} to inform that a new player has been connected via the \uppOut{TCP_client_connected} synchronization, and then enter an \uppLoc{Idle} location to indicate that it is ready to send packets.
-Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established with the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive packets.
+Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established through the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive packets.
 
 \begin{figure}[h]
     \centering
@@ -154,7 +153,7 @@ Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will 
 % UDP
 \subsection{UDP host templates}
 The final template seen in \autoref{fig:sprint4-uppaal-udp-host} is the \uppTemp{UDP_host}.
-It is very simple as it waits until the \uppOut{Host} communicates that the games has started through \uppIn{UDP_start}.
+It is very simple as it waits until the \uppOut{Host} communicates that the game has started through \uppIn{UDP_start}.
 When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchronization from the host and then notifies the clients through the \uppOut{read_UDP_buffer} synchronization that they should read the global buffer.
 \begin{figure}[h]
     \centering
@@ -169,8 +168,8 @@ In \uppaal it is possible to generate traces of simulations of the model.
 This is useful when verifying different properties of the model or when getting an overview of how the model works.
 A simulation trace can be seen on \autoref{fig:sprint4-happy-trace}.
 At the top of the trace you see all of the processes in the system.
-You can then see the trace of each process which is the line that goes from the process and to the bottom of the diagram.
-The boxes on the trace indicate which Location the process is in at any given time.
+You can then see the trace of each process which is the line that goes from the process to the bottom of the diagram.
+The boxes on the trace indicate which \uppLoc{Location} the process is in at any given time.
 The red arrows between the traces symbolize synchronizations that happen between processes, and the label on the red arrow indicates which channel it happens through.
 As seen on the trace \uppTemp{Client(0)} first connects through the threeway handshake without any timeouts.
 \uppTemp{Client(1)} then also connects through a three-way handshake without any timeouts.
