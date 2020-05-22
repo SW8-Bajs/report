@@ -33,8 +33,8 @@ If it does not receive an acknowledgment before the timeout limit it outputs a \
 Otherwise, if the \uppProc{Client} receives an acknowledgement from the \uppProc{Host}, it transitions to \uppLoc{Setup} and waits for the \uppProc{Host} to send configuration data.
 When the \uppProc{Client} receives the configuration data it transitions to \uppLoc{Lobby} and then waits for the game to start.
 When the \uppProc{Host} starts the game, all clients that are in \uppLoc{Lobby} transition to \uppLoc{InGame}.
-From there, the \uppProc{Client} waits for the \uppProc{Host} to send messages.
-It can receive either a TCP or UDP message, which makes it transition to \uppLoc{InGame} again, or it can receive a message that the game has ended which makes it transition to \uppLoc{Initial}.
+From there, the \uppProc{Client} waits for the \uppProc{Host} to send packets.
+It can receive either a TCP or UDP packet, which makes it transition to \uppLoc{InGame} again, or it can receive a packet that the game has ended which makes it transition to \uppLoc{Initial}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{sprint4/simplified-client.png}
@@ -59,8 +59,8 @@ The global declarations (seen on \autoref{lst:uppaal4:globaldecl}) for the syste
 \\
 To facilitate data transfer between the templates, the model makes use of global buffers.
 Each place in the \uppVar{TCP_buffer} array corresponds to a buffer related to a \uppTemp{Client} or \uppTemp{Host} process so that \uppProc(Client(0)) will read from index 0 of the array, \uppProc(Client(1)) will read from index 1 and so on.
-The \uppVar{host} variable is saved as an alias to know which space in the buffers is reserved for messages from clients to the host.
-Since the \uppVar{UDP_buffer} is supposed to correspond to a multicast, it is simply saved as an integer instead, which will hold the information that any client listening to the multicast will receive. 
+The \uppVar{host} variable is saved as an alias to know which space in the buffers is reserved for packets from clients to the host.
+Since the \uppVar{UDP_buffer} is supposed to correspond to a multicast, it is simply saved as an integer instead, which will hold the information that any client listening to the multicast will receive.
 Finally, a series of channels are defined.
 The channels are used to synchronize between the different processes and will be further explained when going into details about each template.
 
@@ -85,13 +85,13 @@ chan UDP_start, UDP_send;
 % Host
 \subsection*{Host template}
 The \uppTemp{Host} has three variables that are declared in \autoref{lst:sprint-4-host-code} which are:
-\uppVar{connected_clients} which it uses to keep track of how many clients have connected, \uppVar{local_TCP_buffer} which is where the content of the global TCP buffer is copied into and \uppVar{i} which it uses to keep track of how many messages it has sent. 
+\uppVar{connected_clients} which it uses to keep track of how many clients have connected, \uppVar{local_TCP_buffer} which is where the content of the global TCP buffer is copied into and \uppVar{i} which it uses to keep track of how many packets it has sent. 
 The template seen in \autoref{fig:sprint4-uppaal-host} can be divided into three sections.
 In the first section the host waits for the clients to connect through TCP.
 Every time a \uppTemp{Client} has connected the \uppTemp{Host} receives a \uppIn{TCP_client_connected} synchronization and \uppVar{connected_client} is incremented.
 When all of the clients have connected the \uppTemp{Host} moves on to the next section.
 In this section the \uppTemp{Host} uses the \uppOut{TCP_send} synchronization to notify each \uppTemp{Client} that the game is starting through TCP.
-Finally the \uppTemp{Host} is \uppLoc{InGame} and continuously sends messages to the clients.
+Finally the \uppTemp{Host} is \uppLoc{InGame} and continuously sends packets to the clients.
 This is done through either \uppOut{TCP_send} or \uppOut{UDP_send} which are the TCP and UDP channels respectively.
 \begin{figure}[h]
     \centering
@@ -114,11 +114,11 @@ Since it is desirable to have a variable amount of instances, the template has a
 The \uppTemp{Client} has four named locations, as seen on \autoref{fig:sprint4-uppaal-client}, which correspond to the states that the actual implementation can be in.
 First off, the process starts in an \uppLoc{Initial} location, which then uses the \uppOut{TCP_connect[id]} to make the \uppTemp{TCP_client(id)} start connecting through TCP and transition to \uppLoc{Connecting}.
 The \uppProc{Client(id)} receives \uppIn{TCP_connected[id]} synchronization when the \uppProc{TCP_client(i)} has connected and it then transitions to the \uppLoc{Lobby} location.
-Everytime it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a message.
-It then transitions to an in-between location and then either transitions back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what message is received.
+Everytime it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a packet.
+It then transitions to an in-between location and then either transitions back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what packet is received.
 The in-between location is a committed location.
 This is done so that the \uppProc{Client(id)} has to transition from it immediately instead of waiting.
-Finally, there is the \uppLoc{InGame} location, which is where the client will be located most of the time during the simulation. 
+Finally, there is the \uppLoc{InGame} location, which is where the client will be located most of the time during the simulation.
 This indicates that the client is now in a game, and can continuously receive information about the game state through the \uppIn{read_UPD_buffer} and \uppIn{read_TCP_buffer[id]} synchronizations.
 \begin{figure}[h]
     \centering
@@ -134,8 +134,8 @@ This was designed to model the connection that is established between the host a
 Like in the \uppTemp{Client}, this happens by having a \uppVar{clientId} as a parameter for when the process is instantiated.
 As seen on \autoref{fig:sprint4-uppaal-tcp-client} and \autoref{fig:sprint4-uppaal-tcp-host}, the TCP templates will stay in a \uppLoc{Start} location until \uppProc{TCP_client} receives an \uppIn{TCP_connect[id]} synchronization from a \uppProc{Client}.
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} will then begin to initialize a 3-way handshake to ensure that both parties are ready for transferring data between them.
-Once the handshake has been completed, the \uppTemp{TCP_Host} will send a message to the \uppTemp{Host} to inform that a new player has been connected via the \uppOut{TCP_client_connected} synchronization, and then enter an \uppLoc{Idle} location to indicate that it is ready to send messages.
-Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established through the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive messages.
+Once the handshake has been completed, the \uppTemp{TCP_Host} will send a packet to the \uppTemp{Host} to inform that a new player has been connected via the \uppOut{TCP_client_connected} synchronization, and then enter an \uppLoc{Idle} location to indicate that it is ready to send packets.
+Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will inform the \uppTemp{Client} that a connection has been successfully established through the \uppOut{TCP_connected[id]} synchronization, and transition to the \uppLoc{Idle} location where it is ready to receive packets.
 
 \begin{figure}[h]
     \centering
