@@ -3,8 +3,9 @@ This section will discuss the aspects of the project that were not implemented, 
 
 \subsubsection{Dead Reckoning}
 Dead Reckoning is a technique described in \autoref{sec:dead-reckoning} used to smooth out player movement over networking through predicting their next position.
-This could be a possible improvement on the real-time feeling of the game, leading to an improved player experience.
-As such, it is a prime candidate for implementation in the future, in order to improve the game.
+As described in \autoref{sec:evaluatin_test}, there were some issues with players jerking around the screen, rather than having smooth movement.
+This was subsequently improved through the implementation of linear interpolation through Unity, as described in \autoref{sec:lerping}.
+To improve the real-time feeling even further, and thus also the player experience, dead reckoning could be a possible target for implementation in the future.
 
 \subsubsection{Zeroconf}
 Zeroconf was briefly discussed as a zero configuration management protocol in \autoref{sec:accessonnetwork} as an alternative to having players enter the IP of the host they wanted to connect to.
@@ -27,16 +28,18 @@ An example of this could be certain power-ups spawning on the field.
 The first player to interact with the power-up would receive some sort of benefit for a certain amount of time.
 However, this was also not deemed an essential part of the MVP, and has been deferred as possible future work.
 Another aspect that could enhance the game is the inclusion of the possibility to use a virtual ball.
-Not restricting the ball to being a physical object would allow for the game to interact with the ball, and it would remove the chance for the players to lose the ball.
-This also remedies a bit of an issue with the current iteration of the game.
-Currently, the game does not visually show any changes based on the z-axis, only supporting a 2D view.
-As such, the physical ball could get lost to the players, as they have no way of knowing the location of the ball on the z-axis.
-A virtual ball could avoid this by simply not checking the position on the z-axis for the players and basing the acquisition of the ball on the x and y axes. 
+Not restricting the ball to being a physical object would allow for the game to interact with the ball, and it would remove the chance for the players to be unable to find the ball while wearing VR goggles if it goes off the playing field.
+Currently, the game does not visually show any changes based on the z-axis either, only supporting a 2D view.
+As such, the physical ball could also get lost to the players even on the playing field, as they have no way of knowing the location of the ball on the z-axis.
+A virtual ball could avoid this by simply not checking the position on the z-axis for the players and basing the acquisition of the ball on the x and y axes.
+Players could also attempt to abuse this by holding the ball in a specific position while carrying it, which the opponents would not be able to see based on the current view.
+\autoref{sec:evaluatin_test} also described how a manual rule had to be implemented during the test, in which players were required to hand over the tag representing the ball when coming into physical contact with the opposition.
+A virtual ball would not need such a rule, as it could be done in the game.
 
 \subsubsection{Supporting non-rectangular playing fields}
 Currently, the generation of playing fields in unity make use meshes, which are triangles.
 The triangles combine to form the square playing field.
-Goalzones get generated based on this assumption that the playing field is a square, which could be improved to facilitate fields of different shapes, such as if the users were to input a field in the shape of, for example, a trapezoid.
+Goal zone positions are generated based on the assumption that the playing field is a square or rectangular, which could be improved to facilitate fields of different shapes, such as if the users were to input a field in the shape of, for example, a trapezoid.
 Including such field shapes was deemed to not be of the utmost importance for this project, but it is a possible improvement to support oddly shaped playing locations.
 
 \subsubsection{Show the direction the player is facing}
@@ -44,3 +47,4 @@ Currently players are represented as either a rhino or a bird in the game.
 The player controls one of these characters, and the one the player is in control of is slightly colored to give an indication that it is the one the player should focus on.
 Outside of the positional updates that occur as the game is being played, there is no indication of where the player is facing, or which direction the player is going.
 An improvement to the game would be to have a small arrow, or another indicator, for each player, showing the current direction of movement for that player, to give a better sense of where they are moving.
+This was discussed and described in \autoref{sec:evaluatin_test}.
