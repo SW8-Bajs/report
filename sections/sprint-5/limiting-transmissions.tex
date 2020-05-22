@@ -39,7 +39,7 @@ By doing this for each call to the \texttt{send} function, the number of packets
 \end{lstlisting}
 \noindent
 The conversion functions between bytes and seconds are seen in \autoref{lst:conversion_functions}.
-\texttt{maxSendRateBytesPerSecond} is defined as the the maximum number of packets that can be sent per second, 120 in this case, times the size of the package in bytes which is 7.
+\texttt{maxSendRateBytesPerSecond} is defined as the the maximum number of packets that can be sent per second, 120 in this case, times the size of the packet in bytes which is 7.
 The conversion is then simply a case of either dividing the number of bytes provided with \texttt{maxSendRateBytesPerSecond} which gives the amount of seconds the system should sleep.
 \texttt{ConverSecondsToBytes} is used for figuring out the number of bytes \texttt{bytesAheadOfSchedule} should be decremented with.
 The parameter passed to this function is the number of seconds that passed between the current and previous call to the \texttt{send} function.
