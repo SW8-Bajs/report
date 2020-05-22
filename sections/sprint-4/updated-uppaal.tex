@@ -170,6 +170,8 @@ This is done by creating a query that the \uppaal engine can then verify on the 
 It is then possible to get a trace of that query that either proves or disproves the query.
 To demonstrate this a query was verified on the application-level model and the full model.
 The property that was verified was \uppEF{Host.InGame and forall(i:id_t) Client(i).InGame}.
+This query checks if there exists a trace where at some point the property holds true that the host is in the \uppLoc{InGame} location and all of the clients are in the \uppLoc{InGame} locations.
+The traces that we get from the verification is the shortest trace that satisfies the properties defined.
 
 \subsubsection{Verification of the application-level model}
 The property held true for the model an the trace that was produced can be seen on \autoref{fig:sprint4-verification-application-level}.
@@ -195,8 +197,12 @@ After all of the clients have transitioned to the \uppLoc{InGame} location the h
     \label{fig:sprint4-verification-full-model}
 \end{figure}
 
+Both of the traces end in the same state, but there is a difference in how they get there.
+While the application-level model has simplified communication between the host and the client the full model trace also expresses the steps that are done in the TCP communication.
+It models how the threeway communication works and how TCP messages are sent between the host and the clients to ensure that the clients and the host receive the messages sent.
+
 \subsection{Conclusion}
 The models introduced in this section were mostly used to create an overview of the network protocol and the flow of the game.
 All the verification done on the models was done to verify that the models were behaving as expected and not to test the actual system.
 It might have been useful to use to models to verify the actual implementation of the network protocol and the flow of the application, but this was deemed to not be a priority for the project.
-So the models were only created to function as a visual representation of the application and the network protocol.
+So the models were only created to function as a visual representation of the application and the network protocol and to ensure that we had a unified understanding of how the flow of the system should be.
