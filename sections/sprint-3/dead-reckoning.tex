@@ -1,15 +1,15 @@
 \section{Dead reckoning}\label{sec:dead-reckoning}
 The accuracy of the representation of the players as well as the ball is important for the game to function well.
-Since these positions are sent over the network, they might not always be the most recent positions, since there could be delays or packages could be lost.
+Since these positions are sent over the network, they might not always be the most recent positions, since there could be delays or packets could be lost.
 \\\\
 Dead reckoning is a technique that is used to predict where a game object is at a given time based on its last known position, velocity, and acceleration.
-It is often used for networking games where packages about the object's kinematic state are continuously being sent from the server to the clients.
+It is often used for networking games where packets about the object's kinematic state are continuously being sent from the server to the clients.
 The kinematic state of an object includes its position, velocity, acceleration, orientation, and angular velocity \cite{deadreckoning}.
-If the client misses a package or they are not being sent often enough to have a new update for each frame, the representation of the object will jerk across the screen instead of having smooth and consistent movement.
+If the client misses a packet or they are not being sent often enough to have a new update for each frame, the representation of the object will jerk across the screen instead of having smooth and consistent movement.
 That is where dead reckoning can be used to predict an object's movement to make it appear more believable.
 For the game we are building, it is important that each player's and the ball's positions are very accurate for the game to function properly.
 \\\\
-It is not possible to have a new update for each frame, zero packet losses, or zero latency. 
+It is not possible to have a new update for each frame, zero packet losses, or zero latency.
 Therefore dead reckoning is needed to achieve a believable representation of the ball and the players' movement \cite{deadreckoning}.
 \begin{figure}[H]
     \centering
@@ -20,7 +20,7 @@ Therefore dead reckoning is needed to achieve a believable representation of the
 \noindent
 \autoref{fig:dead_reckoning_example_1} shows an example of a player's movement in the game.
 This movement proceeds from an initial position $P$ along a vector $V$.
-In this example, dead reckoning would be a linear problem where the position, velocity, and acceleration can be used to predict where the player will move to in the future. 
+In this example, dead reckoning would be a linear problem where the position, velocity, and acceleration can be used to predict where the player will move to in the future.
 The dead reckoned position for a specific time $Q_t$ in this example can be calculated by:
 \begin{displaymath}
     Q_t = P + VT + \frac{1}{2}AT^2
@@ -36,7 +36,7 @@ where $ P $ is the position, $ V $ is the velocity, $ A $ is the acceleration an
 In \autoref{fig:dead_reckoning_example_2} a new update about the player's kinematic state is received.
 Initially, the player position was calculated through dead reckoning based on $P$ and $V$ as following the red arrow.
 However, the new update shows a right turn, along the green arrow, denoted by $P'$, $V'$, and an acceleration in the direction of the turn, $A'$.
-This results in conflicting realities when compared to the dead reckoned position calculated from the previous example. 
+This results in conflicting realities when compared to the dead reckoned position calculated from the previous example.
 In the new update, the player has turned right and a new dead reckoned position must be found, but this time it becomes a lot trickier since a believable curve must be created from where the player was thought to be and where the player is estimated to be based on the new information.
 Representing the new position $P'$ immediately would result in the player warping across the screen which would not be ideal.
 Instead, the player is represented at $ P $ where the player was thought to be, and the player should then move towards a new dead reckoned position, calculated with the information from the new update \cite{deadreckoning}.
@@ -47,41 +47,65 @@ Calculating the curve that the player's movement needs to follow requires a good
 The algorithm must work well for a segment of a curve that passes through two points, those being the player's current position $P$ and the estimated future location $P'$.
 The recommended approach for this problem is projective velocity blending \cite{deadreckoning}.
 \\\\
-Projections are created for the current kinematic state and the last known kinematic state and then these are blended together. 
+Projections are created for the current kinematic state and the last known kinematic state and then these are blended together.
+
 \begin{displaymath}
-    P_t = P + VT_t + \frac{1}{2}A'T_t^2 \quad \rlap{\text{(Projecting from last dead reckoned position)}}
+    P_t = P + VT_t + \frac{1}{2}A'T_t^2 \quad
 \end{displaymath}
+\begin{center}
+    (Projecting from last dead reckoned position)
+\end{center}
+
 \begin{displaymath}
-    P'_t = P' + V'T_t + \frac{1}{2}A'T_t^2 \quad \rlap{\text{(Projecting from last known)}}
+    P'_t = P' + V'T_t + \frac{1}{2}A'T_t^2 \quad
 \end{displaymath}
+\begin{center}
+    (Projecting from last known)
+\end{center}
+
 \begin{displaymath}
-    Q_t = P_t + (P'_t - P_t)\hat{T} \qquad \rlap{\text{(Combination of the two)}}
+    Q_t = P_t + (P'_t - P_t)\hat{T} \qquad
 \end{displaymath}
-\\\\
+\begin{center}
+    (Combination of the two)
+\end{center}
 Here, $T_t$ is how much time has elapsed since $T_0$ which is the time at the last known position, which would be the beginning of the curve.
 $T_1$ is the time when the player reaches the end of the curve.
 $\hat{T}$ is a normalized time value where $0.0\le\hat{T}\le1.0$ and should represent how far along the curve the player is.
 \\\\
 From these calculations we get the dead reckoned location $ Q_t $ at the specified time.
-The reason that $ A $ is used in both projections is that it will converge to the player's true path much faster and it reduces oscillation, compared to when using $ A $ when calculating $ P_t $. 
-However, these calculations will still give inadequate results since the player's movement will have bad oscillations. 
+The reason that $ A $ is used in both projections is that it will converge to the player's true path much faster and it reduces oscillation, compared to when using $ A $ when calculating $ P_t $.
+However, these calculations will still give inadequate results since the player's movement will have bad oscillations.
 These are caused by the changes in velocity, $V$ and $V$, when new updates are received from the server.
-To account for this, a linear interpolation between the old velocity and the last known velocity is computed, which creates a blended velocity $V_b$. 
-This velocity is used in the projection from where the player was when a new update is received. 
+To account for this, a linear interpolation between the old velocity and the last known velocity is computed, which creates a blended velocity $V_b$.
+This velocity is used in the projection from where the player was when a new update is received.
 This is what is known as \textit{projective velocity blending} \cite{deadreckoning}.
 \\\\
 \begin{displaymath}
-    V_b = V + (V' - V)\hat{T} \quad \rlap{\text{(Velocity blending)}}
+    V_b = V + (V' - V)\hat{T} \quad
 \end{displaymath}
+\begin{center}
+    (Velocity blending)
+\end{center}
 \begin{displaymath}
-    P_t = P + V_bT_t + \frac{1}{2}A'T_t^2 \quad \rlap{\text{(Projecting from last dead reckoned position)}}
+    P_t = P + V_bT_t + \frac{1}{2}A'T_t^2 \quad
 \end{displaymath}
+\begin{center}
+    (Projecting from last dead reckoned position)
+\end{center}
 \begin{displaymath}
-    P'_t = P' + V'T_t + \frac{1}{2}A'T_t^2 \quad \rlap{\text{(Projecting from last known position)}}
+    P'_t = P' + V'T_t + \frac{1}{2}A'T_t^2 \quad
 \end{displaymath}
+\begin{center}
+    (Projecting from last known position)
+\end{center}
 \begin{displaymath}
-    Q_t = P_t + (P'_t - P_t)\hat{T} \qquad \rlap{\text{(Combination of the two)}}
+    Q_t = P_t + (P'_t - P_t)\hat{T} \qquad
 \end{displaymath}
+\begin{center}
+    (Combination of the two)
+\end{center}
+
 This should reduce the oscillations in the player's movement significantly.
 \begin{figure}[H]
     \centering
@@ -90,7 +114,7 @@ This should reduce the oscillations in the player's movement significantly.
     \label{fig:dead_reckoning_example_3}
 \end{figure}
 \noindent
-\autoref{fig:dead_reckoning_example_3} shows the red curve that the player should follow to reach the dead reckoned position $Q_t$. 
+\autoref{fig:dead_reckoning_example_3} shows the red curve that the player should follow to reach the dead reckoned position $Q_t$.
 $ P $ is where the player is currently represented.
 $ P'_0 $ is a recent position received from the server, and $P'_1$ is the most recent position received from the server.
 This illustrates how the dead reckoned position $Q_t$ converges on the actual positions, shown through two different updates of the position.

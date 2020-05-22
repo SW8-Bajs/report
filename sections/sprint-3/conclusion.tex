@@ -8,7 +8,7 @@ This overview will be split into two categories to reflect the structure of the 
 
 \subsubsection{Networking}
 The major focus of the network part of this sprint was to generate an initial \uppaal model to visualize the flow of data.
-This initial model is based on the assumption that packages are not lost and timeouts will not happen for simplicity.
+This initial model is based on the assumption that packets are not lost and timeouts will not happen for simplicity.
 Creation of this model lead to some revision to the network protocol as described in \autoref{subsec:sprint3networkupdate}.\\
 In addition to the \uppaal model, the ideas behind dead reckoning were examined in relation to this project.
 The technique was deemed relevant to implement if the representation of the players' movement is inconsistent, which will be delved further into when the game is connected with the actual Pozyx location data.
@@ -21,7 +21,7 @@ This meant that the major focus for the game in this sprint was refactoring how 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{sprint3/gamestatus.png}
-	\caption{The current game status with goals and textures. This is a work in progress photo taken in Unity. The green rectangle is the playing field, and the smaller squares on either side are the goal fields. The birds and rhinos represent players, and the ball represents the ball being used for play. The white camera in the center is a Unity representation of where the camera is placed.}
+	\caption{The current game status with goals and textures. This is a work in progress photo taken in Unity. The green rectangle is the playing field, and the smaller squares on either side are the goal fields. The birds and rhinos represent players, and the ball represents the ball being used for play.}
 	\label{fig:sprint3status}
 \end{figure}
 \noindent
