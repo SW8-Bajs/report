@@ -142,3 +142,15 @@ Examples of how the syntax for these two looks can be seen on \autoref{fig:app:u
 \noindent
 
 Location \uppLoc{B} is an urgent location and location \uppLoc{C} is a committed location.
+
+\section*{Verification}
+In addition to being a modeling tool, UPPAAL has a built-in verifier which allows the user to check if a given condition can hold true in the system, this allows for checking things like whether the system can end up in a deadlock or if a given state can ever be reached.
+To formulate these queries, there are four key elements:\\
+$E$ to check if there exists a path, meaning that it will return true if there is at least one trace through the system where the condition holds true.\\
+$A$ to check if the condition holds true for all paths.\\
+$[]$ to check if the condition holds for all states in the path.\\
+$<>$ to check if the condition holds for at least one state in the path.\\
+This results in four different kinds of queries: $E[]$, $A[]$, $E<>$ and $A<>$.\\\\
+
+All of these possibilities are followed by a predicate, $p$ specifying exactly which property you are interested in checking for.
+This means that the query $A<>p$ is read as "For all paths in the automaton, it is true that in at least one state p is satisfied."
