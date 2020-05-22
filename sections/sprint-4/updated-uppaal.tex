@@ -60,7 +60,7 @@ The global declarations (seen on \autoref{lst:uppaal4:globaldecl}) for the syste
 To facilitate data transfer between the templates, the model makes use of global buffers.
 Each place in the \uppVar{TCP_buffer} array corresponds to a buffer related to a \uppTemp{Client} or \uppTemp{Host} process so that \uppProc(Client(0)) will read from index 0 of the array, \uppProc(Client(1)) will read from index 1 and so on.
 The \uppVar{host} variable is saved as an alias to know which space in the buffers is reserved for messages from clients to the host.
-Since the \uppVar{UDP_buffer} is supposed to correspond to a multicast, it is simply saved as an integer instead, which will hold the information that any client listening to the multicast will receive. 
+Since the \uppVar{UDP_buffer} is supposed to correspond to a multicast, it is simply saved as an integer instead, which will hold the information that any client listening to the multicast will receive.
 Finally, a series of channels are defined.
 The channels are used to synchronize between the different processes and will be further explained when going into details about each template.
 
@@ -118,7 +118,7 @@ Everytime it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{H
 It then transitions to an in-between location and then either transitions back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what message is received.
 The in-between location is a committed location.
 This is done so that the \uppProc{Client(id)} has to transition from it immediately instead of waiting.
-Finally, there is the \uppLoc{InGame} location, which is where the client will be located most of the time during the simulation. 
+Finally, there is the \uppLoc{InGame} location, which is where the client will be located most of the time during the simulation.
 This indicates that the client is now in a game, and can continuously receive information about the game state through the \uppIn{read_UPD_buffer} and \uppIn{read_TCP_buffer[id]} synchronizations.
 \begin{figure}[h]
     \centering

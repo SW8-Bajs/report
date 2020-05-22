@@ -8,12 +8,12 @@ The way this is solved is by always having the playing field and its attached ga
 This is achieved by giving the playing field the same rotation as the camera.
 By doing this, the player will always see the playing field in the same position in the 3D space no matter which direction they look.
 But this solution is not enough, since the playing field will not have the same position in the 3D space as the camera.
-It must be a certain distance away from the camera, based on its width and height, to allow it to be rendered. 
-Because of this, a new position must be calculated for the playing field in relation to the direction of the camera. 
+It must be a certain distance away from the camera, based on its width and height, to allow it to be rendered.
+Because of this, a new position must be calculated for the playing field in relation to the direction of the camera.
 \begin{lstlisting}[caption={Calculating and setting the position and rotation of the playing field}, captionpos=b,language=C,label={lst:camera_position}]
     newPosition = playingFieldTransform.transform.position + playingFieldTransform.transform.forward * distanceFromCamera;
     transform.position = newPosition;
-    transform.rotation = mainCamera.transform.localRotation; 
+    transform.rotation = mainCamera.transform.localRotation;
 \end{lstlisting}
 As seen on \autoref{lst:camera_position} the new position is calculated by adding the playing field's initial position relative to the camera, which is the \longvar{playingFieldTransform.transform.position} variable, with an offset vector.
 The offset vector is calculated by multiplying \longvar{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable, which is how far the field should be from the camera.
@@ -25,7 +25,7 @@ The far clipping view is the maximum distance from the camera that 3D objects wi
     distanceFromCamera = 1.2f * size * 0.5f / Mathf.Tan(mainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
 \end{lstlisting}
 This is a simple trigonometry problem where a triangle is formed between the camera, the center of the field and the top of the field.
-The height of the field and the angle of the camera's field of view are the known values, and the distance between the camera and the center of the field can be found. 
+The height of the field and the angle of the camera's field of view are the known values, and the distance between the camera and the center of the field can be found.
 Half of the side opposite to the camera is divided with the tangent function of half of the field of view angle converted to radians.
 The calculation is seen in \autoref{lst:distanceFromCamera}.
 An additional arbitrary value of \texttt{1.2f} is multiplied with the distance to allow the whole field to be seen in VR with some additional free space around the edges of the field.
