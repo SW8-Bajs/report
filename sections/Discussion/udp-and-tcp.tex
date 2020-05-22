@@ -1,0 +1,10 @@
+\section{UDP and TCP for the protocol}
+When the socket type to be used for the program was initially chosen in \autoref{sec:sprint1-networking}, a large emphasis was put on the rate at which we could send messages.
+The sending rate also affected a lot of the other decisions made for the networking protocol, such as keeping messages as short as possible.
+The goal was to facilitate sending as many messages as possible.
+However, once testing began, it became obvious that this might not have been the fully correct approach.
+While running the host with mock data, it was possible to more or less crash our connections.
+\\\\
+In order to fix this, we implemented some message throttling, described in \autoref{sec:sprint5-transmissionlimit}, based on the maximum amount of updates from the available Pozyx system.
+Keeping this limiting of messages in mind, the aspect of sending messages rapidly loses some of its importance, leading to some of our earlier considerations not being optimal.
+This might have led us to implement a TCP aspect earlier in the project, avoiding having to spend some of the time attempting to implement UDP acknowledgments.
