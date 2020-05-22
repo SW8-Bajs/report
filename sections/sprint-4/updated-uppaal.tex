@@ -199,10 +199,10 @@ After all of the clients have transitioned to the \uppLoc{InGame} location the h
 
 Both of the traces end in the same state, but there is a difference in how they get there.
 While the application-level model has simplified communication between the host and the client the full model trace also expresses the steps that are done in the TCP communication.
-It models how the threeway communication works and how TCP messages are sent between the host and the clients to ensure that the clients and the host receive the messages sent.
+It models how the three-way handshake works and how TCP messages are sent between the host and the clients to ensure that the clients and the host receive the messages sent.
 
 \subsection{Conclusion}
 The models introduced in this section were mostly used to create an overview of the network protocol and the flow of the game.
-All the verification done on the models was done to verify that the models were behaving as expected and not to test the actual system.
+All the verifications done on the models were done to verify that the models were behaving as expected and not to test the actual system.
 It might have been useful to use to models to verify the actual implementation of the network protocol and the flow of the application, but this was deemed to not be a priority for the project.
 So the models were only created to function as a visual representation of the application and the network protocol and to ensure that we had a unified understanding of how the flow of the system should be.
