@@ -50,14 +50,14 @@ private void DatagramHandler(string datagramMessage)
     }
 }
 \end{lstlisting}
-\noindent 
-The next step in processing the data is calling the appropriate function as seen in the switch. 
+\noindent
+The next step in processing the data is calling the appropriate function as seen in the switch.
 In this case we will take a look at the \texttt{UpdatePlayerData}, which is seen in \autoref{lst:updateplayerdata}.
 
 \begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
 private void UpdatePlayerData(long data)
 {
-    // bitshifting the hex value and typecasting to byte to get the values.
+    // bit shifting the hex value and typecasting to byte to get the values.
     // see network format in the report for more detail
     byte time = (byte)(data >> 8);
     byte id = (byte)(data >> 16);
@@ -80,7 +80,6 @@ private void UpdatePlayerData(long data)
             gameStateHandler.playerPositions[id].y = y;
         }
     }
-    
 }
 \end{lstlisting}
 \noindent
