@@ -32,6 +32,7 @@ Not restricting the ball to being a physical object would allow for the game to 
 Currently, the game does not visually show any changes based on the z-axis either, only supporting a 2D view.
 As such, the physical ball could also get lost to the players even on the playing field, as they have no way of knowing the location of the ball on the z-axis.
 A virtual ball could avoid this by simply not checking the position on the z-axis for the players and basing the acquisition of the ball on the x and y axes.
+Players could also attempt to abuse this by holding the ball in a specific position while carrying it, which the opponents would not be able to see based on the current view.
 \autoref{sec:evaluatin_test} also described how a manual rule had to be implemented during the test, in which players were required to hand over the tag representing the ball when coming into physical contact with the opposition.
 A virtual ball would not need such a rule, as it could be done in the game.
 
