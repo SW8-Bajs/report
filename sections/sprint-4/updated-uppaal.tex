@@ -4,14 +4,14 @@ This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal}
 \\
 Additionally, the previous model focused mostly on the flow of the program and did not properly take the network part of the system into account.
 In this new model, the system will consist of four parts: The host, which is meant to represent the Python program that the game facilitator uses, an arbitrary number of clients who have connected to the game, and the UDP and TCP connection between those.
-We created an abstracted model to get an overview of the system and a more extensive model that also models the TCP communication between the host and the client.
-The abstracted model will be described first in order to get a general overview of the flow of the system.
+We created a simpler application-level model to get an overview of the system and a more extensive model that also models the TCP communication between the host and the client.
+The application-level model will be described first in order to get a general overview of the flow of the system.
 
-\subsection{Abstracted \uppaal model}
-There are two templates in the abstracted model which are \uppTemp{Host} and \uppTemp{Client}.
+\subsection{Application-level \uppaal model}
+There are two templates in this model which are \uppTemp{Host} and \uppTemp{Client}.
 
 \subsection*{Host}
-The abstracted host can be seen on \autoref{fig:sprint4-uppaal-simplified-host}. 
+The \uppTemp{Host} template can be seen on \autoref{fig:sprint4-uppaal-simplified-host}. 
 The \uppProc{Host} starts in the \uppLoc{Lobby} and waits for all clients to connect.
 Everytime a \uppProc{Client} connects the \uppProc{Host} transitions to  \uppLoc{Connecting}.
 It then either acknowledges the connection or waits for the  \uppProc{Client} to timeout.
@@ -26,7 +26,7 @@ While \uppLoc{InGame} the \uppProc{Host} can either send tag position through UD
 \end{figure}
 
 \subsection*{Client}
-The abstracted client can be seen on  \autoref{fig:sprint4-uppaal-simplified-client}.
+The \uppTemp{Client} template can be seen on  \autoref{fig:sprint4-uppaal-simplified-client}.
 The \uppProc{Client} starts in the \uppLoc{Initial} location, it then tries to connect and transitions to \uppLoc{Connecting}.
 While in \uppLoc{Connecting} it waits for an acknowledgement from the \uppProc{Host}.
 If it does not receive an acknowledgment before the timeout limit it outputs a \uppOut{TCP_timeout} and transitions back to \uppLoc{Initial}.
