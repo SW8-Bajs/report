@@ -1,11 +1,18 @@
-\section{Usability test}
+\section{Second test on May 18th}
 The second test of the system and all of its components took place on the 18th of May.
 This test was conducted as the previous test had not managed to explore the functionality of the game as described in \autoref{sec:initial-test}.
-Due to the COVID-19 pandemic, the usability test was conducted using the group members as testers, and only one person from outside the group.
+Since then we fixed the discovered bugs.
+Due to the COVID-19 pandemic, the test was conducted using the group members as testers, and only one person from outside the group.
 
 \subsection{The setup}
 The test was carried out in two phases, one inside and one outside.
-The playing field was shaped like a rectangle for both tests, much like the previous test on the 7th of May. An example of the setup can be seen on \autoref{fig:test2-indoor-setup}
+The playing field was shaped like a rectangle for both tests, much like the previous test on the 7th of May.
+An example of the setup can be seen on \autoref{fig:test2-indoor-setup}.
+
+\subsection{Method and structure}
+The test was quite unstructured compared to the usability test we previously have conducted.
+The group already have expert knowledge on how to operate the program, and therefore it is not possible to test the setup of the game.
+
 
 \subsection{Indoors test}
 In the indoor test, the anchors were positioned as follows:
@@ -28,7 +35,7 @@ A picture of the gameplay in progress can be seen on \autoref{fig:usability-test
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{usability/usabilitytestindoors.png}
-    \caption{Usability test in progress indoors.}
+    \caption{Test in progress indoors.}
     \label{fig:usability-test-in-progress}
 \end{figure}
 \noindent
@@ -81,8 +88,9 @@ The field was constructed by placing the anchors on top of chairs placed in a re
 \noindent
 These anchors were connected to laptops or power banks to ensure no components would run out of power during play.
 The game worked fine overall during the outside test, but the testers experienced that the tags sometimes stopped updating for several seconds.
+We were able to detect on the host, that it at some points did not send any positions to the host, so we expect that it was a problem with the pozyx.
 The updates of the players' positions would also not update as frequently some times and this could cause the movement of the players to appear quite janky, and resulted in less positional accuracy compared to the indoor test.
-A picture of the gameplay outdoors can be seen on \autoref{fig:outdoor-gameplay}
+A picture of the gameplay outdoors can be seen on \autoref{fig:outdoor-gameplay}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{usability/outdoorusabilitytest.png}
