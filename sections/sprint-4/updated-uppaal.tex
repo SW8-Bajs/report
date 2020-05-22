@@ -4,13 +4,14 @@ This led to the previous \uppaal model specified in \autoref{sec:sprint3-uppaal}
 \\
 Additionally, the previous model focused mostly on the flow of the program and did not properly take the network part of the system into account.
 In this new model, the system will consist of four parts: The host, which is meant to represent the Python program that the game facilitator uses, an arbitrary number of clients who have connected to the game, and the UDP and TCP connection between those.
-We created a simplified model to get an overview of the system and a more extensive model that also models the TCP communication between the host and the client.
-\\\\
-The simplified model will be described first in order to get a general overview of the flow of the system.
-There are two templates in the simplified model which are \uppTemp{Host} and \uppTemp{Client}.
+We created a simple application-level model to get an overview of the system and a more extensive model that also models parts of the TCP communication between the host and the client.
+The application-level model will be described first in order to get a general overview of the flow of the system.
 
-\subsection*{Simplified host}
-The simplified host can be seen on \autoref{fig:sprint4-uppaal-simplified-host}. 
+\subsection{Application-level \uppaal model}
+There are two templates in this model which are \uppTemp{Host} and \uppTemp{Client}.
+
+\subsection*{Host}
+The \uppTemp{Host} template can be seen on \autoref{fig:sprint4-uppaal-simplified-host}. 
 The \uppProc{Host} starts in the \uppLoc{Lobby} and waits for all clients to connect.
 Everytime a \uppProc{Client} connects the \uppProc{Host} transitions to  \uppLoc{Connecting}.
 It then either acknowledges the connection or waits for the  \uppProc{Client} to timeout.
@@ -20,15 +21,15 @@ While \uppLoc{InGame} the \uppProc{Host} can either send tag position through UD
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{sprint4/simplified-host.png}
-    \caption{The \uppTemp{Host} template of the simplified \uppaal model.}
+    \caption{The \uppTemp{Host} template of the abstracted \uppaal model.}
     \label{fig:sprint4-uppaal-simplified-host}
 \end{figure}
 
-\subsection*{Simplified client}
-The simplified client can be seen on  \autoref{fig:sprint4-uppaal-simplified-client}.
+\subsection*{Client}
+The \uppTemp{Client} template can be seen on  \autoref{fig:sprint4-uppaal-simplified-client}.
 The \uppProc{Client} starts in the \uppLoc{Initial} location, it then tries to connect and transitions to \uppLoc{Connecting}.
 While in \uppLoc{Connecting} it waits for an acknowledgement from the \uppProc{Host}.
-If it does not receive an acknowledgement before the timeout limit it outputs a \uppOut{TCP_timeout} and transitions back to \uppLoc{Initial}.
+If it does not receive an acknowledgment before the timeout limit it outputs a \uppOut{TCP_timeout} and transitions back to \uppLoc{Initial}.
 Otherwise, if the \uppProc{Client} receives an acknowledgement from the \uppProc{Host}, it transitions to \uppLoc{Setup} and waits for the \uppProc{Host} to send configuration data.
 When the \uppProc{Client} receives the configuration data it transitions to \uppLoc{Lobby} and then waits for the game to start.
 When the \uppProc{Host} starts the game, all clients that are in \uppLoc{Lobby} transition to \uppLoc{InGame}.
@@ -41,10 +42,10 @@ It can receive either a TCP or UDP message, which makes it transition to \uppLoc
     \label{fig:sprint4-uppaal-simplified-client}
 \end{figure}
 
-\noindent
+\subsection{Full \uppaal model}
 The more extensive \uppaal model will now be discussed and the templates in it will be described, starting with the system declarations of the model.
 
-\subsection{System declarations}
+\subsection*{System declarations}
 \begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl},captionpos=b]
     system UDP_host, TCP_host, TCP_client, Host, Client;
 \end{uppaalcode}
@@ -53,7 +54,7 @@ As mentioned above, the \uppTemp{Host} and \uppTemp{Client} templates are meant 
 In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTemp{TCP_host}s, and a \uppTemp{UDP_host} allows us to model the behavior of the network aspect of the system.
 
 % System declarations
-\subsection{Global declarations}
+\subsection*{Global declarations}
 The global declarations (seen on \autoref{lst:uppaal4:globaldecl}) for the system have two purposes: Setting game and simulation specific options, such as how many clients should be instantiated, or how long the TCP client should wait for a response before declaring the connection as timed out.
 \\
 To facilitate data transfer between the templates, the model makes use of global buffers.
@@ -82,7 +83,7 @@ chan UDP_start, UDP_send;
 \end{uppaalcode}
 
 % Host
-\subsection{Host template}
+\subsection*{Host template}
 The \uppTemp{Host} has three variables that are declared in \autoref{lst:sprint-4-host-code} which are:
 \uppVar{connected_clients} which it uses to keep track of how many clients have connected, \uppVar{local_TCP_buffer} which is where the content of the global TCP buffer is copied into and \uppVar{i} which it uses to keep track of how many messages it has sent. 
 The template seen in \autoref{fig:sprint4-uppaal-host} can be divided into three sections.
@@ -107,7 +108,7 @@ int i = 0;
 
 
 % Client
-\subsection{Client template}
+\subsection*{Client template}
 Like the \uppTemp{Host} template, the \uppTemp{Client} has a local declaration for saving the data it reads from the global buffer.
 Since it is desirable to have a variable amount of instances, the template has an \uppType{id_t} parameter called \uppVar{id}, to allow instantiating multiple client processes.
 The \uppTemp{Client} has four named locations, as seen on \autoref{fig:sprint4-uppaal-client}, which correspond to the states that the actual implementation can be in.
@@ -127,7 +128,7 @@ This indicates that the client is now in a game, and can continuously receive in
 \end{figure}
 
 % TCP
-\subsection{TCP host and client templates}
+\subsection*{TCP host and client templates}
 The \uppTemp{TCP_Host} and \uppTemp{TCP_Client} were designed such that there will be a single process of both respectively for each client process that exists.
 This was designed to model the connection that is established between the host and a client.
 Like in the \uppTemp{Client}, this happens by having a \uppVar{clientId} as a parameter for when the process is instantiated.
@@ -151,7 +152,7 @@ Likewise, in the \uppTemp{TCP_Client}, after the handshake is completed it will 
 \end{figure}
 
 % UDP
-\subsection{UDP host templates}
+\subsection*{UDP host templates}
 The final template seen in \autoref{fig:sprint4-uppaal-udp-host} is the \uppTemp{UDP_host}.
 It is very simple as it waits until the \uppOut{Host} communicates that the game has started through \uppIn{UDP_start}.
 When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchronization from the host and then notifies the clients through the \uppOut{read_UDP_buffer} synchronization that they should read the global buffer.
@@ -163,7 +164,7 @@ When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchron
 \end{figure}
 
 % Trace example of the system
-\subsection{Perfect scenario simulation trace}
+\subsection*{Perfect scenario simulation trace}
 In \uppaal it is possible to generate traces of simulations of the model. 
 This is useful when verifying different properties of the model or when getting an overview of how the model works.
 A simulation trace can be seen on \autoref{fig:sprint4-happy-trace}.
@@ -181,7 +182,7 @@ Finally, after both of the clients are in the \uppLoc{Lobby}, the \uppTemp{Host}
     \label{fig:sprint4-happy-trace}
 \end{figure}
 
-\subsection{Trace with a timeout}
+\subsection*{Trace with a timeout}
 A trace where it times out once while connecting can be seen on \autoref{fig:sprint4-timeout-trace}.
 \uppTemp{Client(1)} connects without any issues, but \uppTemp{Client(0)} times out once while connecting.
 This can be seen on the trace of \uppProc{TCP_client(0)}. When it sends the \uppOut{tcp_sync[0]} it times out because it does not get a response from the \uppProc{TCP_host(1)}.
