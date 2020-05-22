@@ -1,7 +1,7 @@
 \section{Second test on May 18th}
 The second test of the system and all of its components took place on the 18th of May.
 This test was conducted as the previous test had not managed to explore the functionality of the game as described in \autoref{sec:initial-test}.
-Since then we fixed the discovered bugs.
+In the time between the two tests, the majority of the discovered bugs were fixed.
 Due to the COVID-19 pandemic, the test was conducted using the group members as testers, and only one person from outside the group.
 
 \subsection{The setup}
@@ -10,15 +10,14 @@ The playing field was shaped like a rectangle for both tests, much like the prev
 An example of the setup can be seen on \autoref{fig:test2-indoor-setup}.
 
 \subsection{Method and structure}
-The test was unstructured and could be considered as a big bang test.
+The test was largely unstructured, and was to an extend conducted as a big bang test.
 Ideally we would have liked to conduct a usability test, but as the group already have expert knowledge on how to operate the program, it is not possible to test the setup and the usability of the game.
-If we could conduct a usability test it would have been structured.
-We would only have tested our part of the system, which means that we would not have made them setup Pozyx.
-The reason for this is that current knowledge about Pozyx is required to set up the game, which we do not expect our testers to have.
-Instead we would have given them a short introduction about the game and see if they could figure out starting up the game for themselves through the host, and connecting to it with their smart-phones.
-Hereafter observe them playing the game to find possible issues with the game.
-At the end of the usability test an interview would be conducted to get them to elaborate on their experience.
-Further work into preparations of a usability test has not been completed, as we since Sprint 3 have had the knowledge, that it would not be an option.
+Had a usability test been conducted, it would have been focused on the usage of the system as a player, meaning that a group member would have been in charge of setting up the Pozyx system and running the host computer.
+The reason for this is that extensive knowledge about Pozyx is required to set up the game correctly, and that the host program has not been optimized for usability.
+Neither of which are things that test subjects would be expected to be able to do.
+Instead, they would have been given a short introduction about the game and see if they could understand and play the game, where the group would be present as observers.
+Finally, at the end of the usability test, an interview would be conducted to get them to elaborate on their experience, with a special focus on how to make it more user friendly.
+Further work into preparations of a usability test has not been made, as it was deemed impossible to properly conduct the test due to the COVID-19 pandemic.
 
 \subsection{Indoors test}
 In the indoor test, the anchors were positioned as follows:
@@ -94,7 +93,7 @@ The field was constructed by placing the anchors on top of chairs placed in a re
 \noindent
 These anchors were connected to laptops or power banks to ensure no components would run out of power during play.
 The game worked fine overall during the outside test, but the testers experienced that the tags sometimes stopped updating for several seconds.
-We were able to detect on the host, that it at some points did not send any positions to the host, so we expect that it was a problem with the pozyx.
+Looking at the debug information available on the host laptop, it was easily seen that it periodically did not send any new positions to the clients, pointing towards a problem with the Pozyx hardware.
 The updates of the players' positions would also not update as frequently some times and this could cause the movement of the players to appear quite janky, and resulted in less positional accuracy compared to the indoor test.
 A picture of the gameplay outdoors can be seen on \autoref{fig:outdoor-gameplay}.
 \begin{figure}[H]
