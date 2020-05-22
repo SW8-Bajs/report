@@ -155,3 +155,4 @@ This results in four different kinds of queries: $E[]$, $A[]$, $E<>$ and $A<>$.\
 
 All of these possibilities are followed by a predicate $p$, specifying exactly which property you are interested in checking for.
 This means that the query $A<>p$ is read as "For all paths in the automaton, it is true that in at least one state p is satisfied."
+If it turns out that a trace exists where the query holds true, UPPAAL can show you the trace of transitions leading to this given state.
