@@ -73,9 +73,17 @@ The big numbers represent number of goals.
 The figure used for comparison has these overlapping with the goal zones.
 This is not intended, and it has been changed such that the numbers are on the field close to the goals, but not overlapping.
 If the players were to play on a field that was vertical, the goal zones would appear in the top and the bottom of the field, and the goal numbers would move along with them.
+\autoref{fig:design-vertical} illustrates this.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\linewidth]{sprint5/verticalgoals.png}
+    \caption{Showing the design when the field is vertical.}
+    \label{fig:design-vertical}
+\end{figure}
 
 \subsection{Concluding on the design}
 The overall design achieves the vision of the prototypes.
 The design also makes use of both flat and skeuomorphic design.
 One issue with the current design if the game were to be played by users is that the only way to connect to a game is through manual input of the IP on which the game is being hosted.
 This is not viable, and in case the game were to be deployed, it should be changed to feature a lobby system, rather than this manual input, to facilitate ease of use for the players of the game.
+The lobby system would likely be implemented through a zero configuration management protocol, as discussed in \autoref{sec:accessonnetwork}.
