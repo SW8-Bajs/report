@@ -3,11 +3,11 @@ The following section will examine the different possibilities regarding transmi
 
 \subsection{Possible networking solutions}
 Unity will be used for the creation of the game aspect of this project as described in \autoref{sec:unity-intro}.
+\subsubsection{Unity-based solutions}
 Unity includes a proprietary networking solution known as UNet \cite{unityunet}.
 This solution allows developers to use a high-level API, giving access to commands that cover many common requirements for multiplayer games, without worrying about the low-level details. \\
 Since the solution is developed alongside the actual game engine, it has a higher level of integration with the Unity Editor and Engine, which allows for certain components and visual aids to aid the building of the game.
 As of the beginning of this project, the UNet solution has been deprecated for a while, and the Unity developers are actively working to create a new system to replace it. \\
-The current UNet iteration is usable but will be removed in the future.
 Other third-party solutions for Unity-based games also exist, such as Photon Engine.
 Photon provides functionality for the developers to make use of to create multiplayer games in the same way as UNet, exposing higher-level functionality.
 Photon supports multiple platforms outside of just Unity, with both Android and iOS support \cite{photonnet}.
@@ -19,27 +19,21 @@ So any client can host a game that other clients can connect to.
 This allows the clients to send and receive data between each other \cite{unityunet}.
 A disadvantage of these libraries is that they are generalized and thus would not be able to achieve the same efficiency as a custom solution tailored to the specific needs of the game.
 \\\\
-ZeroMQ is also a possible solution.
-ZeroMQ is an asynchronous packet library.
+\subsubsection{ZeroMQ}
+ZeroMQ, an asynchronous packet library, is also a possible solution.
 It can carry packets across various transport formats and is available in many different programming languages \cite{zeromqdoc}.
 It aims to be a high-performance library to be used in distributed or concurrent applications that are reliable.
 According to the getting started guide provided by ZeroMQ, certain issues tend to arise when developers attempt to create a networking solution using sockets \cite{zeromqguide}.
-These are:
+This list highlights the problems relevant for this project:
 \begin{itemize}
-    \item How to handle I/O?
     \item How are dynamic components handled? What happens if a component disappears temporarily?
     \item How are packets represented? Different sizes and different content can change representations
     \item How are packets that cannot be delivered immediately handled?
-    \item Where should packet queues be stored?
     \item How are lost packets handled?
-    \item What if the network transport changes, for example, TCP to UDP?
     \item How do packets get routed? Can the same packet be sent to multiple peers?
-    \item How to write an API for another language?
-    \item How to represent data such that it can be read between different architectures? How much of this should be the packet system's job?
     \item How do network errors get handled?
 \end{itemize}
 These issues are mostly applicable to general solutions that need to accommodate changing requirements or be reusable.
-However, for this project, not all of these issues are relevant.
 In terms of problems to overcome, this project should only be concerned with handling dynamic components, handling lost packets, routing packets and handling network errors.\\
 If a player closes the game application it can lead to dynamic component issues.
 A packet can be lost during the playing of the game.
@@ -48,7 +42,7 @@ Finally, a player might suddenly disconnect from the network.
 \\\\
 The alternative to making use of a pre-existing solution is creating a custom solution.
 A custom solution entails a need to establish a familiarity with the required knowledge to construct such a solution.
-A custom solution would involve sockets, which are a network API  that allows programs to communicate with each other \cite{socketnetworking}.
+A custom solution would involve sockets, which are a network API that allows programs to communicate with each other \cite{socketnetworking}.
 
 \subsection{Choosing a solution}
 There are certain pros and cons associated with both approaches of using either a pre-existing solution or a custom solution.
@@ -107,13 +101,13 @@ The criteria that were considered when evaluating which solution to use were:
 \end{table}
 \noindent
 Based on these considerations, it was decided that a custom solution should be created to handle networking in this project.
-This choice was based on two major factors: the lack of transparency in a pre-existing solution as well as the need for fast communication and the opportunity to learn more about networking at a low level. \\
+This choice was based on a couple of factors: the lack of transparency in a pre-existing solution as well as the need for fast communication and the opportunity to learn more about networking at a low level. \\
 For the game to be playable and enjoyable, the location data collected by the Pozyx system needs to be transmitted to all the clients as quickly as possible such that they always have an up to date view of the positions of the players.\\
-To achieve this, it would be preferable to build a solution capable of performing the minimum amount of work as quickly as possible.
+To achieve this, it would be preferable to build a solution capable of performing the minimum amount of work with the least amount of overhead.
 Pre-existing solutions cannot be guaranteed to do the minimum amount of work as lower-level details are obscured from the developers.
 With a custom solution, the data sent across the network can be guaranteed to be exactly what is needed.\\
 ZeroMQ was also a possible choice based on the performance needs, but its generalized approach concerning itself with reusability and issues unlikely to be a big factor in this project meant it was dismissed, in favor of a custom solution in which the problems defined in the previous section are handled.
-Additionally, we have not previously worked with networking at a low level, but wanted to learn more about it, and decided that working without a framework would provide the best learning experience.
+Additionally, we have not previously worked with networking at a low level, but wanted to learn more about it, and decided that working without a framework would provide the best learning experience, even though it will most likely be more time consuming.
 
 \subsection{Introduction to sockets}
 In order to construct a network solution, a familiarity with the layers of a network is needed to gain an intuition of what sockets are.
