@@ -1,19 +1,19 @@
-\section{Future work}
+\section{Future work}\label{discuss:futurework}
 This section will discuss the aspects of the project that were not implemented, but were deemed to improve the system as a whole if implemented.
 
-\subsubsection{Dead Reckoning}
-Dead Reckoning is a technique described in \autoref{sec:dead-reckoning} used to smooth out player movement over networking through predicting their next position.
+\subsubsection{Dead reckoning}
+Dead reckoning is a technique described in \autoref{sec:dead-reckoning} used to smooth out player movement over networking through predicting their next position.
 As described in \autoref{sec:evaluatin_test}, there were some issues with players jerking around the screen, rather than having smooth movement.
-This was subsequently improved through the implementation of linear interpolation through Unity, as described in \autoref{sec:lerping}.
+This was subsequently improved through the implementation of linear interpolation, as described in \autoref{sec:lerping}.
 To improve the real-time feeling even further, and thus also the player experience, dead reckoning could be a possible target for implementation in the future.
 
 \subsubsection{Zeroconf}
-Zeroconf was briefly discussed as a zero configuration management protocol in \autoref{sec:accessonnetwork} as an alternative to having players enter the IP of the host they wanted to connect to.
+Zeroconf was briefly discussed in \autoref{sec:accessonnetwork} as an alternative to having players enter the IP of the host they wanted to connect to.
 Manually typing the IP of the host is not a viable solution for a deployed game in use in diverse locations.
 As such, introducing a lobby system through the use of Zeroconf would enhance the usability of the game for players.
-During the course of the project, some developers attempted to implement a lobby system using this technology.
-A working implementation on an android application was made, however, certain incompatibility issues were encountered when attempting to integrate this with Unity.
-After attempting to correct these without luck, it was decided that the time spent on this aspect was not worth it for the creation of the MVP.
+During the course of the project, it was attempted to implement a lobby system using this technology.
+A working implementation on an android application was made, however, incompatibility issues were encountered when attempting to integrate this with Unity.
+After attempting to correct these, it was decided that the time spent on this aspect was not worth it for the creation of the MVP.
 Ultimately, this functionality is needed for future versions of the game, and should be pursued.
 
 \subsubsection{Replay functionality}
@@ -33,18 +33,18 @@ Currently, the game does not visually show any changes based on the z-axis eithe
 As such, the physical ball could also get lost to the players even on the playing field, as they have no way of knowing the location of the ball on the z-axis.
 A virtual ball could avoid this by simply not checking the position on the z-axis for the players and basing the acquisition of the ball on the x and y axes.
 Players could also attempt to abuse this by holding the ball in a specific position while carrying it, which the opponents would not be able to see based on the current view.
-\autoref{sec:evaluatin_test} also described how a manual rule had to be implemented during the test, in which players were required to hand over the tag representing the ball when coming into physical contact with the opposition.
+Section \ref{sec:evaluatin_test} described how a manual rule had to be implemented during the test, in which players were required to hand over the tag representing the ball when coming into physical contact with the opposition.
 A virtual ball would not need such a rule, as it could be done in the game.
 
 \subsubsection{Supporting non-rectangular playing fields}
-Currently, the generation of playing fields in unity make use meshes, which are triangles.
+Currently, the generation of playing fields in Unity makes use of meshes, which are triangles.
 The triangles combine to form the square playing field.
-Goal zone positions are generated based on the assumption that the playing field is a square or rectangular, which could be improved to facilitate fields of different shapes, such as if the users were to input a field in the shape of, for example, a trapezoid.
+Goal zone positions are generated based on the assumption that the playing field is a rectangle, which could be improved to facilitate fields of different shapes, such as if the users were to input a field in the shape of, for example, a trapezoid.
 Including such field shapes was deemed to not be of the utmost importance for this project, but it is a possible improvement to support oddly shaped playing locations.
 
 \subsubsection{Show the direction the player is facing}
 Currently players are represented as either a rhino or a bird in the game.
-The player controls one of these characters, and the one the player is in control of is slightly colored to give an indication that it is the one the player should focus on.
+The player controls one of these characters, and the one the player is in control of is colored to give an indication that it is the one the player should focus on.
 Outside of the positional updates that occur as the game is being played, there is no indication of where the player is facing, or which direction the player is going.
 An improvement to the game would be to have a small arrow, or another indicator, for each player, showing the current direction of movement for that player, to give a better sense of where they are moving.
 This was discussed and described in \autoref{sec:evaluatin_test}.

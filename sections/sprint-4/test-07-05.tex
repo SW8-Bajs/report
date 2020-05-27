@@ -1,6 +1,6 @@
-\section{Initial test on May 7th}\label{sec:initial-test}
-On May 7th the group met up to perform the first real test of the system, aiming to try out the full experience of the game, using the VR goggles to view the game and using the Pozyx system to generate positional data based on the movement of the players.
-This test was conducted with the goal of exposing issues with the state of the system, as well as simply test whether or not it would be playable, meaning the player characters would move in a regular fashion without jerking around the screen.
+\section{Initial evaluation on May 7th}\label{sec:initial-test}
+On May 7th the group met up to perform the first real evaluation test of the system, aiming to try out the full experience of the game, using the VR goggles to view the game and using the Pozyx system to generate positional data based on the movement of the players.
+This test was conducted with the goal of exposing issues with the state of the system, as well as simply testing whether or not it would be playable, meaning the player characters would move in a regular fashion without jerking around on the screen.
 A testing area was constructed in order to conduct the test.
 One part of this area can be seen on \autoref{fig:test1-roomsetup}, while \autoref{fig:test1-singlepozyx} shows how we mounted the anchors onto a wall for the setup.
 \begin{figure}[]
@@ -17,15 +17,17 @@ One part of this area can be seen on \autoref{fig:test1-roomsetup}, while \autor
 \end{figure}
 \noindent
 The final area was documented, with the details shown on \autoref{fig:test1-paperofsetup}.
-\begin{figure}[]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{/sprint4/first-test/experiment.png}
-    \caption{A paper defining the setup, noting height of anchors, anchor tags and distance between anchors.}
+    \includegraphics[width=0.6\linewidth]{/sprint4/first-test/experiment.png}
+    \caption{An illustration defining the setup, noting the positions of anchors.}
     \label{fig:test1-paperofsetup}
 \end{figure}
 \noindent
-The documentation of distance is necessary for the host to know how to input the anchor positions in the setup of the game, and the anchors are placed high on the walls, to increase the chance of receiving a good signal \cite{pozyx-AnchorHeights}.
-In order to view the game, the test made use of four sets of VR goggles, shown on \autoref{fig:test1-goggles}
+The documentation of distance is necessary for the host to know how to input the anchor positions in the setup of the game.
+The anchors are placed high on the walls, to increase the chance of receiving a good signal \cite{pozyx-AnchorHeights}.
+In order to view the game, the test made use of four sets of VR goggles.
+One of these is shown on \autoref{fig:test1-goggles}.
 \begin{figure}[]
     \centering
     \includegraphics[scale=0.04]{/sprint4/first-test/IMG_20200507_135402.jpg}
@@ -35,20 +37,22 @@ In order to view the game, the test made use of four sets of VR goggles, shown o
 \noindent
 
 \subsubsection{The results of the test}
-The overall goal of this test was to play the game in a two versus two fashion.
-This test, however, did not quite accomplish that goal.
+The overall goal of this test was to play the game in a two versus two fashion and see where it could be improved.
+This test, however, did not accomplish that goal.
 Leading up to the test, members of the group had communicated regarding a smaller-scale test, only involving a single person, that would test that the Pozyx system generated data and passed it along to Unity.
 This seemed to work, so the actual test was carried out with more people.
-There had been a miscommunication however, as the smaller scale test was carried out on test data, making use of predefined data that had been used during development.
+There had been a miscommunication however, as the smaller scale test was carried out on test data, making use of mock data that had been used during development.
 When the day of the test came, it turned out this would be the first test with real data based on an actual game setup.
 This led to the encountering of several bugs.
 \\\\
-The first, and most time consuming, was caused by some firmware issues with the Pozyx anchors which lead to the computers not being able to communicate with the Pozyx anchors and tags using the USB connection, delaying the test until they had been updated.
-When this was fixed, a new bug was encountered when trying to send the host configuration data to the players, where some type conversions were missing that transformed the user input from strings to the appropriate format for calling the Pozyx library.
-From the host program, there was also a minor usability issue where there was no specific information regarding the unit which should be used when inputting information about anchor positions, so the user would not know whether to use centimeters, millimeters or meters, which could cause some confusion.
+The first, and most time consuming, was caused by connection issues with the Pozyx anchors which led to the computers not being able to communicate with the Pozyx anchors and tags using the USB connection.
+To fix this issue, two tags were first updated to the newest firmware, but without success.
+After trouble shooting, it turned out to be caused by the USB cable used for connection, and worked when this was changed to a new cable.
+After successfully connecting the Pozyx system to a computer, a new bug was encountered when trying to send the host configuration data to the players, where some type conversions were missing that transformed the user input from strings to the appropriate format for calling the Pozyx library.
+From the host program, there was also a minor usability issue where there was no specific information regarding the measurement unit which should be used when inputting information about anchor positions, so the user would not know whether to use centimeters, millimeters or meters, which could cause some confusion.
 Finally, once four players were able to connect and receive configuration data from the host, the game launched for the players, but they were immobile, not moving on the field based on the Pozyx data.
 \\\\
 Further research into this bug revealed that it was another problem with the Pozyx system, where it would repeatedly report $(0,0,0)$ positions with actual positioning data in between.\\
 Most of these Pozyx issues had not previously been identified since we, up until this point, had been using mock data, and had not set up the Pozyx since conducting the experiments in \autoref{sprint1:experiment}.
-For the VR part of the system, there was an issue where the blue goal zone would flicker when the player moved their head, while the red zone did not, even though they are implemented in the same way.\\
-As such, while the test did not achieve the original goal, it still exposed certain bugs that are essential to fix for the upcoming sprint.
+For the VR part of the system, there was an issue where the blue goal zone would flicker when the player moved their head, while the red zone did not, even though they were implemented in the same way.\\
+As such, while the test did not achieve the original goal of trying out the game, it still exposed certain bugs.
