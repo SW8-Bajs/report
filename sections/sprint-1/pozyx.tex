@@ -4,8 +4,10 @@ A positional system named Pozyx was supplied for this semester, and will be used
 Along with Pozyx, this section will describe some alternatives in order to examine if any can be used to supplement the Pozyx system.
 Pozyx is a hardware/software solution that is used to provide positioning with an accuracy of down to 10 cm \cite{pozyx}.
 It makes use of ultra-wide band (UWB) in combination with machine learning for positioning \cite{pozyx}, which according to their documentation is more precise and efficient than traditional positioning systems such as WiFi, Bluetooth, RFID, and GPS.
-
-%%
+\\\\
+Pozyx consists of sensors called anchors and tags.
+Anchors are stationary sensors which the moveable tags use to measure their position, based on how far away these tags are. 
+The anchors define the dimensions of the playing field and the players and the ball are equipped with the tags to allow their positions to be found.
 
 \subsection{Finding the location of anchors}
 A trilateration method is used for finding the position of a given tag using the anchors.

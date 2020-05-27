@@ -4,10 +4,10 @@ Initially there were no limitations to the number of packets sent, and the serve
 This would overburden the internet connection and could cause it to crash.
 To account for this, a simple form of \textit{Congestion Control} was implemented where a limit was set for how many packets were able to be transmitted per second.
 \textit{Congestion Control} is the act of modulating network traffic to prevent senders from overwhelming the network, which is typically done by reducing how many packets are sent \cite{CongestionControl}.
-Pozyx can send updates on tags at a rate of approximately 60 per second \cite{pozyx-Performance}.
-Since UDP pakcets are not guarenteed to arrive at the destination, the limit for transmissions needs to account for this.
-If a limit of 120 is set, every new update from pozyx will be transmitted twice, allowing each new update to, in a sense, be retransmitted if it were to be lost.
-This is a form of \textit{Forward Error Correction}, where redundancy is introduced to avoid the need for requesting retransmission of packets \cite{ForwardErrorCorrection}.
+Pozyx can send updates on tags at a rate of approximately 60 per second \cite{pozyxfaq}.
+Since UDP packets are not guaranteed to arrive at the destination, the limit for transmissions needs to account for this.
+If a limit of 120 is set, every new update from Pozyx will be transmitted twice, allowing each new update to, in a sense, be re-transmitted if it were to be lost.
+This is a form of \textit{Forward Error Correction}, where redundancy is introduced to avoid the need for requesting re-transmission of packets \cite{ForwardErrorCorrection}.
 \\\\
 \begin{lstlisting}[caption={Implementaion of the limit on the amount of packets that can be sent per second}, captionpos=b,language=C,label={lst:package_limitation}]
     self.time_now = time.time()
@@ -22,11 +22,11 @@ This is a form of \textit{Forward Error Correction}, where redundancy is introdu
     # Send message to all clients listening on the multicast_group
     self.sendto(message, self.multicast_group)
 \end{lstlisting}
-The code in \autoref{lst:package_limitation} is from the \texttt{send} function of the UDP socket.
+The code in \autoref{lst:package_limitation} is from the \texttt{send} function of the UDP socket class.
 This code is run each time a UDP packet is sent.
 Initially the current time is stored, and the time difference between the current time and the time when the previous packet was sent is converted to bytes.
 The variable \texttt{bytesAheadOfSchedule} keeps track of whether or not too many bytes are being sent per second.
-Since the size of the packets sent with UDP is always the same size, being 7 bytes, \texttt{bytesAheadOfSchedule} is incremented with 7 for each packet sent \autoref{sec:sprint1-networking}.
+Since the size of the packets sent with UDP is always the same size, being 7 bytes, \texttt{bytesAheadOfSchedule} is incremented with 7 for each packet sent as described in Appendix \autoref{app:network}.
 If \texttt{bytesAheadOfSchedule} is above 0, too many packets are transmitted and the server should wait a bit before sending the next packet using \texttt{time.sleep()}.
 By doing this for each call to the \texttt{send} function, the number of packets sent per second can be limited to 120 per second.
 \\\\
@@ -38,8 +38,8 @@ By doing this for each call to the \texttt{send} function, the number of packets
         return float(numBytes)/self.maxSendRateBytesPerSecond
 \end{lstlisting}
 \noindent
-The conversion functions between bytes and seconds are seen in \autoref{lst:conversion_functions}.
-\texttt{maxSendRateBytesPerSecond} is defined as the the maximum number of packets that can be sent per second, 120 in this case, times the size of the packet in bytes which is 7.
-The conversion is then simply a case of either dividing the number of bytes provided with \texttt{maxSendRateBytesPerSecond} which gives the amount of seconds the system should sleep.
+The conversion functions between bytes and seconds are seen in \autoref{lst:conversion_functions}.\\
+\texttt{maxSendRateBytesPerSecond} is defined as the maximum number of packets that can be sent per second, 120 in this case, times the size of the packet in bytes which is 7.\\
+The conversion is then simply a case of either dividing the number of bytes provided with \texttt{maxSendRateBytesPerSecond}, which gives the amount of seconds the system should sleep.
 \texttt{ConverSecondsToBytes} is used for figuring out the number of bytes \texttt{bytesAheadOfSchedule} should be decremented with.
 The parameter passed to this function is the number of seconds that passed between the current and previous call to the \texttt{send} function.

@@ -1,7 +1,7 @@
 \section{\uppaal modelling}\label{sec:sprint3-uppaal}
-To illustrate how the UDP protocol should work in detail a \uppaal model was constructed consisting of two templates: The host and an arbitrary amount of clients.\\
-If you are not familiar with \uppaal, please refer to \autoref{app:uppaal} as a quick start guide on how to read the models.\\\\
-This first iteration of the model is not intended for heavy model checking, but rather to take a higher-level look at how the protocol is intended to work.
+To illustrate how the UDP protocol should work a \uppaal model was constructed consisting of two templates: The host and an arbitrary amount of clients.\\
+If you are not familiar with \uppaal, please refer to appendix \autoref{app:uppaal} as a quick start guide on how to read the models.\\\\
+This first iteration of the model is not intended for model checking, but rather to take a higher-level look at how the protocol is intended to work.
 The two templates can be seen on Figures \ref{fig:uppaal-client-1} and \ref{fig:uppaal-host-1}.
 
 \begin{figure}[H]
@@ -19,11 +19,11 @@ The two templates can be seen on Figures \ref{fig:uppaal-client-1} and \ref{fig:
 \end{figure}
 
 \subsection{Walkthrough of the model}
-The model for the client is fairly straight forward, it starts in an \uppLoc{initial} location which indicates that the client is not yet trying to connect to the host.
+The client processes start in an \uppLoc{initial} location which indicates that the client is not yet trying to connect to the host.
 The connection happens on the edge from the initial location to the \uppLoc{connecting} location.
 In the model, this is represented with the client utilizing the channel \uppChan{connect}, and waiting for the host to synchronize by listening to the same channel.
 When the synchronization happens, the host will execute the \uppFunc{setDataToTag()} function, which updates the data it is transmitting, and uses the channel \uppChan{connectPlayer} to inform the client that connection is now ready.
-The client will call a function \uppFunc{processData()} to read the content of the buffer and react accordingly.
+The client will call the function \uppFunc{processData()} to read the content of the buffer and react accordingly.
 These steps will happen until the amount of \uppVar{tagsSent} is equal to the number of clients specified in the configuration.
 
 \subsubsection{Setup}
@@ -39,9 +39,11 @@ To simulate asynchronous tasks, the host will continuously take a non-determinis
 Meanwhile, the client only has two choices: Process data received on the multicast or wait for the game to end.
 
 \subsubsection{Code aspect}
-Behind the model, there are a series of variables and functions to make it all work.
+As a part of the model, there are a series of variables and functions to make it all work.
 In the global declarations the number of clients is specified, as well as an integer array called data, which is used as a buffer to transmit data between the host and clients, to simulate the internet connection in the real implementation.
 The array has space for 5 elements to conform to the data format specified in \autoref{subsec:data-format}, such that the first element in the array will always be the type, which allows the client to act based on that when \uppFunc{processData()} is called.
+The remaining spaces will contain the content of the packet, for example, the packet with a new anchor position will contain a type, an anchor ID, an x position, and a y position.
+Each of these elements will be inserted into its own entry in the array.
 The concrete implementation of \uppFunc{processData()} can be seen on \autoref{lst:uppaal:processData}.
 For this iteration of the \uppaal model, updating player and goal positions are not implemented, since it did not seem like a significant detail to the model.
 
@@ -55,17 +57,10 @@ void processData(){
         anchorsReceived++;
     } else if(type == 1){
         // Player position
-    } else if(type == 2){
-        // Goal position
-    } else if(type == 3){
-        // Score update
-    } else if(type == 4){
-        // Tag received
-        tag = data[1];
-        playerId = data[2];
-    } else if(type == 5){
-        // Setup checksum
-    } else if(type == 6){
+        
+    ...
+    
+    } else if(type ==6){
         // Start game
     }
 }
@@ -92,12 +87,11 @@ void sendChecksum(){
 \end{uppaalcode}
 
 \subsection{Updates to the network protocol}\label{subsec:sprint3networkupdate}
-A good side-effect of generating the \uppaal model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
+A side-effect of generating the \uppaal model was that it required some reflection upon the network data format specified in \autoref{subsec:data-format}.
 This resulted in some minor refactoring of the format.
 \\
 First of all, the format for sending a field anchor position had a timestamp as a part of the packet.
 Since the anchors will only be sent once, it does not make sense to timestamp it so this has been removed.
-The updated version of the data format can be found in \autoref{app:network}.
 \\
 Additionally, three new packets, seen in \autoref{tab:player-tag}, \autoref{tab:acknowledge}, \autoref{tab:gamestart}, have been specified: Sending a player tag, sending an acknowledgment, or sending the signal to start the game.
 
@@ -131,7 +125,7 @@ Additionally, three new packets, seen in \autoref{tab:player-tag}, \autoref{tab:
         \begin{tabular}[c]{@{}l@{}}TYPE (t)\\ 6\end{tabular} \\ \hline
         8 bit                     \\ \hline
     \end{tabular}
-    \caption{Game start.}
+    \caption{Game start format.}
     \label{tab:gamestart}
 \end{table}
 \noindent

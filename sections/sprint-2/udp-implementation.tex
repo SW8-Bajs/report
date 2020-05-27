@@ -1,26 +1,25 @@
 \section{UDP implementation}
-In this section, we will delve into the implementation details of the UDP client and host.
-As described in \autoref{sec:sprint2-deploymentdia}, the system will consist of a host computer which receives positional data from Pozyx and transmits it to the players using IP multicasting.
+In this section, we will delve into the implementation of the UDP client and host.
+As described in \autoref{sec:sprint2-deploymentdia}, the system will consist of a number of clients and a host computer which receives positional data from Pozyx and transmits it to the clients using IP multicasting.
 
 \subsubsection{Host}
 The main functionality of the host is to transmit positional and game state data from the Pozyx tags to the clients via multicasting.
 The first setup step of this is to connect the host to an IP address on the network dedicated to multicasting, as described in \autoref{sec:accessonnetwork}.
 For the time being, this is hardcoded to be \texttt{224.3.29.71:10000}.
 After this initial setup, the host will continuously run through a loop where it updates the ball position, player positions and increments the timestamp.
-\noindent
-Each update consists of three steps: Getting the positional data from Pozyx, transforming it to fit the format described in \autoref{subsec:data-format} and transmitting the data to the clients, as seen on \autoref{lst:updateballposition}.
+Each update consists of three steps, as seen on \autoref{lst:updateballposition}: Getting the positional data from Pozyx (line 4), transforming it to fit the format described in \autoref{subsec:data-format} (line 5) and transmitting the data to the clients (line 6).
 
 \begin{lstlisting}[caption={Updating ball position}, captionpos=b,language=Python,label={lst:updateballposition}]
 def update_ball_position(self):
     """Broadcasts the updated ball position"""
     ball_tag = self.setup.ball_tag
     position = self.multi_tag_positioning.get_position(ball_tag)
-    message = self.formatter.format_player_position(self.time_stamp, 0, position.x, position.y)
+    message = self.formatter.format_player_position(self.time_stamp, BALL_ID, position.x, position.y)
     self.multicast_sender.send(message)
 \end{lstlisting}
 
 \subsubsection{Client}
-Like the host, the client joins the multicast group on the specified IP.
+Like the host, the client joins the group on the specified multicast IP.
 While the host continuously sends positional data, the client's job is to receive and react to the data that is being sent to the multicast group.
 This is done by creating an asynchronous callback, which ensures that the data receiver is called whenever data is being transmitted, which is seen on the first three lines of \autoref{lst:receivedata}.
 Once the \texttt{Receive} function is called, it saves the received bytes to an array and starts listening for new data before it starts working with the data.
