@@ -16,8 +16,9 @@ Because of this, a new position must be calculated for the playing field in rela
     transform.rotation = mainCamera.transform.localRotation;
 \end{lstlisting}
 As seen on \autoref{lst:camera_position} the new position is calculated by adding the playing field's initial position relative to the camera, which is the \longvar{playingFieldTransform.transform.position} variable, with an offset vector.
-The offset vector is calculated by multiplying \longvar{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable, which is how far the field should be from the camera.
-These calculations are done in the \texttt{Update} method which is called for every frame rendered in the game.
+The offset vector is calculated by multiplying \longvar{playingFieldTransform.transform.forward}, which is a normalized vector pointing in the camera's looking direction, with a certain distance defined through the \texttt{distanceFromCamera} variable.
+The \texttt{distanceFromCamera} variable defines how far the field should be from the camera.
+These calculations are done in the \texttt{Update} method which is a default Unity method that is called for every frame rendered in the game.
 \\\\
 For the \texttt{distanceFromCamera} calculation, the camera needs to be far enough away from the field to fit it in its far clipping view.
 The far clipping view is the maximum distance from the camera that 3D objects will be rendered.
@@ -25,7 +26,7 @@ The far clipping view is the maximum distance from the camera that 3D objects wi
     distanceFromCamera = 1.2f * size * 0.5f / Mathf.Tan(mainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
 \end{lstlisting}
 This is a simple trigonometry problem where a triangle is formed between the camera, the center of the field and the top of the field.
+The calculation is seen in \autoref{lst:distanceFromCamera}.
 The height of the field and the angle of the camera's field of view are the known values, and the distance between the camera and the center of the field can be found.
 Half of the side opposite to the camera is divided with the tangent function of half of the field of view angle converted to radians.
-The calculation is seen in \autoref{lst:distanceFromCamera}.
 An additional arbitrary value of \texttt{1.2f} is multiplied with the distance to allow the whole field to be seen in VR with some additional free space around the edges of the field.

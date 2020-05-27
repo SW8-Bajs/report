@@ -13,8 +13,8 @@ There are two templates in this model which are \uppTemp{Host} and \uppTemp{Clie
 \subsection*{Host}
 The \uppTemp{Host} template can be seen on \autoref{fig:sprint4-uppaal-simplified-host}. 
 The \uppProc{Host} starts in the \uppLoc{Lobby} and waits for all clients to connect.
-Everytime a \uppProc{Client} connects the \uppProc{Host} transitions to  \uppLoc{Connecting}.
-It then either acknowledges the connection or waits for the  \uppProc{Client} to timeout.
+Every time a \uppProc{Client} connects, the \uppProc{Host} transitions to \uppLoc{Connecting}.
+It then either acknowledges the connection or times out.
 When the connection is acknowledged it transitions to \uppLoc{Connected}, sends configuration data to the \uppProc{Client} and transitions back to the lobby.
 When all clients have connected the \uppProc{Host} transitions to \uppLoc{InGame} and signals to all of the connected clients that the game is starting through \uppOut{TCP_start_game}.
 While \uppLoc{InGame} the \uppProc{Host} can either send tag position through UDP, send goal position and goal scored through TCP or end the game through TCP and transition back to \uppLoc{Lobby}.
@@ -26,10 +26,10 @@ While \uppLoc{InGame} the \uppProc{Host} can either send tag position through UD
 \end{figure}
 
 \subsection*{Client}
-The \uppTemp{Client} template can be seen on  \autoref{fig:sprint4-uppaal-simplified-client}.
+The \uppTemp{Client} template can be seen on \autoref{fig:sprint4-uppaal-simplified-client}.
 The \uppProc{Client} starts in the \uppLoc{Initial} location, it then tries to connect and transitions to \uppLoc{Connecting}.
 While in \uppLoc{Connecting} it waits for an acknowledgement from the \uppProc{Host}.
-If it does not receive an acknowledgment before the timeout limit it outputs a \uppOut{TCP_timeout} and transitions back to \uppLoc{Initial}.
+If it does not receive an acknowledgment before the time-out limit it outputs a \uppOut{TCP_timeout} and transitions back to \uppLoc{Initial}.
 Otherwise, if the \uppProc{Client} receives an acknowledgement from the \uppProc{Host}, it transitions to \uppLoc{Setup} and waits for the \uppProc{Host} to send configuration data.
 When the \uppProc{Client} receives the configuration data it transitions to \uppLoc{Lobby} and then waits for the game to start.
 When the \uppProc{Host} starts the game, all clients that are in \uppLoc{Lobby} transition to \uppLoc{InGame}.
@@ -42,14 +42,14 @@ It can receive either a TCP or UDP packet, which makes it transition to \uppLoc{
     \label{fig:sprint4-uppaal-simplified-client}
 \end{figure}
 
-\subsection{Full \uppaal model}
+\subsection{Extended \uppaal model}
 The more extensive \uppaal model will now be discussed and the templates in it will be described, starting with the system declarations of the model.
 
 \subsection*{System declarations}
 \begin{uppaalcode}[caption={System declarations}, label={lst:uppaal4:systemdecl},captionpos=b]
     system UDP_host, TCP_host, TCP_client, Host, Client;
 \end{uppaalcode}
-The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, \uppTemp{UDP_host} seen in \autoref{lst:uppaal4:systemdecl}.
+The project consists of five templates: \uppTemp{Host}, \uppTemp{Client}, \uppTemp{TCP_client}, \uppTemp{TCP_host}, and \uppTemp{UDP_host} as seen in \autoref{lst:uppaal4:systemdecl}.
 As mentioned above, the \uppTemp{Host} and \uppTemp{Client} templates are meant to represent the interface that users interact with when using the system.
 In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTemp{TCP_host}s, and a \uppTemp{UDP_host} allows us to model the behavior of the network aspect of the system.
 
@@ -58,11 +58,10 @@ In this new version of the model, the inclusion of \uppTemp{TCP_client}s, \uppTe
 The global declarations (seen on \autoref{lst:uppaal4:globaldecl}) for the system have two purposes: Setting game and simulation specific options, such as how many clients should be instantiated, or how long the TCP client should wait for a response before declaring the connection as timed out.
 \\
 To facilitate data transfer between the templates, the model makes use of global buffers.
-Each place in the \uppVar{TCP_buffer} array corresponds to a buffer related to a \uppTemp{Client} or \uppTemp{Host} process so that \uppProc(Client(0)) will read from index 0 of the array, \uppProc(Client(1)) will read from index 1 and so on.
+Each entry in the \uppVar{TCP_buffer} array corresponds to a buffer related to a \uppTemp{Client} or \uppTemp{Host} process so that \uppProc(Client(0)) will read from index 0 of the array, \uppProc(Client(1)) will read from index 1 and so on.
 The \uppVar{host} variable is saved as an alias to know which space in the buffers is reserved for packets from clients to the host.
 Since the \uppVar{UDP_buffer} is supposed to correspond to a multicast, it is simply saved as an integer instead, which will hold the information that any client listening to the multicast will receive.
-Finally, a series of channels are defined.
-The channels are used to synchronize between the different processes and will be further explained when going into details about each template.
+Finally, a series of channels are defined to be used to synchronize between the different processes and will be further explained when going into details about each template.
 
 \begin{uppaalcode}[caption={Global declarations}, label={lst:uppaal4:globaldecl},captionpos=b]
 const int number_of_clients = 4;
@@ -111,10 +110,10 @@ int i = 0;
 \subsection*{Client template}
 Like the \uppTemp{Host} template, the \uppTemp{Client} has a local declaration for saving the data it reads from the global buffer.
 Since it is desirable to have a variable amount of instances, the template has an \uppType{id_t} parameter called \uppVar{id}, to allow instantiating multiple client processes.
-The \uppTemp{Client} has four named locations, as seen on \autoref{fig:sprint4-uppaal-client}, which correspond to the states that the actual implementation can be in.
+The \uppTemp{Client} has four named locations, as seen on \autoref{fig:sprint4-uppaal-client}, which correspond to the states that the actual game can be in.
 First off, the process starts in an \uppLoc{Initial} location, which then uses the \uppOut{TCP_connect[id]} to make the \uppTemp{TCP_client(id)} start connecting through TCP and transition to \uppLoc{Connecting}.
 The \uppProc{Client(id)} receives \uppIn{TCP_connected[id]} synchronization when the \uppProc{TCP_client(i)} has connected and it then transitions to the \uppLoc{Lobby} location.
-Everytime it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a packet.
+Every time it receives a \uppIn{read_TCP_buffer[id]} it means that the \uppTemp{Host} sent a packet.
 It then transitions to an in-between location and then either transitions back to \uppLoc{lobby} or to \uppLoc{InGame} depending on what packet is received.
 The in-between location is a committed location.
 This is done so that the \uppProc{Client(id)} has to transition from it immediately instead of waiting.
@@ -165,16 +164,16 @@ When the \uppTemp{UDP_host} has started it waits for a \uppIn{UDP_send} synchron
 
 % Trace example of the system
 \subsection{Verification of the models}
-In \uppaal it is also possible to perform verifications on the model to ensure that some properties hold true for the model.
+In \uppaal it is also possible to perform verification on the model to ensure that some properties hold true for the model.
 This is done by creating a query that the \uppaal engine can then verify on the model.
 It is then possible to get a trace of that query that either proves or disproves the query.
 To demonstrate this a query was verified on the application-level model and the full model.
 The property that was verified was \uppEF{Host.InGame and forall(i:id_t) Client(i).InGame}.
 This query checks if there exists a trace where at some point the property holds true that the host is in the \uppLoc{InGame} location and all of the clients are in the \uppLoc{InGame} locations.
-The traces that we get from the verification is the shortest trace that satisfies the properties defined.
+The trace that we get from the verification is the shortest trace that satisfies the properties defined.
 
 \subsubsection{Verification of the application-level model}
-The property held true for the model an the trace that was produced can be seen on \autoref{fig:sprint4-verification-application-level}.
+The property held true for the model and the trace that was produced can be seen on \autoref{fig:sprint4-verification-application-level}.
 As can be seen on the trace, all of the clients go through the process of connecting without timing out.
 When all of the clients have connected, the \uppProc{Host} starts the game through the \uppSync{TCP_start_game} synchronization and the host and all of the clients transition to the \uppLoc{InGame} location.
 \begin{figure}[H]
@@ -184,26 +183,26 @@ When all of the clients have connected, the \uppProc{Host} starts the game throu
     \label{fig:sprint4-verification-application-level}
 \end{figure}
 
-\subsubsection{Verification of the Full model}
-The property also held true for the full model and the trace can be seen on \autoref{fig:sprint4-verification-full-model}.
+\subsubsection{Verification of the extended model}
+The property also held true for the extended model and the trace can be seen on \autoref{fig:sprint4-verification-full-model}.
 As can be seen in the trace all of the clients connect through the three-way handshake.
-All of the clients successfully transition to \uppLoc{Lobby} without any timeouts.
+All of the clients successfully transition to \uppLoc{Lobby} without any time-outs.
 When all of the clients have connected the host makes all of the clients transition to \uppLoc{InGame} through TCP.
 After all of the clients have transitioned to the \uppLoc{InGame} location the host also transitions to \uppLoc{InGame} and the game starts.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{sprint4/full-model-verification.png}
-    \caption{Verification trace of the full model.}
+    \caption{Verification trace of the extended model.}
     \label{fig:sprint4-verification-full-model}
 \end{figure}
-
+\noindent
 Both of the traces end in the same state, but there is a difference in how they get there.
-While the application-level model has simplified communication between the host and the client the full model trace also expresses some of steps that are done in the TCP communication.
+While the application-level model has simplified communication between the host and the client the extended model trace also expresses some of steps that are done in the TCP communication.
 It models how the three-way handshake works and how TCP messages are sent between the host and the clients to ensure that the clients and the host receive the messages sent.
 This allows us to verify if some TCP specific mistakes happen in the system.
 
 \subsection{Conclusion}
 The models introduced in this section were mostly used to create an overview of the network protocol and the flow of the game.
-All the verifications done on the models were done to verify that the models were behaving as expected and not to test the actual system.
+All the verification done on the models were done to verify that the models were behaving as expected and not to test the actual system.
 It might have been useful to use to models to verify the actual implementation of the network protocol and the flow of the application, but this was deemed to not be a priority for the project.
 So the models were only created to function as a visual representation of the application and the network protocol and to ensure that we had a unified understanding of how the flow of the system should be.

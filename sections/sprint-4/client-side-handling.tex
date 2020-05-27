@@ -1,12 +1,11 @@
 \section{Receiving information}\label{sec:receiving-the-information}
 With the networking protocol in place, we will define how the data is received on the mobile clients.
-
-The \texttt{in-game} scene in Unity has an \texttt{empty object} which handles receiving data from the UDP and TCP clients.
-Having two separate clients allows them to run concurrently, so the UDP client does not block the TCP client or vice-versa.
+\\
+The \texttt{in-game} scene in Unity has an \texttt{empty game object} which handles receiving data from the UDP and TCP clients.
 
 \subsection*{UDP client}
-Handling the datagrams on the UDP client is simple as it can currently only receive a packet with type 0 as defined in \autoref{app:network}, which is a packet containing a position for a Pozyx tag.
-
+Handling the datagrams on the UDP client is simple as it can currently only receive a packet with type 0 as defined in appendix \autoref{app:network}, which is a packet containing a position for a Pozyx tag.
+\\
 The datagram is received in the format \texttt{0xYYYYXXXXIISSTT} where 0x indicates hex and the rest of the identifiers are:
 \begin{itemize}
     \item Y : Y position of the tag
@@ -17,17 +16,13 @@ The datagram is received in the format \texttt{0xYYYYXXXXIISSTT} where 0x indica
 \end{itemize}
 
 \noindent
-When this datagram is received, we start by parsing the hexadecimal to a long datatype.
-Since one hexadecimal corresponds to four bits we can get the type of the packet, which is the last two hex values of the datagram by typecasting it to a byte as seen on line 13 in \autoref{lst:readingudpdatagram}.
+When this datagram is received, we start by parsing the hexadecimal to a \texttt{long} datatype.
+Since one hexadecimal corresponds to four bits we can get the type of the packet, which is the last two hex values of the datagram, by typecasting it to a byte as seen on line 13 in \autoref{lst:readingudpdatagram}.
 
 \begin{lstlisting}[caption={Processing datagrams in UDP client}, captionpos=b,language=C,label={lst:readingudpdatagram}]
 private void DatagramHandler(string datagramMessage)
 {
-    // Remove 0x from string before parsing
-    if(datagramMessage.ToLower().StartsWith("0x"))
-    {
-        datagramMessage = datagramMessage.Remove(0, 2);
-    }
+    ...
 
     long data;
     byte type;
@@ -44,15 +39,13 @@ private void DatagramHandler(string datagramMessage)
                 break;
         }
     }
-    else
-    {
-        Debug.LogError("Network data could not be parsed");
-    }
+
+    ...
 }
 \end{lstlisting}
 \noindent
 The next step in processing the data is calling the appropriate function as seen in the switch.
-In this case we will take a look at the \texttt{UpdatePlayerData}, which is seen in \autoref{lst:updateplayerdata}.
+In this example we will take a look at the \texttt{UpdatePlayerData}, which is seen in \autoref{lst:updateplayerdata}.
 
 \begin{lstlisting}[caption={Updating player data in UDP client}, captionpos=b,language=C,label={lst:updateplayerdata}]
 private void UpdatePlayerData(long data)
@@ -67,14 +60,15 @@ private void UpdatePlayerData(long data)
 
     if (CheckTimestamp(time))
     {
-        if (id == 0)
+        if (id == BALL_ID) // Ball ID is 0
         {
             gameStateHandler.ballPosition.x = x;
             gameStateHandler.ballPosition.y = y;
         }
         else
         {
-            // Player id starts at 1 while the playerposition array is 0 indexed. Decrementing id so that they line up.
+            // Player id starts at 1 while the player positions array is 0 indexed.
+            // Decrementing id so that they line up, since ball is ID 0.
             id--;
             gameStateHandler.playerPositions[id].x = x;
             gameStateHandler.playerPositions[id].y = y;
@@ -117,7 +111,7 @@ In order to get the player id to the back of the hexadecimal the packet has to b
     \label{fig:sprint4-bitshift-playerid}
 \end{figure}
 \noindent
-Because the player id is represented as two decimals it can be decoded from the packet by typecasting the packet to the \texttt{byte} datatype in C\#.
+Because the player ID is represented as two hex digits it can be decoded from the packet by typecasting the packet to the \texttt{byte} datatype in C\#.
 This is done for each part of the packet where the packet is bit shifted to the right by the combined size of the previously read parts and then typecast to a datatype that has the same size as the part of the message that is being read.
 \subsection*{TCP client}
 The principle behind the TCP client is much like the UDP client, where the type is read as a byte and then a switch statement ensures that the data is handled by the correct function.

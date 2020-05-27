@@ -1,9 +1,8 @@
 \chapter{Network packets}\label{app:network}
-
 The final format of the network packets are described in this appendix.
 For all packets, it is assumed that the TCP packets are treated as unicast to a single recipient, and UDP packets are treated as multicast.
-All of these packets will only describe the actual data of the packet, and not contain the UDP/TCP headers.
-Each packet contains an ID identifying the type as well as the required information.
+All of these packets will only describe the actual content of the packet, and not contain the UDP/TCP headers.
+Each packet contains an ID identifying the type, as well as the required information for this type.
 Additionally, each TCP packet will be prefixed with a number indicating the length of the current packet, since it is transmitted as a stream. 
 This ensures that the receiver knows when to stop reading the current packet and be ready to process the next one.
 
@@ -18,7 +17,7 @@ This ensures that the receiver knows when to stop reading the current packet and
 \end{table}
 
 Purpose: The position of a given tag will be continuously transmitted on the multicast channel for all players to receive.
-The positions are sent as values relative to the anchor positions sent during setup, such that a missed packets will not impact the future game state.
+The positions are sent as values relative to the anchor positions sent during setup, such that a missed packet will not impact the future game state.
 The ID (i) \texttt{0} is reserved for the ball tag, and all other tags are considered to be players.
 For a game with 4 players, each would have a unique ID ranging from 1-4.
 
@@ -87,7 +86,7 @@ It also contains the offset of goal zones (o), which is the distance from the ce
 \begin{table}[H]
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{PLAYERNUMBER (n)} & \textbf{GOALNUMBER (n)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 6\end{tabular}}} \\ \hline
+\textbf{PLAYERNUMBER (p)} & \textbf{GOALNUMBER (g)} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}TYPE (t)\\ 6\end{tabular}}} \\ \hline
 8 bit                   & 8 bit                   & 8 bit                                                                              \\ \hline
 \end{tabular}
 \end{table}

@@ -1,5 +1,5 @@
 \section{Minimum viable product}\label{sec:mvp}
-To be able to evaluate the game with users as fast as possible, we establish a minimal viable product with functional and non-functional requirements.
+To determine whether the system is complete enough to include users for testing purposes, we establish a minimal viable product with functional and non-functional requirements.
 In \autoref{sec:design-intro} we explained how context is an important part of designing a mobile application.
 Before establishing the requirements, the context will thus be analyzed.
 
@@ -12,9 +12,9 @@ In order to provide \textit{Context}, certain questions can be answered:
     \item Who are the users, what is known about them and how will they interact with the design?
     \item What interaction is happening?
 \end{itemize}
-The problem the solution is designed for is the question of how to use Pozyx in order to create a virtual reality-based game.
-The users will be from within a broad range, though they will requirement access to a positioning system, narrowing the range down.
-The interaction happening is that the users will be able to define rules for the game, join it on a mobile phone and then play.
+The problem the solution is designed for is the question of how to use positional data in order to create a virtual reality-based game.
+The users will be from within a broad range, though they will require access to a positioning system, narrowing the range down.
+The interaction happening is that the users will be able to define rules for the game, join it on a mobile device and then play.
 \\\\
 Providing \textit{context} requires examining the mode, medium or environment in which the task is performed \cite{MobileDesign}.
 It concerns itself with the requirements that need to be fulfilled in order for the \textit{Context} to work.
@@ -26,7 +26,7 @@ Questions related to this are:
 \end{itemize}
 In terms of environments there is a restriction in that an internet connection will be necessary.
 Outside of this connection, the game can be played both indoor and outdoor.
-Since the game aims to incorporate a virtual reality-based aspect, the different devices present are mainly just phones for the players to view and play the game.
+Since the game aims to incorporate a virtual reality-based aspect, the different devices present are phones for the players to view and play the game, as well as VR goggles.
 Finally, there is a prerequisite for interaction in that the size of the field needs to be known in order to facilitate an accurate representation of movement in a given space.
 
 
@@ -38,20 +38,20 @@ These functional features are essential to make the game work and are the core f
     \item The system must be mobile.
     \item Must be able to connect to the server from the clients.
     \item The users must be able to see their current positions.
-    \item The users must be able to view the playing field, the goals, the players, the ball position, and the current score on their mobile device through VR goggles.
+    \item The users must be able to view the playing field, the goals, the players, the ball position, and the current score through VR goggles.
     \item A team must be able to win the game based on their score.
     \item The game must be dynamic, which includes:
           \begin{itemize}
               \item Support an arbitrary number of players.
               \item Size of the playing field can be set to a preferable size by the user.
-              \item Set how many goals needed to score to win.
+              \item Set how many goals need to be scored in order to win.
           \end{itemize}
 \end{itemize}
 
 \subsection{Non-functional requirements}
-These requirements are more difficult to evaluate than the functional requirements and to test it a usability test must be conducted.
+These requirements are more difficult to evaluate than the functional requirements and to test them a usability test must be conducted.
 \begin{itemize}
-    \item The design of the field must be pleasant for the user to look at through a VR headset.
+    \item The design of the field must be pleasant for the user to look at through VR goggles.
     \item The users should receive enough updates so that the positions of the players represent their real position.
     \item The design of the system should support the context defined above in \autoref{subsec:context}.
 \end{itemize}
